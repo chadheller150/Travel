@@ -329,6 +329,19 @@ body {
 @keyframes flyPlane { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
 .flight-duration { font-size: 0.75em; color: var(--accent2); text-align: center; }
 
+/* === ROOM IMAGES === */
+.room-img-wrapper {
+  width: 100%; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden;
+  margin-bottom: 10px; border: 1px solid var(--card-border);
+}
+.room-img-wrapper img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.room-names {
+  text-align: center; font-weight: 700; font-size: 0.95em;
+  color: var(--accent); padding-top: 4px;
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 600px) {
   .hero h1 { font-size: 1.8em; }

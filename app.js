@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // === Sparkle System ===
 function createSparkles() {
   const container = document.querySelector('.sparkle-container');
-  const colors = ['#ff6ec7', '#a855f7', '#22d3ee', '#fbbf24', '#34d399', '#f472b6'];
+  const colors = ['#ff7eb3', '#ff9a56', '#5ce1e6', '#ffcf56', '#00d4aa', '#b97aff'];
 
   for (let i = 0; i < 30; i++) {
     const sparkle = document.createElement('div');

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chad's Dirty Thirty - Miami 2026</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen">
+    <div class="loading-emoji">🪩</div>
+    <div class="loading-text">Getting the party started...</div>
+    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  </div>
+
+  <!-- AMBIENT EFFECTS -->
+  <div class="sparkle-container"></div>
+  <div class="disco-light"></div>
+  <div class="disco-light"></div>
+  <div class="disco-light"></div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <h1><span class="disco">🪩</span> Chad's Dirty Thirty <span class="disco">🪩</span></h1>
+    <div class="subtitle">MIAMI BEACH &bull; DISCO THEME &bull; 7 BESTIES</div>
+    <div class="dates">July 25 - 28, 2026</div>
+  </header>
+
+  <!-- TABS -->
+  <nav class="tabs">
+    <div class="tab active" data-target="overview">📋 Overview</div>
+    <div class="tab" data-target="saturday">🎉 Saturday</div>
+    <div class="tab" data-target="sunday">🌊 Sunday</div>
+    <div class="tab" data-target="monday">☀️ Monday</div>
+    <div class="tab" data-target="tuesday">✈️ Tuesday</div>
+    <div class="tab" data-target="map-section">🗺️ Map</div>
+    <div class="tab" data-target="venues">🍽️ Venues</div>
+    <div class="tab" data-target="nightlife">🪩 Nightlife</div>
+    <div class="tab" data-target="logistics">🚗 Logistics</div>
+    <div class="tab" data-target="budget">💰 Budget</div>
+  </nav>
+
+  <!-- ========== OVERVIEW ========== -->
+  <section id="overview" class="section active">
+    <h2>🪩 Trip Overview</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>👥 The Crew</h3>
+        <div class="crew-grid">
+          <span class="crew-badge birthday">🎂 Chad</span>
+          <span class="crew-badge">💜 Eric</span>
+          <span class="crew-badge">✨ Adriel</span>
+          <span class="crew-badge">💫 Jennilee</span>
+          <span class="crew-badge">🌟 Clarissa</span>
+          <span class="crew-badge">⭐ Elena</span>
+          <span class="crew-badge">🌸 Lulu</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🏠 Home Base</h3>
+        <div class="address">1627 Southwest 13th Street, Miami (Little Havana)</div>
+        <div class="meta">Hosted by Valentina &bull; Check-in Sat 4 PM &bull; Checkout Tue 11 AM</div>
+        <div class="details">Central to everything! 20 min to South Beach, 10 min to Coconut Grove, 15 min to Wynwood, 10 min to Downtown.</div>
+      </div>
+
+      <div class="card flight-card">
+        <h3>✈️ Outbound Flight</h3>
+        <div class="meta">DL2507 &bull; Delta &bull; Boeing 737-800 &bull; Main Basic (E) &bull; 2 Pax</div>
+        <div class="flight-route">
+          <div class="flight-city"><div class="code">AUS</div><div class="time">8:35 AM</div></div>
+          <div><div class="flight-plane">✈️</div><div class="flight-duration">3h 0m</div></div>
+          <div class="flight-city"><div class="code">MIA</div><div class="time">12:35 PM</div></div>
+        </div>
+        <div class="meta" style="text-align:center;">Saturday, July 25, 2026</div>
+      </div>
+
+      <div class="card flight-card">
+        <h3>✈️ Return Flight</h3>
+        <div class="meta">DL2344 &bull; Delta &bull; Boeing 737-800 &bull; Main Basic (E) &bull; 2 Pax</div>
+        <div class="flight-route">
+          <div class="flight-city"><div class="code">MIA</div><div class="time">7:05 PM</div></div>
+          <div><div class="flight-plane">✈️</div><div class="flight-duration">3h 8m</div></div>
+          <div class="flight-city"><div class="code">AUS</div><div class="time">9:13 PM</div></div>
+        </div>
+        <div class="meta" style="text-align:center;">Tuesday, July 28, 2026</div>
+      </div>
+
+      <div class="card">
+        <h3>🚗 Rental Car — Avis</h3>
+        <div class="details">
+          <strong>Pick up:</strong> Sat Jul 25 ~12:35 PM — MIA Rental Car Center<br>
+          <strong>Drop off:</strong> Tue Jul 28 by 5:00 PM — Same location<br>
+          <strong>Access:</strong> Free MIA Mover train from terminal to RCC<br>
+          <strong>Buffer:</strong> 5 PM drop-off, 7:05 PM flight = 2 hr cushion
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Pre-Booked Reservations</h3>
+        <ul class="checklist">
+          <li>R House Drag Brunch — Sat 2:45 PM (Reserved)</li>
+          <li>Palace Drag Brunch — Sun 11 AM (Reserved)</li>
+          <li>Boat Tour — Sun 2:30 PM (Viator #1401249433)</li>
+          <li>Surfcomber Ivy Cabana — Mon (Booking #48756325)</li>
+          <li>KoKo Dinner — Sun ~8 PM (Call to confirm for 7!)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SATURDAY ========== -->
+  <section id="saturday" class="section">
+    <div class="day-header">Saturday, July 25</div>
+    <div class="timeline-item">
+      <div class="timeline-time">12:35</div>
+      <div class="timeline-content">
+        <h4>✈️ Land at MIA — DL2507 from Austin</h4>
+        <p>Pick up Avis rental at MIA Rental Car Center (3900 NW 25th St). Take free MIA Mover from terminal.</p>
+        <p>Goal: Baggage + car by 2:15 PM to make brunch!</p>
+        <p><span class="drive-badge">🚗 To R House: 15 min (7 mi)</span></p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">2:45</div>
+      <div class="timeline-content">
+        <h4>🍳 Drag Brunch @ R House Wynwood</h4>
+        <p><strong>2727 NW 2nd Ave, Miami 33127</strong></p>
+        <p>$60/person bottomless (mimosas, sangria, mojitos) + family-style menu. 20% auto-gratuity.</p>
+        <p>Parking: 4 public lots on NW 2nd Ave + NW 28th St</p>
+        <p><span class="drive-badge">🚗 To Airbnb: 12 min</span></p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">~5:00</div>
+      <div class="timeline-content">
+        <h4>🏠 Check into Airbnb</h4>
+        <p>1627 SW 13th St, Miami. Unwind, refresh, get glammed up for the night!</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">8-9 PM</div>
+      <div class="timeline-content">
+        <h4>🍽️ Dinner — Everyone's Choice (TBD)</h4>
+        <p>Vote as a group! Options near South Beach or Brickell.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">10-11</div>
+      <div class="timeline-content">
+        <h4>🪩 Club Crawl Night 1 — South Beach</h4>
+        <p>🏰 <strong>Palace</strong> (1052 Ocean Dr) — Drag show + drinks on the patio<br>
+        💃 <strong>Twist</strong> (1057 Washington Ave) — NO COVER! 7 bars, 3 dance floors<br>
+        🍸 <strong>Bar Gaythering</strong> (1409 Lincoln Rd) — Chill cocktails, happy hour vibes</p>
+        <p>All within walking distance of each other!</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">12 AM</div>
+      <div class="timeline-content" style="border-left-color: var(--gold);">
+        <h4>🎂🥂 BIRTHDAY SHOTS AT MIDNIGHT!</h4>
+        <p style="color: var(--gold);">HAPPY 30TH CHAD! 🎉🪩🍾 Home and in bed by 2 AM!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SUNDAY ========== -->
+  <section id="sunday" class="section">
+    <div class="day-header">Sunday, July 26</div>
+    <div class="timeline-item">
+      <div class="timeline-time">11 AM</div>
+      <div class="timeline-content">
+        <h4>👑 Drag Brunch @ Palace</h4>
+        <p><strong>1052 Ocean Drive, Miami Beach</strong></p>
+        <p>$45/person — bottomless mimosas + brunch plate. Reserved 11 AM seating (~2 hrs).</p>
+        <p>Tip the performers cash! Street parking $4/hr or Collins Ave garages.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">~1:30</div>
+      <div class="timeline-content">
+        <h4>🏠 Quick change at Airbnb</h4>
+        <p>Swimsuits on! Grab drinks for the boat! <span class="drive-badge">🚗 20 min from Palace</span></p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">2:30</div>
+      <div class="timeline-content">
+        <h4>🚤 Private Boat + Champagne — Sandbar Tour</h4>
+        <p>Viator Booking #1401249433 &bull; 7 adults &bull; Departs 2:30 PM</p>
+        <p>3-hour tour with experienced captain + champagne. Miami skyline views!</p>
+        <p><span class="price-tag">$68/each (charges 7/24)</span></p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">~6 PM</div>
+      <div class="timeline-content">
+        <h4>🚿 Shower + Reset at Airbnb</h4>
+        <p>Get glam for dinner and birthday theme night!</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">8 PM</div>
+      <div class="timeline-content">
+        <h4>🌮 Dinner @ KoKo (Coconut Grove)</h4>
+        <p><strong>2856 Tigertail Ave, Miami 33133</strong> &bull; (305) 349-3909</p>
+        <p>Authentic Mexican — wood-fired, nixtamal tortillas, mezcal. Party of 7.</p>
+        <p><span class="drive-badge">🚗 10 min from Airbnb</span> <span class="price-tag">~$60/person</span></p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">10-11</div>
+      <div class="timeline-content" style="border-left-color: var(--gold);">
+        <h4>🪩 Birthday Theme Night — Club Crawl 2</h4>
+        <p>🌴 <strong>Mangos</strong> (900 Ocean Dr) — Live show, Latin dancing. Cover $10-30.<br>
+        🎵 <strong>E11even</strong> (29 NE 11th St) — 24hr ultraclub. FREE via guest list before 11 PM! Parking $20.</p>
+        <p>Dance until you can't anymore!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MONDAY ========== -->
+  <section id="monday" class="section">
+    <div class="day-header">Monday, July 27 — Beach Day</div>
+    <div class="timeline-item">
+      <div class="timeline-time">9-10</div>
+      <div class="timeline-content">
+        <h4>🥞 Recovery Morning</h4>
+        <p>Easy breakfast in — order delivery or cook at the Airbnb. No rush!</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">~11 AM</div>
+      <div class="timeline-content">
+        <h4>🏖️ Surfcomber Ivy Cabana Day</h4>
+        <p><strong>Solei Beach Club @ Kimpton Surfcomber</strong> &bull; 1717 Collins Ave</p>
+        <p>2nd floor balcony, ocean view, up to 8 people. Live DJ 12-4 PM.</p>
+        <p><strong>Included:</strong> Champagne bottle, fruit platter, sodas, water, plush seating</p>
+        <p><span class="price-tag">$250 min food/bev (Mon rate)</span> <span class="price-tag">$22/person day pass</span></p>
+        <p style="margin-top:8px; color: var(--warning);">⚠️ Must check in by 1:00 PM! No outside food/bev. No separate checks. No coolers or speakers.</p>
+        <p><strong>Parking:</strong> Valet only $35-40/day. Public lot 1.5 blocks away ~$16.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">4-5 PM</div>
+      <div class="timeline-content">
+        <h4>🏠 Back to Airbnb — Shower + Relax</h4>
+        <p>Rinse off the sun, decompress.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">7-8 PM</div>
+      <div class="timeline-content">
+        <h4>🍕 Easy Dinner / Cook In</h4>
+        <p>Low-key night — order delivery or make something together.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">9 PM+</div>
+      <div class="timeline-content">
+        <h4>🎲 Game Night In</h4>
+        <p>Cards, board games, drinks at home. Rest up for departure day!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TUESDAY ========== -->
+  <section id="tuesday" class="section">
+    <div class="day-header">Tuesday, July 28 — Departure</div>
+    <div class="timeline-item">
+      <div class="timeline-time">9:30</div>
+      <div class="timeline-content">
+        <h4>⏰ Wake Up + Pack</h4>
+        <p>Clean up Airbnb, pack bags, get photo-ready for final adventures!</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">11 AM</div>
+      <div class="timeline-content">
+        <h4>🏠 Checkout</h4>
+        <p>Airbnb checkout by 11 AM sharp.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">11:30</div>
+      <div class="timeline-content">
+        <h4>🥂 Final Brunch @ Orange Blossom</h4>
+        <p><strong>2000 Collins Ave #7, Miami Beach</strong> &bull; (786) 741-7128</p>
+        <p>Nutella French Toast, Eggs Benedict, Huevos Rancheros, Avocado Toast.</p>
+        <p>Open daily 8 AM - 10 PM. <em>Note: Tue = regular menu (not weekend brunch).</em></p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">~1:30</div>
+      <div class="timeline-content">
+        <h4>📸 Photos @ South Pointe Park</h4>
+        <p><strong>1 Washington Ave, Miami Beach</strong></p>
+        <p>Ocean, port, skyline views. Perfect group photo spot! Parking: $2/hr (weekday).</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">~2:30</div>
+      <div class="timeline-content">
+        <h4>🌉 Venetian Causeway Drive</h4>
+        <p>Scenic 2.5-mile, 12-bridge drive across Biscayne Bay. Toll ~$3 (cashless).</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">~3 PM</div>
+      <div class="timeline-content">
+        <h4>🛍️ Brickell City Centre (if time)</h4>
+        <p><strong>701 S Miami Ave</strong> — Luxury shopping + dining. Parking: first 2 hours FREE with purchase!</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">5 PM</div>
+      <div class="timeline-content">
+        <h4>🚗 Drop Off Rental (Avis @ MIA)</h4>
+        <p>Return to MIA Rental Car Center. Allow 30+ min for shuttle to terminal.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">7:05 PM</div>
+      <div class="timeline-content" style="border-left-color: var(--neon-blue);">
+        <h4>✈️ DL2344 — MIA to AUS</h4>
+        <p>Departs 7:05 PM, arrives Austin 9:13 PM. Goodbye Miami! 🪩✨</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MAP ========== -->
+  <section id="map-section" class="section">
+    <h2>🗺️ Interactive Map</h2>
+    <p style="margin-bottom:14px; color: var(--text-dim); font-size: 0.9em;">All venues, restaurants, clubs, and key stops pinned with driving routes.</p>
+    <div id="map"></div>
+    <div style="margin-top:20px;" class="grid-3">
+      <div class="card">
+        <h3>🔑 Legend</h3>
+        <div class="details">✈️ Transport &bull; 🏠 Airbnb &bull; 🍳🌮🥂 Food<br>💃🎵🌴🍸🪩 Nightlife &bull; 🏖️📸🛍️ Activities</div>
+      </div>
+      <div class="card">
+        <h3>🚗 Key Drives from Airbnb</h3>
+        <div class="details">
+          R House (Wynwood): <strong>12 min</strong><br>
+          South Beach: <strong>20-25 min</strong><br>
+          KoKo (Coconut Grove): <strong>10 min</strong><br>
+          Surfcomber: <strong>20 min</strong><br>
+          E11even (Downtown): <strong>10 min</strong><br>
+          MIA Airport: <strong>12 min</strong>
+        </div>
+      </div>
+      <div class="card">
+        <h3>💡 Tips</h3>
+        <div class="details">
+          South Beach clubs are walkable — Uber there!<br>
+          ParkMobile app for Miami Beach meters.<br>
+          Venetian Causeway toll is cashless.<br>
+          Don't drive after clubbing!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VENUES ========== -->
+  <section id="venues" class="section">
+    <h2>🍽️ Restaurants</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>🍳 R House Wynwood</h3>
+        <div class="address">2727 NW 2nd Ave, Miami 33127</div>
+        <div class="meta">Saturday 2:45 PM (RESERVED)</div>
+        <div class="details">
+          <span class="price-tag">$60 Bottomless</span> <span class="price-tag">$85 Bottle Service</span><br><br>
+          <strong>Includes:</strong> Show + family-style food + unlimited mimosas/sangria/mojitos<br>
+          <strong>Menu:</strong> Cayenne Fried Chicken, Chimichurri Sliders, Avocado Toast, Cuban Breakfast Croissant, Cinnamon French Toast. Vegan option available.<br>
+          <strong>Note:</strong> 20% auto-gratuity<br>
+          <strong>Parking:</strong> 4 public lots nearby
+        </div>
+        <div class="links">
+          <a href="https://www.rhousewynwood.com/drag-brunch-miami" target="_blank">Reserve</a>
+          <a href="https://www.rhousewynwood.com/menu" target="_blank">Menu</a>
+          <a href="https://www.yelp.com/biz/r-house-wynwood-miami-2" target="_blank">Yelp</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>👑 Palace Bar</h3>
+        <div class="address">1052 Ocean Drive, Miami Beach 33139</div>
+        <div class="meta">Sunday 11 AM (RESERVED)</div>
+        <div class="details">
+          <span class="price-tag">$45/person Bottomless</span><br><br>
+          <strong>Menu:</strong> Salmon Benedict, Chicken and Waffles, Steak and Eggs, Pancakes w/ rainbow sprinkles<br>
+          <strong>Cocktails:</strong> Malibu Barbie, Smoked Fashionista, Look Over There<br>
+          <strong>Tips:</strong> Bring cash for performers! Arrive on time.
+        </div>
+        <div class="links">
+          <a href="https://palacesouthbeach.com/drag-brunch/" target="_blank">Reserve</a>
+          <a href="https://palacesouthbeach.com/brunch-menu/" target="_blank">Menu</a>
+          <a href="https://palacesouthbeach.com/dining/" target="_blank">Dinner</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🌮 KoKo (by Bakan)</h3>
+        <div class="address">2856 Tigertail Ave, Coconut Grove 33133</div>
+        <div class="meta">Sunday ~8 PM — CALL (305) 349-3909 TO RESERVE FOR 7!</div>
+        <div class="details">
+          <strong>Cuisine:</strong> Authentic Mexican — wood-fired, nixtamal tortillas, mezcal<br>
+          <strong>Highlights:</strong> Asado a la Lena, rotisserie chicken, ceviches, moles<br>
+          <strong>Hours:</strong> Mon-Wed/Sun 12-10 PM; Thu-Sat 12-11 PM<br>
+          <strong>Parking:</strong> Free street parking in the Grove
+        </div>
+        <div class="links">
+          <a href="https://www.opentable.com/r/koko-miami" target="_blank">OpenTable</a>
+          <a href="https://www.kokorestaurants.com/food-menu" target="_blank">Menu</a>
+          <a href="https://www.yelp.com/biz/koko-miami-2" target="_blank">Yelp</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🥂 Orange Blossom</h3>
+        <div class="address">2000 Collins Ave #7, Miami Beach 33139</div>
+        <div class="meta">Tuesday ~11:30 AM — Final Brunch</div>
+        <div class="details">
+          <strong>Hours:</strong> Daily 8 AM - 10 PM (Brunch Fri-Sun 11-3)<br>
+          <strong>Menu:</strong> Avocado Toast ($16-22), Nutella French Toast, Huevos Rancheros ($20), Eggs Benedict, Steak and Eggs ($25)<br>
+          <strong>Phone:</strong> (786) 741-7128
+        </div>
+        <div class="links">
+          <a href="https://orangeblossommiami.com/brunch/" target="_blank">Menu</a>
+          <a href="https://www.opentable.com/orange-blossom" target="_blank">OpenTable</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NIGHTLIFE ========== -->
+  <section id="nightlife" class="section">
+    <h2>🪩 Bars and Clubs</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>💃 Twist South Beach</h3>
+        <div class="address">1057 Washington Ave, Miami Beach 33139</div>
+        <div class="details">
+          <span class="price-tag" style="background:rgba(52,211,153,0.12);border-color:var(--success);color:var(--success);">NO COVER EVER!</span><br><br>
+          <strong>Hours:</strong> 3 PM - 5 AM daily<br>
+          <strong>Happy Hour:</strong> 2-for-1 drinks 3 PM - 9 PM<br>
+          <strong>Vibe:</strong> 7 bars, 3 dance floors, drag shows, male dancers. Iconic since 1993.<br>
+          <strong>Age:</strong> 21+ with ID
+        </div>
+        <div class="links"><a href="https://www.twistsobe.com" target="_blank">Website</a></div>
+      </div>
+      <div class="card">
+        <h3>🎵 E11even Miami</h3>
+        <div class="address">29 NE 11th St, Downtown Miami 33132</div>
+        <div class="details">
+          <span class="price-tag">Cover: $30-75</span> <span class="price-tag" style="background:rgba(52,211,153,0.12);border-color:var(--success);color:var(--success);">FREE before 11 PM (guest list)</span><br><br>
+          <strong>Hours:</strong> OPEN 24/7<br>
+          <strong>Parking:</strong> On-site $20, valet available<br>
+          <strong>Tip:</strong> Sign up for guest list online!
+        </div>
+        <div class="links"><a href="https://nocovernightclubs.com/miami/e11even-nightclub-guest-list/" target="_blank">Guest List</a></div>
+      </div>
+      <div class="card">
+        <h3>🌴 Mangos Tropical Cafe</h3>
+        <div class="address">900 Ocean Drive, Miami Beach 33139</div>
+        <div class="details">
+          <span class="price-tag">Free before 8 PM / $10-40 after</span><br><br>
+          <strong>Hours:</strong> Bar 12 PM-5 AM; Dinner Show 7:30 PM; Club 10:30 PM<br>
+          <strong>Vibe:</strong> Live Latin bands, salsa dancers, high-energy tropical show<br>
+          <strong>Phone:</strong> (305) 673-4422
+        </div>
+        <div class="links"><a href="https://miami.mangos.com" target="_blank">Website</a><a href="https://miami.mangos.com/faqs" target="_blank">FAQ</a></div>
+      </div>
+      <div class="card">
+        <h3>🍸 Bar Gaythering</h3>
+        <div class="address">1409 Lincoln Rd, Miami Beach 33139</div>
+        <div class="details">
+          <span class="price-tag" style="background:rgba(52,211,153,0.12);border-color:var(--success);color:var(--success);">NO COVER</span><br><br>
+          <strong>Hours:</strong> Sun-Thu 5 PM-12 AM; Fri-Sat 5 PM-2 AM<br>
+          <strong>Happy Hour:</strong> 5-8 PM daily — 50% off wells, wine, beer<br>
+          <strong>Vibe:</strong> Intimate, craft cocktails, karaoke Mon, trivia Wed
+        </div>
+        <div class="links"><a href="https://www.gaythering.com/bar-447175.html" target="_blank">Website</a></div>
+      </div>
+      <div class="card">
+        <h3>🪩 Azucar Nightclub</h3>
+        <div class="address">2301 SW 32nd Ave, Miami 33145</div>
+        <div class="details">
+          <span class="price-tag" style="background:rgba(52,211,153,0.12);border-color:var(--success);color:var(--success);">FREE ENTRY</span><br><br>
+          <strong>Hours:</strong> Thu-Sun 10 PM - 5 AM<br>
+          <strong>Vibe:</strong> Gay Latin nightclub — drag, cabaret, live dancers<br>
+          <strong>Note:</strong> Alley entrance. 7 min from Airbnb!
+        </div>
+        <div class="links"><a href="https://www.yelp.com/biz/azucar-nightclub-miami" target="_blank">Yelp</a></div>
+      </div>
+      <div class="card">
+        <h3>👑 Palace (Night)</h3>
+        <div class="address">1052 Ocean Drive, Miami Beach 33139</div>
+        <div class="details">
+          <strong>Hours:</strong> Fri-Sun 11 AM-2 AM; Mon-Thu 11 AM-1 AM<br>
+          <strong>Vibe:</strong> Iconic patio drag shows, rooftop bar, Ocean Drive views<br>
+          <strong>Cocktails:</strong> Malibu Barbie, Smoked Fashionista
+        </div>
+        <div class="links"><a href="https://palacesouthbeach.com" target="_blank">Website</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LOGISTICS ========== -->
+  <section id="logistics" class="section">
+    <h2>🚗 Logistics and Parking</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>✈️ Airport + Rental</h3>
+        <div class="details">
+          <strong>MIA Rental Car Center:</strong> 3900 NW 25th St<br>
+          <strong>Carrier:</strong> Avis<br>
+          <strong>Access:</strong> Free MIA Mover from terminal<br>
+          <strong>Drop off:</strong> Tue 5 PM (same location)<br>
+          <strong>Tip:</strong> Allow 30 min buffer after drop-off for shuttle + security
+        </div>
+      </div>
+      <div class="card">
+        <h3>🚗 Drive Times from Airbnb</h3>
+        <table class="parking-table">
+          <tr><th>Destination</th><th>Time</th></tr>
+          <tr><td>South Beach (Ocean Dr)</td><td>20-30 min</td></tr>
+          <tr><td>R House Wynwood</td><td>12 min</td></tr>
+          <tr><td>KoKo (Coconut Grove)</td><td>10 min</td></tr>
+          <tr><td>E11even (Downtown)</td><td>10 min</td></tr>
+          <tr><td>Surfcomber Hotel</td><td>20 min</td></tr>
+          <tr><td>Azucar Nightclub</td><td>7 min</td></tr>
+          <tr><td>MIA Airport</td><td>12 min</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>🅿️ Parking Guide</h3>
+        <table class="parking-table">
+          <tr><th>Location</th><th>Type</th><th>Cost</th></tr>
+          <tr><td>R House</td><td>Public lots (x4)</td><td>~$5-10</td></tr>
+          <tr><td>Ocean Drive</td><td>Street meters</td><td>$4/hr</td></tr>
+          <tr><td>Surfcomber</td><td>Valet only</td><td>$35-40/day</td></tr>
+          <tr><td>Near Surfcomber</td><td>Public garage</td><td>~$16/24hr</td></tr>
+          <tr><td>South Pointe Park</td><td>Lot (240 spots)</td><td>$2/hr weekday</td></tr>
+          <tr><td>E11even</td><td>On-site</td><td>$20</td></tr>
+          <tr><td>Brickell City Centre</td><td>Garage</td><td>2hr FREE!</td></tr>
+          <tr><td>KoKo / Grove</td><td>Street</td><td>Free</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>💡 Pro Tips</h3>
+        <ul class="checklist">
+          <li>South Beach clubs are walkable — Uber in, walk between</li>
+          <li>E11even guest list = free entry before 11 PM</li>
+          <li>Venetian Causeway toll is cashless (~$3)</li>
+          <li>Download ParkMobile app for Miami Beach meters</li>
+          <li>Brickell validates parking with any purchase</li>
+          <li>Uber/Lyft surge after clubs is still cheaper than a DUI</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== BUDGET ========== -->
+  <section id="budget" class="section">
+    <h2>💰 Budget Per Person</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>📋 Pre-Paid</h3>
+        <div class="budget-row"><span class="label">Boat Tour (Sun)</span><span class="amount">$68</span></div>
+        <div class="budget-row"><span class="label">Surfcomber Day Pass (Mon)</span><span class="amount">$22</span></div>
+        <div class="budget-row"><span class="label">Cabana Min Spend (split 7)</span><span class="amount">~$36</span></div>
+        <div class="budget-row" style="border-top:2px solid var(--accent);margin-top:8px;padding-top:8px;"><span class="label"><strong>Subtotal</strong></span><span class="amount">~$126</span></div>
+      </div>
+      <div class="card">
+        <h3>🍽️ Food + Drink</h3>
+        <div class="budget-row"><span class="label">R House Brunch (Sat)</span><span class="amount">$72</span></div>
+        <div class="budget-row"><span class="label">Sat Dinner (TBD)</span><span class="amount">~$50</span></div>
+        <div class="budget-row"><span class="label">Palace Brunch (Sun)</span><span class="amount">$45</span></div>
+        <div class="budget-row"><span class="label">KoKo Dinner (Sun)</span><span class="amount">~$60</span></div>
+        <div class="budget-row"><span class="label">Orange Blossom (Tue)</span><span class="amount">~$35</span></div>
+        <div class="budget-row"><span class="label">Mon Food (in/delivery)</span><span class="amount">~$30</span></div>
+        <div class="budget-row" style="border-top:2px solid var(--accent);margin-top:8px;padding-top:8px;"><span class="label"><strong>Subtotal</strong></span><span class="amount">~$292</span></div>
+      </div>
+      <div class="card">
+        <h3>🪩 Nightlife</h3>
+        <div class="budget-row"><span class="label">Sat Night (drinks, no cover)</span><span class="amount">~$40</span></div>
+        <div class="budget-row"><span class="label">Sun Night (Mangos + E11even)</span><span class="amount">~$60</span></div>
+        <div class="budget-row"><span class="label">Performer tips (both nights)</span><span class="amount">~$20</span></div>
+        <div class="budget-row" style="border-top:2px solid var(--accent);margin-top:8px;padding-top:8px;"><span class="label"><strong>Subtotal</strong></span><span class="amount">~$120</span></div>
+      </div>
+      <div class="card">
+        <h3>🚗 Transport</h3>
+        <div class="budget-row"><span class="label">Uber to/from SoBe (x2-3)</span><span class="amount">~$50</span></div>
+        <div class="budget-row"><span class="label">Parking (various)</span><span class="amount">~$30</span></div>
+        <div class="budget-row"><span class="label">Venetian Causeway toll</span><span class="amount">$3</span></div>
+        <div class="budget-row" style="border-top:2px solid var(--accent);margin-top:8px;padding-top:8px;"><span class="label"><strong>Subtotal</strong></span><span class="amount">~$83</span></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px;background:linear-gradient(135deg,#1a0030,#2a1050);border-color:var(--accent);">
+      <h3 style="font-size:1.4em;">💸 Estimated Total Per Person</h3>
+      <div class="budget-row" style="font-size:1.2em;border:none;padding-top:8px;">
+        <span class="label">All-in (excl. flights, Airbnb, rental car)</span>
+        <span class="amount" style="font-size:1.5em;color:var(--gold);">~$621</span>
+      </div>
+      <p style="color:var(--text-dim);font-size:0.82em;margin-top:10px;">Excludes: flights, Airbnb split, rental car split, personal shopping. Actual varies by drink counts and dinner picks.</p>
+    </div>
+  </section>
+
+  <script src="./app.js"></script>
+  <script src="./map.js"></script>
+</body>
+</html>

@@ -457,39 +457,46 @@ function renderConfirmations() {
   container.innerHTML = html;
 }
 
-function handleConfirmationUpload(input) {
-  const files = Array.from(input.files);
-  if (!files.length) return;
-  const title = document.getElementById('conf-title').value.trim() || 'Untitled';
+function uploadSelectedConfirmations() {
+  var input = document.getElementById('conf-file-input');
+  var files = input.files;
+  if (!files || files.length === 0) {
+    if (typeof showToast === 'function') showToast('No files selected');
+    return;
+  }
+  var title = document.getElementById('conf-title').value.trim() || 'Untitled';
   if (!travelData.confirmations) travelData.confirmations = [];
 
-  let idx = 0;
+  var total = files.length;
+  var idx = 0;
+
   function processNext() {
-    if (idx >= files.length) {
+    if (idx >= total) {
       document.getElementById('conf-title').value = '';
       input.value = '';
       renderConfirmations();
       saveToCloud();
-      if (typeof showToast === 'function') showToast(files.length + ' image' + (files.length > 1 ? 's' : '') + ' uploaded!');
+      if (typeof showToast === 'function') showToast(total + ' image' + (total > 1 ? 's' : '') + ' uploaded!');
       return;
     }
-    const file = files[idx];
-    const reader = new FileReader();
+    var file = files[idx];
+    var reader = new FileReader();
     reader.onload = function(e) {
-      const img = new Image();
+      var img = new Image();
       img.onload = function() {
-        const canvas = document.createElement('canvas');
-        const maxSize = 400;
-        let w = img.width, h = img.height;
+        var canvas = document.createElement('canvas');
+        var maxSize = 400;
+        var w = img.width, h = img.height;
         if (w > maxSize || h > maxSize) {
           if (w > h) { h = h * maxSize / w; w = maxSize; }
           else { w = w * maxSize / h; h = maxSize; }
         }
-        canvas.width = w; canvas.height = h;
+        canvas.width = w;
+        canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
 
-        const label = files.length > 1 ? title + ' (' + (idx + 1) + ')' : title;
+        var label = total > 1 ? title + ' (' + (idx + 1) + ')' : title;
         travelData.confirmations.push({
           id: 'conf_' + Date.now() + '_' + idx,
           title: label,

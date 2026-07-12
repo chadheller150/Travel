@@ -627,10 +627,8 @@
     <div id="confirmations-list"></div>
     <div style="margin-top:16px;padding:16px;background:var(--card-bg);border:2px dashed var(--card-border);border-radius:16px;text-align:center;">
       <input id="conf-title" placeholder="Label (e.g. R House Reservation, Avis Booking...)" style="width:100%;background:var(--bg);color:var(--text);border:1px solid var(--card-border);border-radius:8px;padding:10px;font-size:0.9em;margin-bottom:10px;font-family:Outfit,sans-serif;">
-      <label style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:rgba(92,225,230,0.1);border:1px solid var(--neon-blue);border-radius:10px;cursor:pointer;font-size:0.9em;color:var(--neon-blue);font-weight:600;">
-        📷 Upload Screenshot
-        <input type="file" accept="image/*" multiple onchange="handleConfirmationUpload(this)" style="display:none;">
-      </label>
+      <input type="file" id="conf-file-input" accept="image/*" multiple style="width:100%;margin-bottom:10px;font-size:0.85em;color:var(--text);">
+      <button onclick="uploadSelectedConfirmations()" style="width:100%;padding:12px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:0.95em;cursor:pointer;font-family:Outfit,sans-serif;">📷 Upload Selected</button>
     </div>
   </section>
 

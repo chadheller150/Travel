@@ -462,9 +462,19 @@ function handleConfirmationUpload(input) {
   const files = Array.from(input.files);
   if (!files.length) return;
   const title = document.getElementById('conf-title').value.trim() || 'Untitled';
-  let processed = 0;
+  if (!travelData.confirmations) travelData.confirmations = [];
 
-  files.forEach((file, idx) => {
+  let idx = 0;
+  function processNext() {
+    if (idx >= files.length) {
+      document.getElementById('conf-title').value = '';
+      input.value = '';
+      renderConfirmations();
+      saveToCloud();
+      if (typeof showToast === 'function') showToast(files.length + ' image' + (files.length > 1 ? 's' : '') + ' uploaded!');
+      return;
+    }
+    const file = files[idx];
     const reader = new FileReader();
     reader.onload = function(e) {
       const img = new Image();
@@ -478,9 +488,8 @@ function handleConfirmationUpload(input) {
         }
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
 
-        if (!travelData.confirmations) travelData.confirmations = [];
         const label = files.length > 1 ? title + ' (' + (idx + 1) + ')' : title;
         travelData.confirmations.push({
           id: 'conf_' + Date.now() + '_' + idx,
@@ -489,19 +498,16 @@ function handleConfirmationUpload(input) {
           addedAt: new Date().toLocaleDateString()
         });
 
-        processed++;
-        if (processed === files.length) {
-          document.getElementById('conf-title').value = '';
-          input.value = '';
-          renderConfirmations();
-          saveToCloud();
-          if (typeof showToast === 'function') showToast(files.length + ' image' + (files.length > 1 ? 's' : '') + ' uploaded!');
-        }
+        idx++;
+        processNext();
       };
+      img.onerror = function() { idx++; processNext(); };
       img.src = e.target.result;
     };
+    reader.onerror = function() { idx++; processNext(); };
     reader.readAsDataURL(file);
-  });
+  }
+  processNext();
 }
 
 function deleteConfirmation(idx) {

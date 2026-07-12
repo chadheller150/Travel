@@ -74,13 +74,30 @@ async function initTravelSync() {
 
 async function saveToCloud() {
   if (!TRAVEL_BIN_ID) return;
-  try {
-    await fetch('https://api.jsonbin.io/v3/b/' + TRAVEL_BIN_ID, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
-      body: JSON.stringify(travelData)
-    });
-  } catch (e) { console.log('Save failed'); }
+  // Also save confirmations to localStorage as backup (JSONBin has 100KB limit)
+  try { localStorage.setItem('dirty30-confirmations', JSON.stringify(travelData.confirmations || [])); } catch(e) {}
+  // Debounce: wait 1 second after last change before saving
+  if (saveToCloud._timeout) clearTimeout(saveToCloud._timeout);
+  saveToCloud._timeout = setTimeout(async () => {
+    try {
+      // If data is too large, save without confirmations to cloud and keep them local-only
+      const payload = JSON.stringify(travelData);
+      if (payload.length > 90000) {
+        const lite = { ...travelData, confirmations: [] };
+        await fetch('https://api.jsonbin.io/v3/b/' + TRAVEL_BIN_ID, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+          body: JSON.stringify(lite)
+        });
+      } else {
+        await fetch('https://api.jsonbin.io/v3/b/' + TRAVEL_BIN_ID, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+          body: payload
+        });
+      }
+    } catch (e) { console.log('Save failed'); }
+  }, 1000);
 }
 
 async function loadFromCloud() {
@@ -98,6 +115,14 @@ async function loadFromCloud() {
       }
     }
   } catch (e) { console.log('Load failed'); }
+  // Merge localStorage confirmations (they may be larger than what cloud stores)
+  try {
+    const localConfs = JSON.parse(localStorage.getItem('dirty30-confirmations') || '[]');
+    if (localConfs.length > (travelData.confirmations || []).length) {
+      travelData.confirmations = localConfs;
+    }
+  } catch(e) {}
+}
 }
 
 // === Payment Tracker ===
@@ -444,7 +469,7 @@ function handleConfirmationUpload(input) {
     const img = new Image();
     img.onload = function() {
       const canvas = document.createElement('canvas');
-      const maxSize = 600;
+      const maxSize = 400;
       let w = img.width, h = img.height;
       if (w > maxSize || h > maxSize) {
         if (w > h) { h = h * maxSize / w; w = maxSize; }

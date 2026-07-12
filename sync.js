@@ -1,6 +1,15 @@
 // === Cloud Sync via JSONBin ===
 // Using same master key as Budget app, separate bin for Travel data
 const JSONBIN_KEY = '$2a$10$mwPdOYfA/eT386ORY/YvhOFBhGT2LlLt51.cfjB1gjidZ2sHpEN0K';
+
+// Clear stale data from old versions
+if (localStorage.getItem('dirty30-version') !== 'v3') {
+  localStorage.removeItem('dirty30-confirmations');
+  localStorage.removeItem('dirty30-edits');
+  localStorage.removeItem('dirty30-bin-id');
+  localStorage.setItem('dirty30-version', 'v3');
+}
+
 let TRAVEL_BIN_ID = localStorage.getItem('dirty30-bin-id') || '';
 
 const CREW = ['Chad', 'Eric', 'Adriel', 'Jennilee', 'Clarissa', 'Elena', 'Lulu'];

@@ -123,7 +123,6 @@ async function loadFromCloud() {
     }
   } catch(e) {}
 }
-}
 
 // === Payment Tracker ===
 function renderPayments() {

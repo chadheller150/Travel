@@ -44,6 +44,7 @@ let travelData = {
   outfits: DEFAULT_OUTFITS,
   dinnerVotes: {}, // { 'person_name': 'option_id' }
   dinnerOptions: DEFAULT_DINNER_OPTIONS,
+  confirmations: [], // [{ id, title, image, addedAt }]
 };
 
 // === Init ===
@@ -68,6 +69,7 @@ async function initTravelSync() {
   renderPayments();
   renderOutfits();
   renderDinnerVote();
+  renderConfirmations();
 }
 
 async function saveToCloud() {
@@ -402,6 +404,152 @@ function addDinnerSuggestion() {
   if (typeof showToast === 'function') showToast('"' + name + '" added!');
 }
 
+// === Confirmations ===
+function renderConfirmations() {
+  const container = document.getElementById('confirmations-list');
+  if (!container) return;
+
+  const confs = travelData.confirmations || [];
+  if (confs.length === 0) {
+    container.innerHTML = '<p style="color:var(--text-dim);font-size:0.85em;text-align:center;padding:20px;">No confirmations uploaded yet. Add your first one below!</p>';
+    return;
+  }
+
+  let html = '<div class="grid-2">';
+  confs.forEach((conf, idx) => {
+    html += '<div class="card" style="padding:14px;">';
+    html += '<h3 style="font-size:0.95em;">' + conf.title + '</h3>';
+    if (conf.image) {
+      html += '<img src="' + conf.image + '" onclick="openConfirmationLightbox(' + idx + ')" style="width:100%;border-radius:10px;margin-top:8px;cursor:pointer;border:1px solid var(--card-border);">';
+    }
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">';
+    html += '<span style="font-size:0.7em;color:var(--text-dim);">' + (conf.addedAt || '') + '</span>';
+    html += '<button onclick="deleteConfirmation(' + idx + ')" style="background:none;border:none;font-size:0.8em;color:var(--danger);cursor:pointer;">Delete</button>';
+    html += '</div></div>';
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function handleConfirmationUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const title = document.getElementById('conf-title').value.trim() || 'Untitled';
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    // Resize for storage
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const maxSize = 600;
+      let w = img.width, h = img.height;
+      if (w > maxSize || h > maxSize) {
+        if (w > h) { h = h * maxSize / w; w = maxSize; }
+        else { w = w * maxSize / h; h = maxSize; }
+      }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+      if (!travelData.confirmations) travelData.confirmations = [];
+      travelData.confirmations.push({
+        id: 'conf_' + Date.now(),
+        title: title,
+        image: dataUrl,
+        addedAt: new Date().toLocaleDateString()
+      });
+
+      document.getElementById('conf-title').value = '';
+      input.value = '';
+      renderConfirmations();
+      saveToCloud();
+      if (typeof showToast === 'function') showToast('"' + title + '" uploaded!');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function deleteConfirmation(idx) {
+  if (!confirm('Delete this confirmation?')) return;
+  travelData.confirmations.splice(idx, 1);
+  renderConfirmations();
+  saveToCloud();
+}
+
+function openConfirmationLightbox(startIdx) {
+  const confs = travelData.confirmations || [];
+  if (confs.length === 0) return;
+
+  let overlay = document.getElementById('lightbox-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'lightbox-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;';
+    document.body.appendChild(overlay);
+  }
+  overlay.style.opacity = '1';
+  overlay.style.pointerEvents = 'auto';
+
+  let currentIdx = startIdx;
+
+  function render() {
+    const conf = confs[currentIdx];
+    overlay.innerHTML = '';
+
+    const close = document.createElement('button');
+    close.innerHTML = '&times;';
+    close.style.cssText = 'position:absolute;top:16px;right:20px;font-size:2em;color:#fff;background:none;border:none;cursor:pointer;z-index:10001;';
+    close.onclick = closeLightbox;
+    overlay.appendChild(close);
+
+    const info = document.createElement('div');
+    info.style.cssText = 'position:absolute;top:20px;left:0;right:0;text-align:center;z-index:10001;';
+    info.innerHTML = '<div style="font-family:Outfit,sans-serif;font-weight:700;font-size:1.1em;color:var(--neon-blue);">' + conf.title + '</div>';
+    overlay.appendChild(info);
+
+    const img = document.createElement('img');
+    img.src = conf.image;
+    img.style.cssText = 'max-width:92vw;max-height:75vh;object-fit:contain;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.5);';
+    overlay.appendChild(img);
+
+    const counter = document.createElement('div');
+    counter.style.cssText = 'position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:0.85em;color:var(--text-dim);font-family:Outfit,sans-serif;';
+    counter.textContent = (currentIdx + 1) + ' / ' + confs.length;
+    overlay.appendChild(counter);
+
+    if (confs.length > 1) {
+      const prev = document.createElement('button');
+      prev.innerHTML = '&#8249;';
+      prev.style.cssText = 'position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:2.5em;color:#fff;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      prev.onclick = (e) => { e.stopPropagation(); currentIdx = (currentIdx - 1 + confs.length) % confs.length; render(); };
+      overlay.appendChild(prev);
+
+      const next = document.createElement('button');
+      next.innerHTML = '&#8250;';
+      next.style.cssText = 'position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:2.5em;color:#fff;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      next.onclick = (e) => { e.stopPropagation(); currentIdx = (currentIdx + 1) % confs.length; render(); };
+      overlay.appendChild(next);
+    }
+
+    overlay.onclick = (e) => { if (e.target === overlay) closeLightbox(); };
+    let startX = 0;
+    overlay.ontouchstart = (e) => { startX = e.touches[0].clientX; };
+    overlay.ontouchend = (e) => {
+      const diff = e.changedTouches[0].clientX - startX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) currentIdx = (currentIdx - 1 + confs.length) % confs.length;
+        else currentIdx = (currentIdx + 1) % confs.length;
+        render();
+      }
+    };
+  }
+
+  render();
+  document.onkeydown = (e) => { if (e.key === 'Escape') closeLightbox(); };
+}
+
 // === Init on load ===
 document.addEventListener('DOMContentLoaded', initTravelSync);
 
@@ -411,4 +559,5 @@ setInterval(async () => {
   renderPayments();
   renderOutfits();
   renderDinnerVote();
+  renderConfirmations();
 }, 30000);

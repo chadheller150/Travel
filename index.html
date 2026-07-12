@@ -42,6 +42,7 @@
     <div class="tab" data-target="venues">🍽️ Venues</div>
     <div class="tab" data-target="nightlife">🪩 Nightlife</div>
     <div class="tab" data-target="logistics">🚗 Logistics</div>
+    <div class="tab" data-target="confirmations">📎 Confirmations</div>
     <div class="tab" data-target="budget">💰 Budget</div>
   </nav>
 
@@ -616,6 +617,20 @@
           <li>Uber/Lyft surge after clubs is still cheaper than a DUI</li>
         </ul>
       </div>
+    </div>
+  </section>
+
+  <!-- ========== CONFIRMATIONS ========== -->
+  <section id="confirmations" class="section">
+    <h2>📎 Confirmations</h2>
+    <p style="color:var(--text-dim);font-size:0.85em;margin-bottom:16px;">Upload screenshots of bookings, reservations, and confirmations. Everything in one place.</p>
+    <div id="confirmations-list"></div>
+    <div style="margin-top:16px;padding:16px;background:var(--card-bg);border:2px dashed var(--card-border);border-radius:16px;text-align:center;">
+      <input id="conf-title" placeholder="Label (e.g. R House Reservation, Avis Booking...)" style="width:100%;background:var(--bg);color:var(--text);border:1px solid var(--card-border);border-radius:8px;padding:10px;font-size:0.9em;margin-bottom:10px;font-family:Outfit,sans-serif;">
+      <label style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:rgba(92,225,230,0.1);border:1px solid var(--neon-blue);border-radius:10px;cursor:pointer;font-size:0.9em;color:var(--neon-blue);font-weight:600;">
+        📷 Upload Screenshot
+        <input type="file" accept="image/*" onchange="handleConfirmationUpload(this)" style="display:none;">
+      </label>
     </div>
   </section>
 

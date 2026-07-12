@@ -164,6 +164,7 @@
         <p>$60/person bottomless (mimosas, sangria, mojitos) + family-style menu. 20% auto-gratuity.</p>
         <p>Parking: 4 public lots on NW 2nd Ave + NW 28th St</p>
         <p><span class="drive-badge">🚗 To Airbnb: 12 min</span></p>
+        <div class="outfit-section" data-event="saturday_brunch"></div>
       </div>
     </div>
     <div class="timeline-item">
@@ -189,6 +190,7 @@
             <strong>🍖 Papi Steak</strong> — 736 1st St. Splurge option! Trendy, celeb-spotting, but $$$. ~$80+/person.
           </div>
         </details>
+        <div class="outfit-section" data-event="saturday_dinner"></div>
       </div>
     </div>
     <div class="timeline-item">
@@ -199,6 +201,7 @@
         💃 <strong>Twist</strong> (1057 Washington Ave) — NO COVER! 7 bars, 3 dance floors<br>
         🍸 <strong>Bar Gaythering</strong> (1409 Lincoln Rd) — Chill cocktails, happy hour vibes</p>
         <p>All within walking distance of each other!</p>
+        <div class="outfit-section" data-event="saturday_clubs"></div>
       </div>
     </div>
     <div class="timeline-item">
@@ -220,6 +223,7 @@
         <p><strong>1052 Ocean Drive, Miami Beach</strong></p>
         <p>$45/person — bottomless mimosas + brunch plate. Reserved 11 AM seating (~2 hrs).</p>
         <p>Tip the performers cash! Street parking $4/hr or Collins Ave garages.</p>
+        <div class="outfit-section" data-event="sunday_brunch"></div>
       </div>
     </div>
     <div class="timeline-item">
@@ -227,6 +231,7 @@
       <div class="timeline-content">
         <h4>🏠 Quick change at Airbnb</h4>
         <p>Swimsuits on! Grab drinks for the boat! <span class="drive-badge">🚗 20 min from Palace</span></p>
+        <div class="outfit-section" data-event="sunday_boat"></div>
       </div>
     </div>
     <div class="timeline-item">
@@ -252,6 +257,7 @@
         <p><strong>2856 Tigertail Ave, Miami 33133</strong> &bull; (305) 349-3909</p>
         <p>Authentic Mexican — wood-fired, nixtamal tortillas, mezcal. Party of 7.</p>
         <p><span class="drive-badge">🚗 10 min from Airbnb</span> <span class="price-tag">~$60/person</span></p>
+        <div class="outfit-section" data-event="sunday_dinner"></div>
       </div>
     </div>
     <div class="timeline-item">
@@ -261,6 +267,7 @@
         <p>🌴 <strong>Mangos</strong> (900 Ocean Dr) — Live show, Latin dancing. Cover $10-30.<br>
         🎵 <strong>E11even</strong> (29 NE 11th St) — 24hr ultraclub. FREE via guest list before 11 PM! Parking $20.</p>
         <p>Dance until you can't anymore!</p>
+        <div class="outfit-section" data-event="sunday_clubs"></div>
       </div>
     </div>
   </section>
@@ -282,6 +289,7 @@
         <p><strong>Solei Beach Club @ Kimpton Surfcomber</strong> &bull; 1717 Collins Ave</p>
         <p>2nd floor balcony, ocean view, up to 8 people. Live DJ 12-4 PM.</p>
         <p><strong>Included:</strong> Champagne bottle, fruit platter, sodas, water, plush seating</p>
+        <div class="outfit-section" data-event="monday_beach"></div>
         <p><span class="price-tag">$250 min food/bev (Mon rate)</span> <span class="price-tag">$22/person day pass</span></p>
         <p style="margin-top:8px; color: var(--warning);">⚠️ Must check in by 1:00 PM! No outside food/bev. No separate checks. No coolers or speakers.</p>
         <p><strong>Parking:</strong> Valet only $35-40/day. Public lot 1.5 blocks away ~$16.</p>
@@ -334,6 +342,7 @@
         <p><strong>2000 Collins Ave #7, Miami Beach</strong> &bull; (786) 741-7128</p>
         <p>Nutella French Toast, Eggs Benedict, Huevos Rancheros, Avocado Toast.</p>
         <p>Open daily 8 AM - 10 PM. <em>Note: Tue = regular menu (not weekend brunch).</em></p>
+        <div class="outfit-section" data-event="tuesday_brunch"></div>
       </div>
     </div>
     <div class="timeline-item">
@@ -649,9 +658,17 @@
       </div>
       <p style="color:var(--text-dim);font-size:0.82em;margin-top:10px;">Excludes: flights, Airbnb split, rental car split, personal shopping. Actual varies by drink counts and dinner picks.</p>
     </div>
+
+    <!-- Payment Tracker -->
+    <div style="margin-top:24px;">
+      <h2>💳 Payment Tracker</h2>
+      <p style="color:var(--text-dim);font-size:0.85em;margin-bottom:14px;">Real-time — tap checkboxes to mark paid. Everyone sees updates instantly.</p>
+      <div id="payment-tracker"></div>
+    </div>
   </section>
 
   <script src="./app.js"></script>
   <script src="./map.js"></script>
+  <script src="./sync.js"></script>
 </body>
 </html>

@@ -75,7 +75,35 @@ function initEditMode() {
         el.style.borderRadius = '8px';
         el.style.padding = '8px';
       });
-      showToast('Edit mode ON — tap anywhere to edit, then tap 💾 to save');
+      // Add "+" buttons to each day section
+      document.querySelectorAll('.section').forEach(section => {
+        if (section.querySelector('.day-header')) {
+          let addBtn = section.querySelector('.add-item-btn');
+          if (!addBtn) {
+            addBtn = document.createElement('button');
+            addBtn.className = 'add-item-btn';
+            addBtn.innerHTML = '+ Add item';
+            addBtn.style.cssText = 'display:block;width:100%;padding:12px;margin-top:12px;background:rgba(92,225,230,0.1);border:2px dashed var(--neon-blue);border-radius:12px;color:var(--neon-blue);font-weight:600;font-size:0.9em;cursor:pointer;font-family:Outfit,sans-serif;';
+            addBtn.onclick = () => addTimelineItem(section);
+            section.appendChild(addBtn);
+          }
+          addBtn.style.display = 'block';
+        }
+      });
+      // Add delete buttons to timeline items
+      document.querySelectorAll('.timeline-item').forEach(item => {
+        if (!item.querySelector('.delete-item-btn')) {
+          const del = document.createElement('button');
+          del.className = 'delete-item-btn';
+          del.innerHTML = '🗑️';
+          del.title = 'Delete this item';
+          del.style.cssText = 'position:absolute;top:4px;right:4px;background:rgba(255,107,107,0.15);border:1px solid var(--danger);border-radius:50%;width:28px;height:28px;font-size:0.75em;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+          del.onclick = () => { if (confirm('Delete this item?')) item.remove(); };
+          item.style.position = 'relative';
+          item.appendChild(del);
+        }
+      });
+      showToast('Edit mode ON — edit text, add items with +, delete with trash');
     } else {
       btn.innerHTML = '✏️';
       btn.style.borderColor = 'var(--accent)';
@@ -85,6 +113,9 @@ function initEditMode() {
         el.style.outline = '';
         el.style.padding = '';
       });
+      // Hide add/delete buttons
+      document.querySelectorAll('.add-item-btn').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.delete-item-btn').forEach(b => b.remove());
       saveEdits();
       showToast('Saved! Your changes are stored on this device.');
     }
@@ -125,4 +156,30 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.style.opacity = '1';
   setTimeout(() => { toast.style.opacity = '0'; }, 3500);
+}
+
+function addTimelineItem(section) {
+  const time = prompt('Time (e.g. "3 PM", "~7:30"):');
+  if (!time) return;
+  const title = prompt('What is this? (e.g. "Grab coffee", "Group photos"):');
+  if (!title) return;
+  const details = prompt('Any details? (optional):') || '';
+
+  const item = document.createElement('div');
+  item.className = 'timeline-item';
+  item.style.position = 'relative';
+  item.innerHTML = '<div class="timeline-time">' + time + '</div><div class="timeline-content" contenteditable="true" style="outline:1px dashed rgba(92,225,230,0.3);border-radius:8px;padding:8px;"><h4>' + title + '</h4>' + (details ? '<p>' + details + '</p>' : '') + '</div>';
+
+  // Insert before the add button
+  const addBtn = section.querySelector('.add-item-btn');
+  if (addBtn) section.insertBefore(item, addBtn);
+  else section.appendChild(item);
+
+  // Add delete button
+  const del = document.createElement('button');
+  del.className = 'delete-item-btn';
+  del.innerHTML = '🗑️';
+  del.style.cssText = 'position:absolute;top:4px;right:4px;background:rgba(255,107,107,0.15);border:1px solid var(--danger);border-radius:50%;width:28px;height:28px;font-size:0.75em;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+  del.onclick = () => { if (confirm('Delete this item?')) item.remove(); };
+  item.appendChild(del);
 }

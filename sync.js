@@ -93,6 +93,8 @@ async function loadFromCloud() {
       const j = await r.json();
       if (j.record) {
         travelData = { ...travelData, ...j.record };
+        // Always use code-defined payments as source of truth (amounts may update)
+        travelData.payments = DEFAULT_PAYMENTS;
       }
     }
   } catch (e) { console.log('Load failed'); }

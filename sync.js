@@ -27,10 +27,22 @@ const DEFAULT_OUTFITS = {
   tuesday_brunch: { event: 'Final Brunch + Photos', day: 'Tuesday', entries: {} },
 };
 
+// Default dinner vote options
+const DEFAULT_DINNER_OPTIONS = [
+  { id: 'puerto_sagua', name: 'Puerto Sagua (Cuban)' },
+  { id: 'il_pastaiolo', name: 'Il Pastaiolo (Pasta)' },
+  { id: 'kalamata', name: 'Kalamata (Mediterranean)' },
+  { id: 'la_leggenda', name: 'La Leggenda (Pizza)' },
+  { id: 'thai_house', name: 'Thai House' },
+  { id: 'papi_steak', name: 'Papi Steak (Splurge)' },
+];
+
 let travelData = {
   payments: DEFAULT_PAYMENTS,
-  paid: {}, // { 'boat_Chad': true, 'boat_Eric': true, ... }
+  paid: {},
   outfits: DEFAULT_OUTFITS,
+  dinnerVotes: {}, // { 'person_name': 'option_id' }
+  dinnerOptions: DEFAULT_DINNER_OPTIONS,
 };
 
 // === Init ===
@@ -54,6 +66,7 @@ async function initTravelSync() {
   }
   renderPayments();
   renderOutfits();
+  renderDinnerVote();
 }
 
 async function saveToCloud() {
@@ -199,5 +212,98 @@ function saveOutfit(eventId) {
   if (typeof showToast === 'function') showToast(name + "'s look saved!");
 }
 
+// === Dinner Voting ===
+function renderDinnerVote() {
+  const container = document.getElementById('dinner-vote');
+  if (!container) return;
+
+  const options = travelData.dinnerOptions || DEFAULT_DINNER_OPTIONS;
+  const votes = travelData.dinnerVotes || {};
+
+  // Count votes per option
+  const voteCounts = {};
+  options.forEach(o => { voteCounts[o.id] = []; });
+  Object.keys(votes).forEach(person => {
+    const optId = votes[person];
+    if (voteCounts[optId]) voteCounts[optId].push(person);
+  });
+
+  // Sort by votes (most first)
+  const sorted = [...options].sort((a, b) => (voteCounts[b.id] || []).length - (voteCounts[a.id] || []).length);
+
+  let html = '<div style="font-weight:700;font-size:0.95em;margin-bottom:10px;">🗳️ Vote for Saturday Dinner</div>';
+
+  sorted.forEach(opt => {
+    const voters = voteCounts[opt.id] || [];
+    const count = voters.length;
+    const barWidth = count > 0 ? Math.max(count / CREW.length * 100, 8) : 0;
+    html += '<div style="margin-bottom:8px;">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">';
+    html += '<span style="font-size:0.85em;font-weight:500;">' + opt.name + '</span>';
+    html += '<span style="font-size:0.75em;color:var(--text-dim);">' + count + ' vote' + (count !== 1 ? 's' : '') + '</span>';
+    html += '</div>';
+    html += '<div style="height:22px;background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden;position:relative;">';
+    if (barWidth > 0) {
+      html += '<div style="height:100%;width:' + barWidth + '%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px;transition:width 0.3s;"></div>';
+    }
+    html += '</div>';
+    if (voters.length > 0) {
+      html += '<div style="font-size:0.7em;color:var(--text-dim);margin-top:2px;">' + voters.join(', ') + '</div>';
+    }
+    html += '</div>';
+  });
+
+  // Vote form
+  html += '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--card-border);">';
+  html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
+  html += '<select id="vote-person" style="flex:1;min-width:100px;background:var(--card-bg);color:var(--text);border:1px solid var(--card-border);border-radius:8px;padding:8px;font-size:0.85em;">';
+  CREW.forEach(p => { html += '<option value="' + p + '">' + p + '</option>'; });
+  html += '</select>';
+  html += '<select id="vote-choice" style="flex:2;min-width:140px;background:var(--card-bg);color:var(--text);border:1px solid var(--card-border);border-radius:8px;padding:8px;font-size:0.85em;">';
+  options.forEach(o => { html += '<option value="' + o.id + '">' + o.name + '</option>'; });
+  html += '</select>';
+  html += '<button onclick="castVote()" style="padding:8px 14px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-weight:600;font-size:0.85em;cursor:pointer;">Vote</button>';
+  html += '</div>';
+
+  // Add suggestion
+  html += '<div style="display:flex;gap:6px;margin-top:8px;">';
+  html += '<input id="new-suggestion" placeholder="Add a restaurant..." style="flex:1;background:var(--card-bg);color:var(--text);border:1px solid var(--card-border);border-radius:8px;padding:8px;font-size:0.85em;">';
+  html += '<button onclick="addDinnerSuggestion()" style="padding:8px 12px;background:rgba(92,225,230,0.15);border:1px solid var(--neon-blue);border-radius:8px;color:var(--neon-blue);font-weight:600;font-size:0.85em;cursor:pointer;">+ Add</button>';
+  html += '</div></div>';
+
+  container.innerHTML = html;
+}
+
+function castVote() {
+  const person = document.getElementById('vote-person').value;
+  const choice = document.getElementById('vote-choice').value;
+  if (!travelData.dinnerVotes) travelData.dinnerVotes = {};
+  travelData.dinnerVotes[person] = choice;
+  renderDinnerVote();
+  saveToCloud();
+  if (typeof showToast === 'function') showToast(person + ' voted!');
+}
+
+function addDinnerSuggestion() {
+  const input = document.getElementById('new-suggestion');
+  const name = input.value.trim();
+  if (!name) return;
+  const id = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+  if (!travelData.dinnerOptions) travelData.dinnerOptions = [...DEFAULT_DINNER_OPTIONS];
+  travelData.dinnerOptions.push({ id: id, name: name });
+  input.value = '';
+  renderDinnerVote();
+  saveToCloud();
+  if (typeof showToast === 'function') showToast('"' + name + '" added!');
+}
+
 // === Init on load ===
 document.addEventListener('DOMContentLoaded', initTravelSync);
+
+// Auto-refresh cloud data every 30 seconds for real-time updates
+setInterval(async () => {
+  await loadFromCloud();
+  renderPayments();
+  renderOutfits();
+  renderDinnerVote();
+}, 30000);

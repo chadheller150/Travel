@@ -459,43 +459,49 @@ function renderConfirmations() {
 }
 
 function handleConfirmationUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
+  const files = Array.from(input.files);
+  if (!files.length) return;
   const title = document.getElementById('conf-title').value.trim() || 'Untitled';
+  let processed = 0;
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    // Resize for storage
-    const img = new Image();
-    img.onload = function() {
-      const canvas = document.createElement('canvas');
-      const maxSize = 400;
-      let w = img.width, h = img.height;
-      if (w > maxSize || h > maxSize) {
-        if (w > h) { h = h * maxSize / w; w = maxSize; }
-        else { w = w * maxSize / h; h = maxSize; }
-      }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+  files.forEach((file, idx) => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const maxSize = 400;
+        let w = img.width, h = img.height;
+        if (w > maxSize || h > maxSize) {
+          if (w > h) { h = h * maxSize / w; w = maxSize; }
+          else { w = w * maxSize / h; h = maxSize; }
+        }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
 
-      if (!travelData.confirmations) travelData.confirmations = [];
-      travelData.confirmations.push({
-        id: 'conf_' + Date.now(),
-        title: title,
-        image: dataUrl,
-        addedAt: new Date().toLocaleDateString()
-      });
+        if (!travelData.confirmations) travelData.confirmations = [];
+        const label = files.length > 1 ? title + ' (' + (idx + 1) + ')' : title;
+        travelData.confirmations.push({
+          id: 'conf_' + Date.now() + '_' + idx,
+          title: label,
+          image: dataUrl,
+          addedAt: new Date().toLocaleDateString()
+        });
 
-      document.getElementById('conf-title').value = '';
-      input.value = '';
-      renderConfirmations();
-      saveToCloud();
-      if (typeof showToast === 'function') showToast('"' + title + '" uploaded!');
+        processed++;
+        if (processed === files.length) {
+          document.getElementById('conf-title').value = '';
+          input.value = '';
+          renderConfirmations();
+          saveToCloud();
+          if (typeof showToast === 'function') showToast(files.length + ' image' + (files.length > 1 ? 's' : '') + ' uploaded!');
+        }
+      };
+      img.src = e.target.result;
     };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
+  });
 }
 
 function deleteConfirmation(idx) {

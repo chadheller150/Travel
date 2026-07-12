@@ -510,12 +510,18 @@ function uploadSelectedConfirmations() {
     reader.onload = function(e) {
       var img = new Image();
       img.onload = function() {
-        // Store at original resolution, just compress quality
+        // Cap at 800px max dimension — readable but storable
         var canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img, 0, 0);
-        var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        var maxSize = 800;
+        var w = img.width, h = img.height;
+        if (w > maxSize || h > maxSize) {
+          if (w > h) { h = Math.round(h * maxSize / w); w = maxSize; }
+          else { w = Math.round(w * maxSize / h); h = maxSize; }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.8);
         images.push(dataUrl);
         idx++;
         processNext();

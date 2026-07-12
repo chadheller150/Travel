@@ -147,11 +147,12 @@ function renderOutfits() {
 
     // Show existing entries
     const entries = outfitData.entries || {};
-    Object.keys(entries).forEach(person => {
+    const entryKeys = Object.keys(entries);
+    entryKeys.forEach((person, idx) => {
       const entry = entries[person];
       html += '<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;padding:8px;background:rgba(255,255,255,0.03);border-radius:10px;">';
       if (entry.image) {
-        html += '<img src="' + entry.image + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">';
+        html += '<img src="' + entry.image + '" onclick="openLightbox(\'' + eventId + '\',' + idx + ')" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid var(--card-border);transition:border 0.2s;" onmouseover="this.style.borderColor=\'var(--accent)\'" onmouseout="this.style.borderColor=\'var(--card-border)\'">';
       }
       html += '<div><strong style="font-size:0.85em;color:var(--accent);">' + person + '</strong>';
       if (entry.description) html += '<p style="font-size:0.8em;color:var(--text-dim);margin-top:2px;">' + entry.description + '</p>';
@@ -210,6 +211,109 @@ function saveOutfit(eventId) {
   renderOutfits();
   saveToCloud();
   if (typeof showToast === 'function') showToast(name + "'s look saved!");
+}
+
+// === Lightbox for Outfit Photos ===
+function openLightbox(eventId, startIdx) {
+  const outfitData = travelData.outfits[eventId];
+  if (!outfitData) return;
+  const entries = outfitData.entries || {};
+  const people = Object.keys(entries).filter(p => entries[p].image);
+  if (people.length === 0) return;
+
+  // Create overlay
+  let overlay = document.getElementById('lightbox-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'lightbox-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;';
+    document.body.appendChild(overlay);
+  }
+  overlay.style.opacity = '1';
+  overlay.style.pointerEvents = 'auto';
+
+  let currentIdx = startIdx;
+  // Only show people who have images
+  const imageIdx = people.indexOf(Object.keys(entries)[startIdx]);
+  if (imageIdx >= 0) currentIdx = imageIdx;
+  else currentIdx = 0;
+
+  function render() {
+    const person = people[currentIdx];
+    const entry = entries[person];
+    overlay.innerHTML = '';
+
+    // Close button
+    const close = document.createElement('button');
+    close.innerHTML = '&times;';
+    close.style.cssText = 'position:absolute;top:16px;right:20px;font-size:2em;color:#fff;background:none;border:none;cursor:pointer;z-index:10001;';
+    close.onclick = closeLightbox;
+    overlay.appendChild(close);
+
+    // Person name + description
+    const info = document.createElement('div');
+    info.style.cssText = 'position:absolute;top:20px;left:0;right:0;text-align:center;z-index:10001;';
+    info.innerHTML = '<div style="font-family:Outfit,sans-serif;font-weight:700;font-size:1.2em;color:var(--accent);">' + person + '</div>' +
+      (entry.description ? '<div style="font-size:0.85em;color:var(--text-dim);margin-top:4px;">' + entry.description + '</div>' : '');
+    overlay.appendChild(info);
+
+    // Image
+    const img = document.createElement('img');
+    img.src = entry.image;
+    img.style.cssText = 'max-width:90vw;max-height:70vh;object-fit:contain;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.5);';
+    overlay.appendChild(img);
+
+    // Counter
+    const counter = document.createElement('div');
+    counter.style.cssText = 'position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:0.85em;color:var(--text-dim);font-family:Outfit,sans-serif;';
+    counter.textContent = (currentIdx + 1) + ' / ' + people.length;
+    overlay.appendChild(counter);
+
+    // Nav arrows (if multiple)
+    if (people.length > 1) {
+      const prev = document.createElement('button');
+      prev.innerHTML = '&#8249;';
+      prev.style.cssText = 'position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:2.5em;color:#fff;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      prev.onclick = (e) => { e.stopPropagation(); currentIdx = (currentIdx - 1 + people.length) % people.length; render(); };
+      overlay.appendChild(prev);
+
+      const next = document.createElement('button');
+      next.innerHTML = '&#8250;';
+      next.style.cssText = 'position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:2.5em;color:#fff;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      next.onclick = (e) => { e.stopPropagation(); currentIdx = (currentIdx + 1) % people.length; render(); };
+      overlay.appendChild(next);
+    }
+
+    // Tap overlay background to close
+    overlay.onclick = (e) => { if (e.target === overlay) closeLightbox(); };
+
+    // Swipe support for mobile
+    let startX = 0;
+    overlay.ontouchstart = (e) => { startX = e.touches[0].clientX; };
+    overlay.ontouchend = (e) => {
+      const diff = e.changedTouches[0].clientX - startX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) { currentIdx = (currentIdx - 1 + people.length) % people.length; }
+        else { currentIdx = (currentIdx + 1) % people.length; }
+        render();
+      }
+    };
+  }
+
+  render();
+
+  // Escape key to close
+  document.onkeydown = (e) => { if (e.key === 'Escape') closeLightbox(); };
+}
+
+function closeLightbox() {
+  const overlay = document.getElementById('lightbox-overlay');
+  if (overlay) {
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    setTimeout(() => { overlay.innerHTML = ''; }, 300);
+  }
+  document.onkeydown = null;
 }
 
 // === Dinner Voting ===

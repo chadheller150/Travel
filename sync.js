@@ -501,17 +501,12 @@ function uploadSelectedConfirmations() {
     reader.onload = function(e) {
       var img = new Image();
       img.onload = function() {
+        // Store at original resolution, just compress quality
         var canvas = document.createElement('canvas');
-        var maxSize = 400;
-        var w = img.width, h = img.height;
-        if (w > maxSize || h > maxSize) {
-          if (w > h) { h = h * maxSize / w; w = maxSize; }
-          else { w = w * maxSize / h; h = maxSize; }
-        }
-        canvas.width = w;
-        canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
         images.push(dataUrl);
         idx++;
         processNext();

@@ -459,55 +459,44 @@ function renderConfirmations() {
 }
 
 function handleConfirmationUpload(input) {
-  const files = Array.from(input.files);
-  if (!files.length) return;
+  const file = input.files[0];
+  if (!file) return;
   const title = document.getElementById('conf-title').value.trim() || 'Untitled';
   if (!travelData.confirmations) travelData.confirmations = [];
 
-  let idx = 0;
-  function processNext() {
-    if (idx >= files.length) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const maxSize = 400;
+      let w = img.width, h = img.height;
+      if (w > maxSize || h > maxSize) {
+        if (w > h) { h = h * maxSize / w; w = maxSize; }
+        else { w = w * maxSize / h; h = maxSize; }
+      }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+      travelData.confirmations.push({
+        id: 'conf_' + Date.now(),
+        title: title,
+        image: dataUrl,
+        addedAt: new Date().toLocaleDateString()
+      });
+
       document.getElementById('conf-title').value = '';
       input.value = '';
       renderConfirmations();
       saveToCloud();
-      if (typeof showToast === 'function') showToast(files.length + ' image' + (files.length > 1 ? 's' : '') + ' uploaded!');
-      return;
-    }
-    const file = files[idx];
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const img = new Image();
-      img.onload = function() {
-        const canvas = document.createElement('canvas');
-        const maxSize = 400;
-        let w = img.width, h = img.height;
-        if (w > maxSize || h > maxSize) {
-          if (w > h) { h = h * maxSize / w; w = maxSize; }
-          else { w = w * maxSize / h; h = maxSize; }
-        }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-
-        const label = files.length > 1 ? title + ' (' + (idx + 1) + ')' : title;
-        travelData.confirmations.push({
-          id: 'conf_' + Date.now() + '_' + idx,
-          title: label,
-          image: dataUrl,
-          addedAt: new Date().toLocaleDateString()
-        });
-
-        idx++;
-        processNext();
-      };
-      img.onerror = function() { idx++; processNext(); };
-      img.src = e.target.result;
+      if (typeof showToast === 'function') showToast('"' + title + '" uploaded!');
     };
-    reader.onerror = function() { idx++; processNext(); };
-    reader.readAsDataURL(file);
-  }
-  processNext();
+    img.onerror = function() { if (typeof showToast === 'function') showToast('Image failed to load'); };
+    img.src = e.target.result;
+  };
+  reader.onerror = function() { if (typeof showToast === 'function') showToast('File read failed'); };
+  reader.readAsDataURL(file);
 }
 
 function deleteConfirmation(idx) {

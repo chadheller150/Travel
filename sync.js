@@ -12,6 +12,7 @@ const DEFAULT_PAYMENTS = [
   { id: 'cabana-food', label: 'Cabana Min Spend (split 7)', amount: 36, due: '7/27', note: '$250 total / 7' },
   { id: 'rhouse', label: 'R House Brunch (Sat)', amount: 72, due: '7/25', note: '$60 + 20% grat' },
   { id: 'palace', label: 'Palace Brunch (Sun)', amount: 45, due: '7/26', note: 'Bottomless' },
+  { id: 'rental-gas', label: 'Rental Car + Gas (split 7)', amount: 48, due: '7/28', note: '$335 total / 7' },
 ];
 
 // Default outfits structure

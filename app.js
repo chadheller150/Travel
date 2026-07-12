@@ -126,6 +126,8 @@ function saveEdits() {
   const sections = document.querySelectorAll('.section');
   const data = {};
   sections.forEach(s => {
+    // Don't save sections with dynamic/synced content
+    if (s.id === 'budget' || s.id === 'confirmations') return;
     data[s.id] = s.innerHTML;
   });
   localStorage.setItem('dirty30-edits', JSON.stringify(data));
@@ -137,6 +139,8 @@ function loadSavedEdits() {
   try {
     const data = JSON.parse(saved);
     Object.keys(data).forEach(id => {
+      // Don't restore sections with dynamic/synced content
+      if (id === 'budget' || id === 'confirmations') return;
       const section = document.getElementById(id);
       if (section) section.innerHTML = data[id];
     });

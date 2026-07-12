@@ -552,6 +552,129 @@ function openConfirmationLightbox(startIdx) {
   document.onkeydown = (e) => { if (e.key === 'Escape') closeLightbox(); };
 }
 
+// === Crew Profile Popup ===
+const CREW_EMOJIS = { Chad: '🎂', Eric: '💜', Adriel: '✨', Jennilee: '💫', Clarissa: '🌟', Elena: '⭐', Lulu: '🌸' };
+const CREW_PHOTOS = {}; // Will store profile pics from cloud: { 'Chad': 'data:image/...' }
+
+function openCrewProfile(person) {
+  let overlay = document.getElementById('lightbox-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'lightbox-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;';
+    document.body.appendChild(overlay);
+  }
+  overlay.style.opacity = '1';
+  overlay.style.pointerEvents = 'auto';
+  overlay.onclick = (e) => { if (e.target === overlay) closeLightbox(); };
+  document.onkeydown = (e) => { if (e.key === 'Escape') closeLightbox(); };
+
+  const emoji = CREW_EMOJIS[person] || '👤';
+  const profilePic = (travelData.profilePics && travelData.profilePics[person]) || '';
+
+  // Gather outfits for this person
+  const outfits = [];
+  const outfitData = travelData.outfits || {};
+  Object.keys(outfitData).forEach(eventId => {
+    const evt = outfitData[eventId];
+    if (evt.entries && evt.entries[person]) {
+      outfits.push({ event: evt.event, day: evt.day, ...evt.entries[person] });
+    }
+  });
+
+  // Gather payment status
+  const payments = [];
+  (travelData.payments || DEFAULT_PAYMENTS).forEach(item => {
+    const key = item.id + '_' + person;
+    const paid = travelData.paid && travelData.paid[key];
+    payments.push({ label: item.label, amount: item.amount, paid: paid });
+  });
+
+  const totalOwed = payments.reduce((sum, p) => sum + (p.paid ? 0 : p.amount), 0);
+  const totalPaid = payments.reduce((sum, p) => sum + (p.paid ? p.amount : 0), 0);
+
+  let html = '<div style="max-width:400px;width:90vw;max-height:85vh;overflow-y:auto;background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:24px;position:relative;">';
+
+  // Close button
+  html += '<button onclick="closeLightbox()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text);font-size:1.5em;cursor:pointer;">&times;</button>';
+
+  // Profile header
+  html += '<div style="text-align:center;margin-bottom:16px;">';
+  if (profilePic) {
+    html += '<img src="' + profilePic + '" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);margin-bottom:8px;">';
+  } else {
+    html += '<div style="width:80px;height:80px;border-radius:50%;background:rgba(255,126,179,0.15);border:3px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:2.5em;margin:0 auto 8px;">' + emoji + '</div>';
+  }
+  html += '<div style="font-size:1.3em;font-weight:800;">' + person + '</div>';
+
+  // Upload profile pic option
+  html += '<label style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:4px 10px;background:rgba(92,225,230,0.1);border:1px solid var(--neon-blue);border-radius:8px;cursor:pointer;font-size:0.75em;color:var(--neon-blue);">📷 Set Photo<input type="file" accept="image/*" onchange="setProfilePic(this,\'' + person + '\')" style="display:none;"></label>';
+  html += '</div>';
+
+  // Payment summary
+  html += '<div style="margin-bottom:16px;padding:12px;background:rgba(255,255,255,0.03);border-radius:12px;">';
+  html += '<div style="font-weight:700;font-size:0.95em;margin-bottom:8px;">💳 Payments</div>';
+  payments.forEach(p => {
+    const icon = p.paid ? '✅' : '⬜';
+    const color = p.paid ? 'var(--success)' : 'var(--text-dim)';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:0.85em;">';
+    html += '<span style="color:' + color + ';">' + icon + ' ' + p.label + '</span>';
+    html += '<span style="font-weight:700;color:var(--gold);">$' + p.amount + '</span>';
+    html += '</div>';
+  });
+  html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--card-border);display:flex;justify-content:space-between;font-size:0.85em;">';
+  html += '<span style="color:var(--success);">Paid: $' + totalPaid + '</span>';
+  html += '<span style="color:var(--danger);">Owes: $' + totalOwed + '</span>';
+  html += '</div></div>';
+
+  // Outfits
+  html += '<div style="padding:12px;background:rgba(255,255,255,0.03);border-radius:12px;">';
+  html += '<div style="font-weight:700;font-size:0.95em;margin-bottom:8px;">👗 Outfits</div>';
+  if (outfits.length === 0) {
+    html += '<p style="font-size:0.8em;color:var(--text-dim);">No outfits added yet.</p>';
+  } else {
+    outfits.forEach(o => {
+      html += '<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;padding:8px;background:rgba(255,255,255,0.02);border-radius:8px;">';
+      if (o.image) {
+        html += '<img src="' + o.image + '" style="width:50px;height:50px;object-fit:cover;border-radius:6px;">';
+      }
+      html += '<div><div style="font-size:0.8em;font-weight:600;color:var(--accent);">' + o.day + ' — ' + o.event + '</div>';
+      if (o.description) html += '<div style="font-size:0.75em;color:var(--text-dim);margin-top:2px;">' + o.description + '</div>';
+      html += '</div></div>';
+    });
+  }
+  html += '</div>';
+
+  html += '</div>';
+  overlay.innerHTML = html;
+}
+
+function setProfilePic(input, person) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const size = 150;
+      canvas.width = size; canvas.height = size;
+      // Center crop
+      const min = Math.min(img.width, img.height);
+      const sx = (img.width - min) / 2, sy = (img.height - min) / 2;
+      canvas.getContext('2d').drawImage(img, sx, sy, min, min, 0, 0, size, size);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      if (!travelData.profilePics) travelData.profilePics = {};
+      travelData.profilePics[person] = dataUrl;
+      saveToCloud();
+      openCrewProfile(person); // Re-render
+      if (typeof showToast === 'function') showToast(person + "'s photo set!");
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 // === Init on load ===
 document.addEventListener('DOMContentLoaded', initTravelSync);
 

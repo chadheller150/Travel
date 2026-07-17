@@ -16,7 +16,6 @@ function initMap() {
     { name: "KoKo - Coconut Grove", lat: 25.7285, lng: -80.2420, icon: "🌮", cat: "food" },
     { name: "Orange Blossom", lat: 25.7918, lng: -80.1396, icon: "🥂", cat: "food" },
     { name: "Twist", lat: 25.7789, lng: -80.1371, icon: "💃", cat: "nightlife" },
-    { name: "E11even", lat: 25.7840, lng: -80.1920, icon: "🎵", cat: "nightlife" },
     { name: "Mangos Tropical Cafe", lat: 25.7700, lng: -80.1303, icon: "🌴", cat: "nightlife" },
     { name: "Bar Gaythering", lat: 25.7902, lng: -80.1409, icon: "🍸", cat: "nightlife" },
     { name: "Azucar Nightclub", lat: 25.7507, lng: -80.2380, icon: "🩩", cat: "nightlife" },

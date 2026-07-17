@@ -263,48 +263,87 @@ function renderOutfitsGallery() {
     const events = Object.keys(travelData.outfits).filter(k => travelData.outfits[k].day === day);
     if (!events.length) return;
 
-    html += '<div style="margin-bottom:24px;">';
+    html += '<div style="margin-bottom:28px;">';
     html += '<h3 style="color:var(--accent);font-size:1.1em;margin-bottom:12px;border-bottom:1px solid var(--card-border);padding-bottom:6px;">📅 ' + day + '</h3>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">';
 
     events.forEach(eventId => {
       const outfitData = travelData.outfits[eventId];
       const entries = outfitData.entries || {};
       const entryKeys = Object.keys(entries);
 
-      html += '<div class="card" style="margin-bottom:12px;">';
-      html += '<h4 style="font-size:0.95em;margin-bottom:10px;">👗 ' + outfitData.event + '</h4>';
+      html += '<div class="card" style="margin-bottom:0;position:relative;min-height:200px;">';
+      html += '<h4 style="font-size:0.9em;margin-bottom:10px;color:var(--neon-blue);">👗 ' + outfitData.event + '</h4>';
 
       if (entryKeys.length === 0) {
-        html += '<p style="color:var(--text-dim);font-size:0.85em;font-style:italic;">No outfits added yet — add from the ' + day + ' timeline tab!</p>';
+        // Empty state - placeholder
+        html += '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 0;">';
+        html += '<div style="width:100px;height:100px;background:rgba(255,255,255,0.03);border:2px dashed var(--card-border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2em;margin-bottom:8px;">👗</div>';
+        html += '<p style="color:var(--text-dim);font-size:0.8em;text-align:center;">No outfits yet<br><span style="font-size:0.9em;">Add from ' + day + ' tab</span></p>';
+        html += '</div>';
       } else {
-        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;">';
-        entryKeys.forEach(person => {
+        // Slideshow with arrows
+        html += '<div class="outfit-slideshow" data-event="' + eventId + '" data-index="0">';
+
+        // Slides container
+        html += '<div class="outfit-slides">';
+        entryKeys.forEach((person, idx) => {
           const entry = entries[person];
-          html += '<div style="text-align:center;padding:8px;background:rgba(255,255,255,0.03);border-radius:10px;">';
+          html += '<div class="outfit-slide" data-slide="' + idx + '" style="display:' + (idx === 0 ? 'flex' : 'none') + ';flex-direction:column;align-items:center;padding:10px 0;">';
           if (entry.image) {
-            html += '<img src="' + entry.image + '" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:2px solid var(--card-border);margin-bottom:6px;">';
+            html += '<img src="' + entry.image + '" style="width:120px;height:120px;object-fit:cover;border-radius:12px;border:2px solid var(--card-border);margin-bottom:8px;">';
           } else {
-            html += '<div style="width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:1.5em;">👤</div>';
+            html += '<div style="width:120px;height:120px;background:rgba(255,255,255,0.05);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2.5em;margin-bottom:8px;">👤</div>';
           }
-          html += '<div style="font-weight:600;font-size:0.8em;color:var(--accent);">' + person + '</div>';
+          html += '<div style="font-weight:700;font-size:0.9em;color:var(--accent);">' + person + '</div>';
           if (entry.description) {
-            html += '<div style="font-size:0.75em;color:var(--text-dim);margin-top:2px;">' + entry.description + '</div>';
+            html += '<div style="font-size:0.8em;color:var(--text-dim);margin-top:4px;text-align:center;">' + entry.description + '</div>';
           }
           html += '</div>';
         });
+        html += '</div>';
+
+        // Arrow controls (only if more than 1 entry)
+        if (entryKeys.length > 1) {
+          html += '<div style="display:flex;justify-content:center;align-items:center;gap:16px;margin-top:8px;">';
+          html += '<button class="outfit-arrow" data-dir="prev" data-event="' + eventId + '" style="background:rgba(255,255,255,0.08);border:1px solid var(--card-border);border-radius:50%;width:32px;height:32px;font-size:1em;cursor:pointer;color:var(--text);">◀</button>';
+          html += '<span class="outfit-counter" style="font-size:0.8em;color:var(--text-dim);">1 / ' + entryKeys.length + '</span>';
+          html += '<button class="outfit-arrow" data-dir="next" data-event="' + eventId + '" style="background:rgba(255,255,255,0.08);border:1px solid var(--card-border);border-radius:50%;width:32px;height:32px;font-size:1em;cursor:pointer;color:var(--text);">▶</button>';
+          html += '</div>';
+        } else {
+          html += '<div style="text-align:center;margin-top:4px;font-size:0.75em;color:var(--text-dim);">1 / 1</div>';
+        }
+
         html += '</div>';
       }
       html += '</div>';
     });
 
-    html += '</div>';
+    html += '</div></div>';
   });
 
-  if (!html) {
-    html = '<div class="card"><p style="color:var(--text-dim);text-align:center;">No outfits added yet! Go to each day\'s timeline and tap "👗 Outfits for this event" to add looks.</p></div>';
-  }
-
   container.innerHTML = html;
+
+  // Bind arrow click events
+  container.querySelectorAll('.outfit-arrow').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const eventId = this.dataset.event;
+      const dir = this.dataset.dir;
+      const slideshow = container.querySelector('.outfit-slideshow[data-event="' + eventId + '"]');
+      const slides = slideshow.querySelectorAll('.outfit-slide');
+      let idx = parseInt(slideshow.dataset.index);
+
+      slides[idx].style.display = 'none';
+      if (dir === 'next') { idx = (idx + 1) % slides.length; }
+      else { idx = (idx - 1 + slides.length) % slides.length; }
+      slides[idx].style.display = 'flex';
+      slideshow.dataset.index = idx;
+
+      // Update counter
+      const counter = slideshow.querySelector('.outfit-counter');
+      if (counter) counter.textContent = (idx + 1) + ' / ' + slides.length;
+    });
+  });
 }
 
 // === Lightbox for Outfit Photos ===

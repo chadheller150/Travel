@@ -75,6 +75,7 @@ async function initTravelSync() {
   }
   renderPayments();
   renderOutfits();
+  renderOutfitsGallery();
   renderDinnerVote();
   renderConfirmations();
 }
@@ -245,8 +246,65 @@ function saveOutfit(eventId) {
   };
   delete pendingOutfitPhoto[eventId];
   renderOutfits();
+  renderOutfitsGallery();
   saveToCloud();
   if (typeof showToast === 'function') showToast(name + "'s look saved!");
+}
+
+// === Outfits Gallery (dedicated tab) ===
+function renderOutfitsGallery() {
+  const container = document.getElementById('outfits-gallery');
+  if (!container) return;
+
+  const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday'];
+  let html = '';
+
+  days.forEach(day => {
+    const events = Object.keys(travelData.outfits).filter(k => travelData.outfits[k].day === day);
+    if (!events.length) return;
+
+    html += '<div style="margin-bottom:24px;">';
+    html += '<h3 style="color:var(--accent);font-size:1.1em;margin-bottom:12px;border-bottom:1px solid var(--card-border);padding-bottom:6px;">📅 ' + day + '</h3>';
+
+    events.forEach(eventId => {
+      const outfitData = travelData.outfits[eventId];
+      const entries = outfitData.entries || {};
+      const entryKeys = Object.keys(entries);
+
+      html += '<div class="card" style="margin-bottom:12px;">';
+      html += '<h4 style="font-size:0.95em;margin-bottom:10px;">👗 ' + outfitData.event + '</h4>';
+
+      if (entryKeys.length === 0) {
+        html += '<p style="color:var(--text-dim);font-size:0.85em;font-style:italic;">No outfits added yet — add from the ' + day + ' timeline tab!</p>';
+      } else {
+        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;">';
+        entryKeys.forEach(person => {
+          const entry = entries[person];
+          html += '<div style="text-align:center;padding:8px;background:rgba(255,255,255,0.03);border-radius:10px;">';
+          if (entry.image) {
+            html += '<img src="' + entry.image + '" style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:2px solid var(--card-border);margin-bottom:6px;">';
+          } else {
+            html += '<div style="width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:1.5em;">👤</div>';
+          }
+          html += '<div style="font-weight:600;font-size:0.8em;color:var(--accent);">' + person + '</div>';
+          if (entry.description) {
+            html += '<div style="font-size:0.75em;color:var(--text-dim);margin-top:2px;">' + entry.description + '</div>';
+          }
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+    });
+
+    html += '</div>';
+  });
+
+  if (!html) {
+    html = '<div class="card"><p style="color:var(--text-dim);text-align:center;">No outfits added yet! Go to each day\'s timeline and tap "👗 Outfits for this event" to add looks.</p></div>';
+  }
+
+  container.innerHTML = html;
 }
 
 // === Lightbox for Outfit Photos ===
@@ -745,6 +803,7 @@ setInterval(async () => {
   await loadFromCloud();
   renderPayments();
   renderOutfits();
+  renderOutfitsGallery();
   renderDinnerVote();
   renderConfirmations();
 }, 30000);

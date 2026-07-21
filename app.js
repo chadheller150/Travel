@@ -5,6 +5,33 @@ window.addEventListener('load', () => {
   }, 2800);
 });
 
+// === Countdown Timer ===
+function updateCountdown() {
+  const tripDate = new Date('2026-07-25T08:35:00-05:00'); // Departure time CDT
+  const now = new Date();
+  const diff = tripDate - now;
+
+  const el = document.getElementById('countdown');
+  if (!el) return;
+
+  if (diff <= 0) {
+    el.textContent = "IT'S GO TIME! 🪩🎉";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+  if (days > 0) {
+    el.textContent = days + 'd ' + hours + 'h ' + mins + 'm';
+  } else {
+    el.textContent = hours + 'h ' + mins + 'm';
+  }
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
 // === Tab Navigation ===
 document.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tab');

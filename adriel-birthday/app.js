@@ -91,7 +91,8 @@ function renderOverview() {
   var badges = el('div', 'crew-grid');
   TRIP.crew.forEach(function(c) {
     var b = el('div', 'crew-badge' + (c.name === 'Adriel' ? ' birthday' : ''));
-    b.innerHTML = '<img class="crew-thumb" src="' + c.photo + '" alt="' + c.name + '"><span>' + c.name + '</span>';
+    var initials = c.name.charAt(0);
+    b.innerHTML = '<div class="crew-initial">' + initials + '</div><span>' + c.name + '</span>';
     b.style.cursor = 'pointer';
     b.onclick = (function(person) { return function() { openCrewProfile(person); }; })(c.name);
     badges.appendChild(b);
@@ -384,6 +385,15 @@ function toggleCollapsible(btn) {
 }
 
 /* === CREW PROFILE POPUP === */
+var FRAME_SHAPES = {
+  blob: '30% 70% 70% 30% / 30% 30% 70% 70%',
+  flower: '50% 0% 50% 50% / 0% 50% 50% 50%',
+  shield: '50% 50% 50% 50% / 20% 20% 60% 60%',
+  diamond: '50% 50% 0% 50% / 50% 0% 50% 50%',
+  organic: '40% 60% 55% 45% / 55% 40% 60% 45%',
+  circle: '50%'
+};
+
 function openCrewProfile(name) {
   var person = TRIP.crew.find(function(c) { return c.name === name; });
   if (!person) return;
@@ -397,23 +407,40 @@ function openCrewProfile(name) {
   overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
 
   var profileData = (typeof travelData !== 'undefined' && travelData.profiles && travelData.profiles[name]) || {};
-  var photoSrc = profileData.photo || person.photo || '';
+  var photoSrc = profileData.photo || '';
+  var frameShape = profileData.frame || 'blob';
+  var shapeVal = FRAME_SHAPES[frameShape] || FRAME_SHAPES.blob;
 
   var card = document.createElement('div');
-  card.style.cssText = 'background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;';
+  card.style.cssText = 'background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:420px;width:90%;max-height:80vh;overflow-y:auto;';
 
-  // Profile photo with blob shape
+  // Profile pic or initials
+  var initials = name.charAt(0);
   var photoHtml = '';
   if (photoSrc) {
-    photoHtml = '<div class="profile-blob-wrap"><img src="' + photoSrc + '" class="profile-blob"></div>';
+    photoHtml = '<div class="profile-pic-wrap"><img src="' + photoSrc + '" class="profile-pic" style="border-radius:' + shapeVal + ';"></div>';
   } else {
-    photoHtml = '<div class="profile-blob-wrap"><div class="profile-blob" style="background:var(--burgundy);display:flex;align-items:center;justify-content:center;"><i class="bi bi-person" style="font-size:2.5rem;color:var(--cream);"></i></div></div>';
+    photoHtml = '<div class="profile-pic-wrap"><div class="profile-pic profile-initials" style="border-radius:' + shapeVal + ';">' + initials + '</div></div>';
   }
+
+  // Frame shape picker
+  var frameHtml = '<div style="margin-top:0.8rem;text-align:center;">' +
+    '<p style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Frame Shape</p>' +
+    '<div style="display:flex;gap:0.4rem;justify-content:center;flex-wrap:wrap;">';
+  Object.keys(FRAME_SHAPES).forEach(function(key) {
+    var isActive = key === frameShape;
+    frameHtml += '<button onclick="setCrewFrame(\'' + name + '\',\'' + key + '\')" style="' +
+      'width:36px;height:36px;border-radius:' + FRAME_SHAPES[key] + ';' +
+      'background:' + (isActive ? 'var(--accent)' : 'rgba(201,149,107,0.15)') + ';' +
+      'border:2px solid ' + (isActive ? 'var(--accent-gold)' : 'var(--border)') + ';' +
+      'cursor:pointer;transition:all 0.2s;font-size:0.5rem;color:' + (isActive ? 'var(--bg)' : 'var(--text-muted)') + ';">' +
+      key.charAt(0).toUpperCase() + '</button>';
+  });
+  frameHtml += '</div></div>';
 
   // Payment status
   var paymentHtml = '<div style="margin-top:1.5rem;border-top:1px solid var(--border);padding-top:1rem;">' +
     '<h4 style="font-family:Cormorant Garamond,serif;font-size:1.1rem;color:var(--cream);margin-bottom:0.6rem;"><i class="bi bi-wallet2"></i> Payments</h4>';
-  var totalOwed = 0, totalPaid = 0;
   if (typeof travelData !== 'undefined') {
     TRIP.payments.forEach(function(p, pi) {
       var paidData = travelData.payments[pi] || {};
@@ -448,16 +475,27 @@ function openCrewProfile(name) {
     photoHtml +
     '<h3 style="font-family:Cormorant Garamond,serif;font-size:1.5rem;text-align:center;color:var(--cream);">' + name + '</h3>' +
     '<p style="text-align:center;font-size:0.8rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em;">' + person.role + '</p>' +
-    '<div style="text-align:center;margin-top:1rem;">' +
+    '<div style="text-align:center;margin-top:0.8rem;">' +
       '<label style="display:inline-block;padding:0.4rem 1rem;background:rgba(201,149,107,0.1);border:1px solid rgba(201,149,107,0.2);border-radius:100px;cursor:pointer;font-size:0.75rem;color:var(--accent);">' +
         '<i class="bi bi-camera"></i> Set Photo' +
         '<input type="file" accept="image/*" style="display:none;" onchange="setCrewPhoto(\'' + name + '\', this)">' +
       '</label>' +
     '</div>' +
+    frameHtml +
     paymentHtml + outfitHtml;
 
   overlay.appendChild(card);
   document.body.appendChild(overlay);
+}
+
+function setCrewFrame(name, frame) {
+  if (typeof travelData === 'undefined') return;
+  if (!travelData.profiles) travelData.profiles = {};
+  if (!travelData.profiles[name]) travelData.profiles[name] = {};
+  travelData.profiles[name].frame = frame;
+  saveToCloud();
+  document.getElementById('crew-popup').remove();
+  openCrewProfile(name);
 }
 
 function setCrewPhoto(name, input) {

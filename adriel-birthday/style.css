@@ -292,6 +292,17 @@ body {
   width:32px; height:32px; border-radius:50%;
   object-fit:cover;
 }
+.crew-initial {
+  width:32px; height:32px; border-radius:50%;
+  background:var(--burgundy);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.9rem; font-weight:600;
+  color:var(--cream);
+}
+.crew-badge.birthday .crew-initial {
+  background:var(--accent-gold); color:var(--bg);
+}
 .crew-badge span { font-size:0.8rem; color:var(--cream); font-weight:500; }
 .crew-badge.birthday {
   background:rgba(232,200,126,0.12);
@@ -299,25 +310,54 @@ body {
 }
 .crew-badge.birthday span { color:var(--accent-gold); }
 
-/* Profile Blob Shape */
-.profile-blob-wrap {
-  width:120px; height:120px;
+/* Profile Pic Shape */
+.profile-pic-wrap {
+  width:110px; height:110px;
   margin:0 auto 1rem;
-  position:relative;
 }
-.profile-blob {
-  width:120px; height:120px;
+.profile-pic {
+  width:110px; height:110px;
   object-fit:cover;
-  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   border:3px solid var(--accent);
-  box-shadow:0 4px 20px rgba(201,149,107,0.25);
-  animation: blobMorph 8s ease-in-out infinite;
+  box-shadow:0 4px 20px rgba(201,149,107,0.2);
+  transition:border-radius 0.5s ease;
 }
-@keyframes blobMorph {
-  0%,100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
-  25% { border-radius: 58% 42% 36% 64% / 53% 65% 35% 47%; }
-  50% { border-radius: 45% 55% 62% 38% / 70% 32% 68% 30%; }
-  75% { border-radius: 60% 40% 45% 55% / 38% 62% 38% 62%; }
+.profile-initials {
+  background: linear-gradient(135deg, var(--burgundy), var(--accent));
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem; font-weight:300;
+  color:var(--cream);
+  letter-spacing:0.05em;
+}
+
+/* === BACKGROUND ANIMATION === */
+.hero::after {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 600px 400px at 15% 80%, rgba(201,149,107,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 85% 20%, rgba(74,124,92,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 50% 50%, rgba(139,58,58,0.04) 0%, transparent 70%);
+  animation: bgShift 20s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes bgShift {
+  0% { opacity:0.6; transform:translate(0,0) scale(1); }
+  50% { opacity:1; transform:translate(10px,-10px) scale(1.05); }
+  100% { opacity:0.7; transform:translate(-10px,5px) scale(0.98); }
+}
+
+body::before {
+  content:''; position:fixed; inset:0; z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 70%, rgba(201,149,107,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 800px at 80% 30%, rgba(74,124,92,0.025) 0%, transparent 60%);
+  animation: bgDrift 30s ease-in-out infinite alternate;
+}
+@keyframes bgDrift {
+  0% { transform:translate(0,0); }
+  100% { transform:translate(-30px, 20px); }
 }
 
 /* === TIMELINE === */

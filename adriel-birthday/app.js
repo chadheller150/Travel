@@ -639,10 +639,10 @@ function setCrewPhoto(name, input) {
     var img = new Image();
     img.onload = function() {
       var canvas = document.createElement('canvas');
-      var size = Math.min(img.width, img.height, 300);
+      var size = Math.min(img.width, img.height, 600);
       canvas.width = size; canvas.height = size;
       canvas.getContext('2d').drawImage(img, 0, 0, size, size);
-      var data = canvas.toDataURL('image/jpeg', 0.8);
+      var data = canvas.toDataURL('image/jpeg', 0.9);
       if (!travelData.profiles) travelData.profiles = {};
       if (!travelData.profiles[name]) travelData.profiles[name] = {};
       travelData.profiles[name].photo = data;

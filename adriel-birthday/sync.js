@@ -149,7 +149,7 @@ function uploadConfirmation() {
         var img = new Image();
         img.onload = function() {
           var canvas = document.createElement('canvas');
-          var maxDim = 1000;
+          var maxDim = 1600;
           var w = img.width, h = img.height;
           if (w > maxDim || h > maxDim) {
             if (w > h) { h = h * maxDim / w; w = maxDim; }
@@ -158,7 +158,7 @@ function uploadConfirmation() {
           canvas.width = w;
           canvas.height = h;
           canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          images.push(canvas.toDataURL('image/jpeg', 0.88));
+          images.push(canvas.toDataURL('image/jpeg', 0.92));
 
           processed++;
           if (processed === total) {
@@ -318,7 +318,7 @@ function addOutfit(key) {
       var img = new Image();
       img.onload = function() {
         var canvas = document.createElement('canvas');
-        var maxDim = 400;
+        var maxDim = 1200;
         var w = img.width, h = img.height;
         if (w > maxDim || h > maxDim) {
           if (w > h) { h = h * maxDim / w; w = maxDim; }
@@ -326,7 +326,7 @@ function addOutfit(key) {
         }
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        saveOutfit(canvas.toDataURL('image/jpeg', 0.8));
+        saveOutfit(canvas.toDataURL('image/jpeg', 0.92));
       };
       img.src = e.target.result;
     };

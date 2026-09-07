@@ -127,6 +127,7 @@ function renderSyncUI() {
   renderPaymentTracker();
   renderOutfits();
   renderVotes();
+  renderOutfitsGallery();
 }
 
 // === CONFIRMATIONS ===
@@ -497,6 +498,67 @@ function addSuggestion(key) {
   renderVotes();
   document.getElementById('suggest-name-' + key).value = '';
   document.getElementById('suggest-link-' + key).value = '';
+}
+
+// === OUTFITS GALLERY TAB ===
+function renderOutfitsGallery() {
+  var gallery = document.getElementById('outfits-gallery');
+  if (!gallery) return;
+
+  var events = TRIP.outfitEvents || [];
+  var hasAny = false;
+  var html = '';
+
+  // Group by day
+  var currentDay = '';
+  events.forEach(function(evt) {
+    var outfits = travelData.outfits[evt.key] || [];
+
+    // Day header
+    if (evt.day !== currentDay) {
+      if (currentDay !== '') html += '</div>'; // close previous day
+      currentDay = evt.day;
+      html += '<div class="outfit-day-group">' +
+        '<h2 class="outfit-day-header">' + evt.day + '</h2>';
+    }
+
+    // Event section
+    html += '<div class="outfit-event">' +
+      '<h3 class="outfit-event-title">' + evt.label + '</h3>';
+
+    if (outfits.length > 0) {
+      hasAny = true;
+      html += '<div class="outfit-people-grid">';
+      outfits.forEach(function(o, i) {
+        html += '<div class="outfit-person-card">';
+        if (o.image) {
+          html += '<img src="' + o.image + '" class="outfit-person-img" onclick="openOutfitLightbox(\'' + evt.key + '\',' + i + ')">';
+        } else {
+          html += '<div class="outfit-person-img outfit-placeholder"><i class="bi bi-camera" style="font-size:1.5rem;color:var(--text-muted);"></i></div>';
+        }
+        html += '<div class="outfit-person-name">' + o.name + '</div>';
+        if (o.desc) html += '<div class="outfit-person-desc">' + o.desc + '</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<p class="outfit-empty">No outfits added yet</p>';
+    }
+
+    html += '</div>';
+  });
+
+  if (currentDay !== '') html += '</div>'; // close last day
+
+  if (!hasAny) {
+    html = '<div style="text-align:center;padding:3rem 1rem;">' +
+      '<i class="bi bi-palette" style="font-size:2.5rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>' +
+      '<p style="font-size:1rem;color:var(--text-dim);">No outfits added yet</p>' +
+      '<p style="font-size:0.82rem;color:var(--text-muted);margin-top:0.5rem;">Head to any day tab and tap "Outfit ideas" on an event to add yours</p>' +
+      '</div>';
+  }
+
+  gallery.innerHTML = html;
 }
 
 // === INIT ===

@@ -206,6 +206,31 @@ var TRIP = {
     { item:'Activities', est:'$60-120', per:'person', note:'CN Tower ($43), AGO ($30), Basilica ($16), Gondola, Botanical Garden' }
   ],
 
+  // Outfit event labels (keyed by data-outfit key from day rendering)
+  outfitEvents: [
+    { key:'day1-3', label:'Tue — CN Tower', day:'Tuesday 10/20' },
+    { key:'day1-4', label:'Tue — Dinner', day:'Tuesday 10/20' },
+    { key:'day1-5', label:'Tue — Church-Wellesley Village', day:'Tuesday 10/20' },
+    { key:'day2-0', label:'Wed — Toronto Brunch', day:'Wednesday 10/21' },
+    { key:'day2-1', label:'Wed — AGO', day:'Wednesday 10/21' },
+    { key:'day2-6', label:'Wed — Birthday Dinner', day:'Wednesday 10/21' },
+    { key:'day2-7', label:'Wed — Le Village Night Out', day:'Wednesday 10/21' },
+    { key:'day3-0', label:'Thu — Brunch', day:'Thursday 10/22' },
+    { key:'day3-1', label:'Thu — Monography Photo Studio', day:'Thursday 10/22' },
+    { key:'day3-2', label:'Thu — MMFA', day:'Thursday 10/22' },
+    { key:'day3-3', label:'Thu — Old Montreal', day:'Thursday 10/22' },
+    { key:'day3-4', label:'Thu — Phi Centre', day:'Thursday 10/22' },
+    { key:'day3-5', label:'Thu — Pre-Concert Dinner', day:'Thursday 10/22' },
+    { key:'day3-6', label:'Thu — Olivia Rodrigo Concert', day:'Thursday 10/22' },
+    { key:'day4-2', label:'Fri — Botanical Garden', day:'Friday 10/23' },
+    { key:'day4-4', label:'Fri — Laurentians Lunch', day:'Friday 10/23' },
+    { key:'day4-5', label:'Fri — Quartier DIX30', day:'Friday 10/23' },
+    { key:'day4-7', label:'Fri — Dinner', day:'Friday 10/23' },
+    { key:'day4-8', label:'Fri — Night Out', day:'Friday 10/23' },
+    { key:'day5-1', label:'Sat — Final Brunch', day:'Saturday 10/24' },
+    { key:'day5-2', label:'Sat — Saint Joseph Oratory', day:'Saturday 10/24' }
+  ],
+
   // Pre-populated vote suggestions per meal (keyed by day-food-itemIndex)
   defaultVotes: {
     'day1-food-4': [

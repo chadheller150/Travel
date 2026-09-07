@@ -75,7 +75,8 @@ function saveToCloud() {
 function loadFromCloud() {
   var binId = localStorage.getItem(BIN_ID_KEY);
   if (!binId) {
-    createBin().then(function() { renderSyncUI(); });
+    renderSyncUI(); // render with defaults immediately
+    createBin().then(function() { renderSyncUI(); }).catch(function() {});
     return;
   }
 

@@ -82,7 +82,8 @@ function renderOverview() {
   fo.innerHTML = '<div class="card-label">Flight Out</div>' +
     '<h3>' + TRIP.flights.outbound.fromCity + ' → ' + TRIP.flights.outbound.toCity + '</h3>' +
     '<div class="card-detail"><span class="icon">📅</span> ' + TRIP.flights.outbound.date + '</div>' +
-    '<div class="card-detail"><span class="icon">✈️</span> ' + TRIP.flights.outbound.airline + ' — ' + TRIP.flights.outbound.duration + '</div>';
+    '<div class="card-detail"><span class="icon">🛫</span> Depart ' + TRIP.flights.outbound.depart + ' → Arrive ' + TRIP.flights.outbound.arrive + '</div>' +
+    '<div class="card-detail"><span class="icon">✈️</span> ' + TRIP.flights.outbound.duration + '</div>';
   grid.appendChild(fo);
 
   // Flight Return
@@ -90,7 +91,8 @@ function renderOverview() {
   fr.innerHTML = '<div class="card-label">Flight Home</div>' +
     '<h3>' + TRIP.flights.returning.fromCity + ' → ' + TRIP.flights.returning.toCity + '</h3>' +
     '<div class="card-detail"><span class="icon">📅</span> ' + TRIP.flights.returning.date + '</div>' +
-    '<div class="card-detail"><span class="icon">✈️</span> ' + TRIP.flights.returning.airline + ' — ' + TRIP.flights.returning.duration + '</div>';
+    '<div class="card-detail"><span class="icon">🛫</span> Depart ' + TRIP.flights.returning.depart + ' → Arrive ' + TRIP.flights.returning.arrive + '</div>' +
+    '<div class="card-detail"><span class="icon">✈️</span> ' + TRIP.flights.returning.duration + '</div>';
   grid.appendChild(fr);
 
   // Train
@@ -98,9 +100,9 @@ function renderOverview() {
   tr.innerHTML = '<div class="card-label">VIA Rail</div>' +
     '<h3>' + TRIP.train.route + '</h3>' +
     '<div class="card-detail"><span class="icon">📅</span> ' + TRIP.train.date + '</div>' +
+    '<div class="card-detail"><span class="icon">🚂</span> Depart ' + TRIP.train.depart + ' → Arrive ' + TRIP.train.arrive + '</div>' +
     '<div class="card-detail"><span class="icon">🕐</span> ' + TRIP.train.duration + '</div>' +
-    '<div class="card-detail"><span class="icon">💰</span> ' + TRIP.train.price + '</div>' +
-    '<p style="margin-top:0.5rem;">' + TRIP.train.note + '</p>';
+    '<div class="card-detail"><span class="icon">💰</span> ' + TRIP.train.price + '</div>';
   grid.appendChild(tr);
 
   // Rental Car

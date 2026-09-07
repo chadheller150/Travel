@@ -436,6 +436,32 @@ function renderLogistics() {
     'Drinking age: 19 in Ontario, 18 in Quebec<br>' +
     'Poutine, bagels, and smoked meat are Montreal musts</p></div>';
 
+  // Currency Exchange
+  html += '<div class="card"><div class="card-label"><i class="bi bi-currency-exchange"></i> Money Exchange</div>' +
+    '<h3>USD to CAD</h3>' +
+    '<p><strong>Toronto:</strong><br>' +
+    'Calforex — 220 Yonge St (Eaton Centre). Mon-Sat 10am-9pm, Sun 11am-7pm. Great rates.<br>' +
+    'Interchange Financial — 20 Dundas St W. Mon-Fri 10am-7pm, Sat 10am-4pm.<br><br>' +
+    '<strong>Montreal:</strong><br>' +
+    'SQDC is not for money! For exchange:<br>' +
+    'Calforex — 1230 Rue Peel. Downtown, reliable rates.<br>' +
+    'Seven Exchange — Sainte-Catherine St. Good walk-in rates.<br><br>' +
+    '<strong>Tip:</strong> Avoid airport kiosks (worst rates). Wise app is best for large amounts. Most places accept USD credit cards too.</p></div>';
+
+  // Dispensaries
+  html += '<div class="card"><div class="card-label"><i class="bi bi-flower1"></i> Cannabis / Dispensaries</div>' +
+    '<h3>Legal in Canada</h3>' +
+    '<p><strong>Toronto (19+ with ID):</strong><br>' +
+    'Canna Cabana — 563 Yonge St (near Wellesley Station). Best prices downtown.<br>' +
+    'Canna North — 117 Yonge St (Financial District). Members-only pricing.<br>' +
+    'The Green Closet — 439 Parliament St. Open 9am-11pm daily, cheap prices.<br><br>' +
+    '<strong>Montreal (21+ with ID):</strong><br>' +
+    'All legal cannabis is sold through SQDC (government-run).<br>' +
+    'SQDC Crescent — Downtown, 4.6/5 rating. Best reviewed location.<br>' +
+    'SQDC Village — Central, 4.2/5 with 449 reviews.<br>' +
+    'SQDC Metro Peel — Also downtown, easy to access.<br><br>' +
+    '<strong>Note:</strong> Quebec legal age is 21 (not 19 like Ontario). Bring valid government ID. Max 30g in public.</p></div>';
+
   html += '</div>';
   s.innerHTML += html;
   return s;

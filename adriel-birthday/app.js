@@ -774,5 +774,42 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
     initEditMode();
     loadEdits();
+    initTheme();
   }, 2600);
 });
+
+/* === THEME TOGGLE === */
+var THEMES = ['auto', 'light', 'dark'];
+var THEME_ICONS = { auto:'bi-circle-half', light:'bi-sun', dark:'bi-moon-stars' };
+var currentThemeIdx = 0;
+
+function initTheme() {
+  var saved = localStorage.getItem('adriel-trip-theme');
+  if (saved) {
+    currentThemeIdx = THEMES.indexOf(saved);
+    if (currentThemeIdx < 0) currentThemeIdx = 0;
+  }
+  applyTheme(THEMES[currentThemeIdx]);
+}
+
+function cycleTheme() {
+  currentThemeIdx = (currentThemeIdx + 1) % THEMES.length;
+  var theme = THEMES[currentThemeIdx];
+  localStorage.setItem('adriel-trip-theme', theme);
+  applyTheme(theme);
+}
+
+function applyTheme(theme) {
+  var icon = document.getElementById('theme-icon');
+  if (icon) {
+    icon.className = 'bi ' + THEME_ICONS[theme];
+  }
+
+  if (theme === 'auto') {
+    // Use system preference
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+  } else {
+    document.documentElement.setAttribute('data-theme', theme === 'dark' ? '' : 'light');
+  }
+}

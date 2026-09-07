@@ -481,6 +481,7 @@ function buildOutfitForm(key) {
 }
 
 function buildVoteForm(key) {
+  var defaults = (TRIP.defaultVotes && TRIP.defaultVotes[key]) || [];
   var html = '<div style="margin-bottom:0.6rem;">' +
     '<p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">Add a restaurant suggestion, then vote!</p>' +
     '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.6rem;">' +
@@ -492,9 +493,13 @@ function buildVoteForm(key) {
       '<select id="vote-name-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;">';
   TRIP.people.forEach(function(p) { html += '<option value="' + p + '">' + p + '</option>'; });
   html += '</select>' +
-      '<select id="vote-choice-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;flex:1;min-width:100px;">' +
-        '<option value="">-- add suggestions first --</option>' +
-      '</select>' +
+      '<select id="vote-choice-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;flex:1;min-width:100px;">';
+  if (defaults.length > 0) {
+    defaults.forEach(function(d) { html += '<option value="' + d.name + '">' + d.name + '</option>'; });
+  } else {
+    html += '<option value="">-- add suggestions first --</option>';
+  }
+  html += '</select>' +
       '<button onclick="castVote(\'' + key + '\')" style="background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.3rem 0.7rem;cursor:pointer;font-size:0.72rem;font-weight:600;">Vote</button>' +
     '</div>' +
     '<div id="vote-results-' + key + '"></div>' +

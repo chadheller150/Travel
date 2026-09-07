@@ -206,6 +206,49 @@ var TRIP = {
     { item:'Activities', est:'$60-120', per:'person', note:'CN Tower ($43), AGO ($30), Basilica ($16), Gondola, Botanical Garden' }
   ],
 
+  // Pre-populated vote suggestions per meal (keyed by day-food-itemIndex)
+  defaultVotes: {
+    'day1-food-4': [
+      { name:'Pai Northern Thai', link:'' },
+      { name:'Seven Lives Tacos', link:'' },
+      { name:'Bar Etc.', link:'' }
+    ],
+    'day2-food-0': [
+      { name:'Lady Marmalade', link:'' },
+      { name:'The Drake Hotel', link:'' },
+      { name:'Light Cafe', link:'' }
+    ],
+    'day2-food-6': [
+      { name:'Agrikol', link:'' },
+      { name:'Le Violon', link:'' },
+      { name:'Bouillon Bilk', link:'' }
+    ],
+    'day3-food-0': [
+      { name:'Regine Cafe', link:'' },
+      { name:'La Fabrique', link:'' },
+      { name:'Cafe Parvis', link:'' }
+    ],
+    'day3-food-5': [
+      { name:'La Banquise', link:'' },
+      { name:'Boustan', link:'' }
+    ],
+    'day4-food-4': [
+      { name:'Local cafe in Saint-Sauveur', link:'' },
+      { name:'Local cafe in Val-David', link:'' }
+    ],
+    'day4-food-7': [
+      { name:'Agrikol', link:'' },
+      { name:'Le Petit Dep', link:'' },
+      { name:'Cook at the Airbnb', link:'' }
+    ],
+    'day5-food-1': [
+      { name:'La Fabrique', link:'' },
+      { name:'Cafe Parvis', link:'' },
+      { name:'Fairmount Bagels', link:'' },
+      { name:'St-Viateur Bagels', link:'' }
+    ]
+  },
+
   payments: [
     { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
     { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },

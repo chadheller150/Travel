@@ -4,7 +4,7 @@
 
 var JSONBIN_KEY = '$2a$10$mTkMFOlAeFOuwCPIQM13vu0gXQ29GR0MkjBeMaGMSsVmOar5/oISq';
 var BIN_ID_KEY = 'adriel-trip-binId';
-var DATA_VERSION = 3;
+var DATA_VERSION = 4;
 
 var travelData = {
   version: DATA_VERSION,
@@ -399,7 +399,13 @@ function renderVotes() {
   containers.forEach(function(c) {
     var key = c.getAttribute('data-vote');
     var voteData = travelData.votes[key] || { options: [], votes: {} };
-    var existingOptions = voteData.options || [];
+    // Merge defaults with cloud-added suggestions
+    var defaults = (TRIP.defaultVotes && TRIP.defaultVotes[key]) || [];
+    var cloudOptions = voteData.options || [];
+    var allNames = {};
+    var existingOptions = [];
+    defaults.forEach(function(d) { if (!allNames[d.name]) { allNames[d.name] = true; existingOptions.push(d); } });
+    cloudOptions.forEach(function(d) { if (!allNames[d.name]) { allNames[d.name] = true; existingOptions.push(d); } });
 
     // Update the vote choice dropdown
     var choiceSelect = document.getElementById('vote-choice-' + key);
@@ -480,8 +486,10 @@ function addSuggestion(key) {
   if (!name) { alert('Please enter a restaurant name'); return; }
 
   if (!travelData.votes[key]) travelData.votes[key] = { options:[], votes:{} };
-  // Check for duplicate
-  var exists = travelData.votes[key].options.some(function(o) { return o.name === name; });
+  // Check for duplicate against cloud AND defaults
+  var defaults = (TRIP.defaultVotes && TRIP.defaultVotes[key]) || [];
+  var allExisting = defaults.concat(travelData.votes[key].options);
+  var exists = allExisting.some(function(o) { return o.name === name; });
   if (exists) { alert('Already suggested!'); return; }
 
   travelData.votes[key].options.push({ name: name, link: link || '' });

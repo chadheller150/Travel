@@ -3,8 +3,9 @@
    ============================================================ */
 
 var JSONBIN_KEY = '$2a$10$mTkMFOlAeFOuwCPIQM13vu0gXQ29GR0MkjBeMaGMSsVmOar5/oISq';
+var IMGUR_CLIENT_ID = '546c25a59c58ad7'; // anonymous uploads, free tier
 var BIN_ID_KEY = 'adriel-trip-binId';
-var DATA_VERSION = 4;
+var DATA_VERSION = 5;
 
 var travelData = {
   version: DATA_VERSION,
@@ -25,6 +26,54 @@ var travelData = {
     localStorage.setItem('adriel-trip-version', String(DATA_VERSION));
   }
 })();
+
+// === JSONBin Operations ===
+
+// === Imgur Image Upload (full HD, no compression) ===
+function uploadToImgur(file) {
+  return new Promise(function(resolve, reject) {
+    var formData = new FormData();
+    formData.append('image', file);
+    fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: { 'Authorization': 'Client-ID ' + IMGUR_CLIENT_ID },
+      body: formData
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.success && data.data && data.data.link) {
+        resolve(data.data.link);
+      } else {
+        reject(new Error('Imgur upload failed'));
+      }
+    })
+    .catch(reject);
+  });
+}
+
+function uploadBase64ToImgur(base64Data) {
+  return new Promise(function(resolve, reject) {
+    // Strip the data:image prefix
+    var raw = base64Data.split(',')[1] || base64Data;
+    var formData = new FormData();
+    formData.append('image', raw);
+    formData.append('type', 'base64');
+    fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: { 'Authorization': 'Client-ID ' + IMGUR_CLIENT_ID },
+      body: formData
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.success && data.data && data.data.link) {
+        resolve(data.data.link);
+      } else {
+        reject(new Error('Imgur upload failed'));
+      }
+    })
+    .catch(reject);
+  });
+}
 
 // === JSONBin Operations ===
 function createBin() {
@@ -48,27 +97,19 @@ function saveToCloud() {
   var binId = localStorage.getItem(BIN_ID_KEY);
   if (!binId) return;
 
-  // Save locally first as backup
+  // Save locally as backup
   try {
     localStorage.setItem('adriel-trip-data', JSON.stringify(travelData));
   } catch(e) {}
 
-  // Strip confirmations images if data is too large for JSONBin
-  var dataToSave = JSON.parse(JSON.stringify(travelData));
-  var size = JSON.stringify(dataToSave).length;
-  if (size > 90000) {
-    dataToSave.confirmations = dataToSave.confirmations.map(function(c) {
-      return { label: c.label, imageCount: (c.images || []).length, cloudSkipped: true };
-    });
-  }
-
+  // Images are now Imgur URLs (tiny strings), so data fits in JSONBin easily
   fetch('https://api.jsonbin.io/v3/b/' + binId, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       'X-Master-Key': JSONBIN_KEY
     },
-    body: JSON.stringify(dataToSave)
+    body: JSON.stringify(travelData)
   }).catch(function() {});
 }
 
@@ -140,38 +181,38 @@ function uploadConfirmation() {
   var images = [];
   var processed = 0;
   var total = files.length;
+  var statusEl = document.getElementById('conf-label');
+  statusEl.value = 'Uploading ' + total + ' image(s)...';
 
   for (var i = 0; i < total; i++) {
     (function(file) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        // Moderate compression to keep readable
-        var img = new Image();
-        img.onload = function() {
-          var canvas = document.createElement('canvas');
-          var maxDim = 1600;
-          var w = img.width, h = img.height;
-          if (w > maxDim || h > maxDim) {
-            if (w > h) { h = h * maxDim / w; w = maxDim; }
-            else { w = w * maxDim / h; h = maxDim; }
-          }
-          canvas.width = w;
-          canvas.height = h;
-          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          images.push(canvas.toDataURL('image/jpeg', 0.92));
-
+      uploadToImgur(file).then(function(url) {
+        images.push(url);
+        processed++;
+        statusEl.value = 'Uploaded ' + processed + '/' + total;
+        if (processed === total) {
+          travelData.confirmations.push({ label: label, images: images });
+          saveToCloud();
+          renderConfirmationGrid();
+          statusEl.value = '';
+          document.getElementById('conf-files').value = '';
+        }
+      }).catch(function() {
+        // Fallback to base64 if Imgur fails
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          images.push(e.target.result);
           processed++;
           if (processed === total) {
             travelData.confirmations.push({ label: label, images: images });
             saveToCloud();
             renderConfirmationGrid();
-            document.getElementById('conf-label').value = '';
+            statusEl.value = '';
             document.getElementById('conf-files').value = '';
           }
         };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      });
     })(files[i]);
   }
 }
@@ -310,27 +351,18 @@ function addOutfit(key) {
     travelData.outfits[key].push({ name: name, desc: desc, image: imageData || '' });
     saveToCloud();
     renderOutfits();
+    renderOutfitsGallery();
   }
 
   if (file) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var img = new Image();
-      img.onload = function() {
-        var canvas = document.createElement('canvas');
-        var maxDim = 1200;
-        var w = img.width, h = img.height;
-        if (w > maxDim || h > maxDim) {
-          if (w > h) { h = h * maxDim / w; w = maxDim; }
-          else { w = w * maxDim / h; h = maxDim; }
-        }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        saveOutfit(canvas.toDataURL('image/jpeg', 0.92));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+    uploadToImgur(file).then(function(url) {
+      saveOutfit(url);
+    }).catch(function() {
+      // Fallback to base64
+      var reader = new FileReader();
+      reader.onload = function(e) { saveOutfit(e.target.result); };
+      reader.readAsDataURL(file);
+    });
   } else {
     saveOutfit('');
   }

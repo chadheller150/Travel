@@ -634,24 +634,32 @@ function setCrewFrame(name, frame) {
 function setCrewPhoto(name, input) {
   var file = input.files[0];
   if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var img = new Image();
-    img.onload = function() {
-      var canvas = document.createElement('canvas');
-      var size = Math.min(img.width, img.height, 600);
-      canvas.width = size; canvas.height = size;
-      canvas.getContext('2d').drawImage(img, 0, 0, size, size);
-      var data = canvas.toDataURL('image/jpeg', 0.9);
+  if (typeof uploadToImgur === 'function') {
+    uploadToImgur(file).then(function(url) {
       if (!travelData.profiles) travelData.profiles = {};
       if (!travelData.profiles[name]) travelData.profiles[name] = {};
-      travelData.profiles[name].photo = data;
+      travelData.profiles[name].photo = url;
       saveToCloud();
-      // Refresh popup
       document.getElementById('crew-popup').remove();
       openCrewProfile(name);
-    };
-    img.src = e.target.result;
+    }).catch(function() {
+      // Fallback to base64
+      setCrewPhotoBase64(name, file);
+    });
+  } else {
+    setCrewPhotoBase64(name, file);
+  }
+}
+
+function setCrewPhotoBase64(name, file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    if (!travelData.profiles) travelData.profiles = {};
+    if (!travelData.profiles[name]) travelData.profiles[name] = {};
+    travelData.profiles[name].photo = e.target.result;
+    saveToCloud();
+    document.getElementById('crew-popup').remove();
+    openCrewProfile(name);
   };
   reader.readAsDataURL(file);
 }

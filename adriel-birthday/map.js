@@ -6,8 +6,8 @@ var tripMap = null;
 var mapTileLayer = null;
 
 var MAP_TILES = {
-  dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-  light: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
+  dark: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  light: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
 };
 
 function getMapTheme() {

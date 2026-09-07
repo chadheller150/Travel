@@ -606,12 +606,19 @@ body {
   border-radius:var(--radius);
   overflow:hidden;
   border:1px solid var(--border);
+  z-index:1;
+  position:relative;
 }
+/* Dark mode: invert + hue-rotate the map tiles for a dark look */
+:root #map-container .leaflet-tile-pane { filter:invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.1); }
+[data-theme="light"] #map-container .leaflet-tile-pane { filter:none; }
 .map-marker-wrap { background:none !important; border:none !important; }
 .map-marker {
   font-size:1.4rem; text-align:center;
   filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));
 }
+/* Ensure Leaflet controls don't overlap nav */
+.leaflet-top, .leaflet-bottom { z-index:10 !important; }
 
 /* Destinations List */
 .map-destinations {

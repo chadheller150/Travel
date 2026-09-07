@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/lucide.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
 <link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
@@ -15,9 +15,9 @@
 <div id="loader">
   <div class="loader-content">
     <div class="leaf-fall">
-      <span class="leaf">&#9752;</span>
-      <span class="leaf">&#9752;</span>
-      <span class="leaf">&#9752;</span>
+      <svg class="leaf-icon" viewBox="0 0 24 24" width="28" height="28"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 1 8-1.5 5.5-5 8-9 10z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.7 20.7l5.6-5.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      <svg class="leaf-icon" viewBox="0 0 24 24" width="24" height="24"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 1 8-1.5 5.5-5 8-9 10z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.7 20.7l5.6-5.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      <svg class="leaf-icon" viewBox="0 0 24 24" width="20" height="20"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 1 8-1.5 5.5-5 8-9 10z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.7 20.7l5.6-5.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
     </div>
     <h1 class="loader-title">Adriel's Birthday</h1>
     <p class="loader-sub">Toronto &middot; Montreal</p>
@@ -43,20 +43,20 @@
       <p>Toronto &middot; Montreal</p>
     </div>
     <div class="menu-items">
-      <button class="menu-item active" data-tab="overview"><i class="lucide-layout-dashboard"></i> Overview</button>
+      <button class="menu-item active" data-tab="overview"><i class="bi bi-grid"></i> Overview</button>
       <div class="menu-divider"></div>
-      <button class="menu-item" data-tab="day1"><i class="lucide-plane-landing"></i> Tue 10/20 — Arrival</button>
-      <button class="menu-item" data-tab="day2"><i class="lucide-train-front"></i> Wed 10/21 — Train Day</button>
-      <button class="menu-item" data-tab="day3"><i class="lucide-music"></i> Thu 10/22 — Concert</button>
-      <button class="menu-item" data-tab="day4"><i class="lucide-trees"></i> Fri 10/23 — Nature</button>
-      <button class="menu-item" data-tab="day5"><i class="lucide-plane-takeoff"></i> Sat 10/24 — Departure</button>
+      <button class="menu-item" data-tab="day1"><i class="bi bi-airplane"></i> Tue 10/20 — Arrival</button>
+      <button class="menu-item" data-tab="day2"><i class="bi bi-train-front"></i> Wed 10/21 — Train Day</button>
+      <button class="menu-item" data-tab="day3"><i class="bi bi-music-note-beamed"></i> Thu 10/22 — Concert</button>
+      <button class="menu-item" data-tab="day4"><i class="bi bi-tree"></i> Fri 10/23 — Nature</button>
+      <button class="menu-item" data-tab="day5"><i class="bi bi-airplane-fill"></i> Sat 10/24 — Departure</button>
       <div class="menu-divider"></div>
-      <button class="menu-item" data-tab="map"><i class="lucide-map-pin"></i> Map</button>
-      <button class="menu-item" data-tab="dining"><i class="lucide-utensils"></i> Dining Guide</button>
-      <button class="menu-item" data-tab="nightlife"><i class="lucide-wine"></i> Nightlife</button>
-      <button class="menu-item" data-tab="logistics"><i class="lucide-compass"></i> Logistics</button>
-      <button class="menu-item" data-tab="confirmations"><i class="lucide-paperclip"></i> Confirmations</button>
-      <button class="menu-item" data-tab="budget"><i class="lucide-wallet"></i> Budget</button>
+      <button class="menu-item" data-tab="map"><i class="bi bi-geo-alt"></i> Map</button>
+      <button class="menu-item" data-tab="dining"><i class="bi bi-cup-hot"></i> Dining Guide</button>
+      <button class="menu-item" data-tab="nightlife"><i class="bi bi-moon-stars"></i> Nightlife</button>
+      <button class="menu-item" data-tab="logistics"><i class="bi bi-compass"></i> Logistics</button>
+      <button class="menu-item" data-tab="confirmations"><i class="bi bi-paperclip"></i> Confirmations</button>
+      <button class="menu-item" data-tab="budget"><i class="bi bi-wallet2"></i> Budget</button>
     </div>
   </nav>
 

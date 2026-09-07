@@ -87,11 +87,11 @@ function renderOverview() {
 
   // Crew card
   var crew = el('div', 'card');
-  crew.innerHTML = '<div class="card-label"><i class="lucide-users"></i> The Crew</div><h3>5 Friends, 2 Cities</h3>';
+  crew.innerHTML = '<div class="card-label"><i class="bi bi-people"></i> The Crew</div><h3>5 Friends, 2 Cities</h3>';
   var badges = el('div', 'crew-grid');
   TRIP.crew.forEach(function(c) {
     var b = el('div', 'crew-badge' + (c.name === 'Adriel' ? ' birthday' : ''));
-    b.innerHTML = '<div class="avatar-placeholder"><i class="lucide-user"></i></div><span>' + c.name + '</span>';
+    b.innerHTML = '<div class="avatar-placeholder"><i class="bi bi-person"></i></div><span>' + c.name + '</span>';
     b.style.cursor = 'pointer';
     b.onclick = (function(person) { return function() { openCrewProfile(person); }; })(c.name);
     badges.appendChild(b);
@@ -101,56 +101,56 @@ function renderOverview() {
 
   // Flight Out
   var fo = el('div', 'card');
-  fo.innerHTML = '<div class="card-label"><i class="lucide-plane"></i> Flight Out</div>' +
+  fo.innerHTML = '<div class="card-label"><i class="bi bi-airplane"></i> Flight Out</div>' +
     '<h3>' + TRIP.flights.outbound.fromCity + ' &rarr; ' + TRIP.flights.outbound.toCity + '</h3>' +
-    '<div class="card-detail"><i class="lucide-calendar"></i> ' + TRIP.flights.outbound.date + '</div>' +
-    '<div class="card-detail"><i class="lucide-clock"></i> Depart ' + TRIP.flights.outbound.depart + ' &rarr; Arrive ' + TRIP.flights.outbound.arrive + '</div>' +
-    '<div class="card-detail"><i class="lucide-timer"></i> ' + TRIP.flights.outbound.duration + '</div>';
+    '<div class="card-detail"><i class="bi bi-calendar3"></i> ' + TRIP.flights.outbound.date + '</div>' +
+    '<div class="card-detail"><i class="bi bi-clock"></i> Depart ' + TRIP.flights.outbound.depart + ' &rarr; Arrive ' + TRIP.flights.outbound.arrive + '</div>' +
+    '<div class="card-detail"><i class="bi bi-stopwatch"></i> ' + TRIP.flights.outbound.duration + '</div>';
   grid.appendChild(fo);
 
   // Flight Return
   var fr = el('div', 'card');
-  fr.innerHTML = '<div class="card-label"><i class="lucide-plane"></i> Flight Home</div>' +
+  fr.innerHTML = '<div class="card-label"><i class="bi bi-airplane"></i> Flight Home</div>' +
     '<h3>' + TRIP.flights.returning.fromCity + ' &rarr; ' + TRIP.flights.returning.toCity + '</h3>' +
-    '<div class="card-detail"><i class="lucide-calendar"></i> ' + TRIP.flights.returning.date + '</div>' +
-    '<div class="card-detail"><i class="lucide-clock"></i> Depart ' + TRIP.flights.returning.depart + ' &rarr; Arrive ' + TRIP.flights.returning.arrive + '</div>' +
-    '<div class="card-detail"><i class="lucide-timer"></i> ' + TRIP.flights.returning.duration + '</div>';
+    '<div class="card-detail"><i class="bi bi-calendar3"></i> ' + TRIP.flights.returning.date + '</div>' +
+    '<div class="card-detail"><i class="bi bi-clock"></i> Depart ' + TRIP.flights.returning.depart + ' &rarr; Arrive ' + TRIP.flights.returning.arrive + '</div>' +
+    '<div class="card-detail"><i class="bi bi-stopwatch"></i> ' + TRIP.flights.returning.duration + '</div>';
   grid.appendChild(fr);
 
   // Train
   var tr = el('div', 'card');
-  tr.innerHTML = '<div class="card-label"><i class="lucide-train-front"></i> VIA Rail</div>' +
+  tr.innerHTML = '<div class="card-label"><i class="bi bi-train-front"></i> VIA Rail</div>' +
     '<h3>' + TRIP.train.route + '</h3>' +
-    '<div class="card-detail"><i class="lucide-calendar"></i> ' + TRIP.train.date + '</div>' +
-    '<div class="card-detail"><i class="lucide-clock"></i> Depart ' + TRIP.train.depart + ' &rarr; Arrive ' + TRIP.train.arrive + '</div>' +
-    '<div class="card-detail"><i class="lucide-timer"></i> ' + TRIP.train.duration + '</div>' +
-    '<div class="card-detail"><i class="lucide-wallet"></i> ' + TRIP.train.price + '</div>';
+    '<div class="card-detail"><i class="bi bi-calendar3"></i> ' + TRIP.train.date + '</div>' +
+    '<div class="card-detail"><i class="bi bi-clock"></i> Depart ' + TRIP.train.depart + ' &rarr; Arrive ' + TRIP.train.arrive + '</div>' +
+    '<div class="card-detail"><i class="bi bi-stopwatch"></i> ' + TRIP.train.duration + '</div>' +
+    '<div class="card-detail"><i class="bi bi-wallet2"></i> ' + TRIP.train.price + '</div>';
   grid.appendChild(tr);
 
   // Montreal Lodging
   var ml = el('div', 'card');
-  ml.innerHTML = '<div class="card-label"><i class="lucide-home"></i> Montreal Home Base</div>' +
+  ml.innerHTML = '<div class="card-label"><i class="bi bi-house"></i> Montreal Home Base</div>' +
     '<h3>5945 Rue Bergevin</h3>' +
-    '<div class="card-detail"><i class="lucide-calendar"></i> ' + TRIP.lodging.checkin + '</div>' +
-    '<div class="card-detail"><i class="lucide-key"></i> Checkout: ' + TRIP.lodging.checkout + '</div>' +
-    '<div class="card-detail"><i class="lucide-map-pin"></i> ' + TRIP.lodging.note + '</div>';
+    '<div class="card-detail"><i class="bi bi-calendar3"></i> ' + TRIP.lodging.checkin + '</div>' +
+    '<div class="card-detail"><i class="bi bi-key"></i> Checkout: ' + TRIP.lodging.checkout + '</div>' +
+    '<div class="card-detail"><i class="bi bi-geo-alt"></i> ' + TRIP.lodging.note + '</div>';
   grid.appendChild(ml);
 
   // Rental Car
   var rc = el('div', 'card');
-  rc.innerHTML = '<div class="card-label"><i class="lucide-car"></i> Rental Car</div>' +
+  rc.innerHTML = '<div class="card-label"><i class="bi bi-car-front"></i> Rental Car</div>' +
     '<h3>Montreal &mdash; ' + TRIP.rental.dates + '</h3>' +
-    '<div class="card-detail"><i class="lucide-wallet"></i> ' + TRIP.rental.est + '/day est.</div>' +
+    '<div class="card-detail"><i class="bi bi-wallet2"></i> ' + TRIP.rental.est + '/day est.</div>' +
     '<p style="margin-top:0.5rem;">' + TRIP.rental.purpose + '</p>';
   grid.appendChild(rc);
 
   // Concert
   var cc = el('div', 'card');
-  cc.innerHTML = '<div class="card-label"><i class="lucide-music"></i> Concert</div>' +
+  cc.innerHTML = '<div class="card-label"><i class="bi bi-music-note-beamed"></i> Concert</div>' +
     '<h3>Olivia Rodrigo</h3>' +
-    '<div class="card-detail"><i class="lucide-calendar"></i> Thu Oct 22 &mdash; 7:00 PM</div>' +
-    '<div class="card-detail"><i class="lucide-map-pin"></i> Centre Bell, Montreal</div>' +
-    '<div class="card-detail"><i class="lucide-ticket"></i> Jessica + Adriel</div>';
+    '<div class="card-detail"><i class="bi bi-calendar3"></i> Thu Oct 22 &mdash; 7:00 PM</div>' +
+    '<div class="card-detail"><i class="bi bi-geo-alt"></i> Centre Bell, Montreal</div>' +
+    '<div class="card-detail"><i class="bi bi-ticket-perforated"></i> Jessica + Adriel</div>';
   grid.appendChild(cc);
 
   s.appendChild(grid);
@@ -195,6 +195,13 @@ function renderDay(id, day) {
   return s;
 }
 
+/* === MAP === */
+function renderMapSection() {
+  var s = createSection('map', 'Trip Map', 'All locations across both cities');
+  s.innerHTML += '<div id="map-container"></div>';
+  return s;
+}
+
 /* === DINING === */
 function renderDining() {
   var s = createSection('dining', 'Dining Guide', 'Curated picks for every meal');
@@ -226,10 +233,10 @@ function makeVenueCard(v) {
   var c = el('div', 'venue-card');
   c.innerHTML = '<h3>' + v.name + '</h3>' +
     '<div class="venue-meta">' +
-      '<span><i class="lucide-utensils"></i> ' + v.type + '</span>' +
-      '<span><i class="lucide-wallet"></i> ' + v.price + '</span>' +
-      '<span><i class="lucide-map-pin"></i> ' + v.neighborhood + '</span>' +
-      (v.cuisine ? '<span><i class="lucide-tag"></i> ' + v.cuisine + '</span>' : '') +
+      '<span><i class="bi bi-egg-fried"></i> ' + v.type + '</span>' +
+      '<span><i class="bi bi-wallet2"></i> ' + v.price + '</span>' +
+      '<span><i class="bi bi-geo-alt"></i> ' + v.neighborhood + '</span>' +
+      (v.cuisine ? '<span><i class="bi bi-tag"></i> ' + v.cuisine + '</span>' : '') +
     '</div>' +
     '<div class="venue-desc">' + v.desc + '</div>';
   return c;
@@ -248,9 +255,9 @@ function renderNightlife() {
     var c = el('div', 'venue-card');
     c.innerHTML = '<h3>' + v.name + '</h3>' +
       '<div class="venue-meta">' +
-        '<span><i class="lucide-party-popper"></i> ' + v.type + '</span>' +
-        '<span><i class="lucide-ticket"></i> ' + v.cover + '</span>' +
-        '<span><i class="lucide-clock"></i> ' + v.hours + '</span>' +
+        '<span><i class="bi bi-stars"></i> ' + v.type + '</span>' +
+        '<span><i class="bi bi-ticket-perforated"></i> ' + v.cover + '</span>' +
+        '<span><i class="bi bi-clock"></i> ' + v.hours + '</span>' +
       '</div>' +
       '<div class="venue-desc">' + v.desc + '</div>';
     s.appendChild(c);
@@ -265,9 +272,9 @@ function renderNightlife() {
     var c = el('div', 'venue-card');
     c.innerHTML = '<h3>' + v.name + '</h3>' +
       '<div class="venue-meta">' +
-        '<span><i class="lucide-party-popper"></i> ' + v.type + '</span>' +
-        '<span><i class="lucide-ticket"></i> ' + v.cover + '</span>' +
-        '<span><i class="lucide-clock"></i> ' + v.hours + '</span>' +
+        '<span><i class="bi bi-stars"></i> ' + v.type + '</span>' +
+        '<span><i class="bi bi-ticket-perforated"></i> ' + v.cover + '</span>' +
+        '<span><i class="bi bi-clock"></i> ' + v.hours + '</span>' +
       '</div>' +
       '<div class="venue-desc">' + v.desc + '</div>';
     s.appendChild(c);
@@ -282,7 +289,7 @@ function renderLogistics() {
   var html = '<div class="card-grid">';
 
   // Toronto transport
-  html += '<div class="card"><div class="card-label"><i class="lucide-train-front"></i> Getting Around Toronto</div>' +
+  html += '<div class="card"><div class="card-label"><i class="bi bi-train-front"></i> Getting Around Toronto</div>' +
     '<h3>Transit + Walking</h3>' +
     '<p>UP Express from airport to Union Station: 25 min, CA$12.35<br>' +
     'TTC subway: CA$3.35/ride, day pass CA$13.50<br>' +
@@ -290,7 +297,7 @@ function renderLogistics() {
     'Downtown core is very walkable</p></div>';
 
   // Montreal transport
-  html += '<div class="card"><div class="card-label"><i class="lucide-car"></i> Getting Around Montreal</div>' +
+  html += '<div class="card"><div class="card-label"><i class="bi bi-car-front"></i> Getting Around Montreal</div>' +
     '<h3>Metro + Rental Car</h3>' +
     '<p>STM Metro: CA$3.75/ride<br>' +
     'Old Montreal, Plateau, Le Village all walkable<br>' +
@@ -298,7 +305,7 @@ function renderLogistics() {
     'Parking downtown: CA$15-30/day</p></div>';
 
   // Weather
-  html += '<div class="card"><div class="card-label"><i class="lucide-cloud-sun"></i> October Weather</div>' +
+  html += '<div class="card"><div class="card-label"><i class="bi bi-cloud-sun"></i> October Weather</div>' +
     '<h3>Pack Layers!</h3>' +
     '<p>Toronto: 5-14C (41-57F) — crisp fall weather<br>' +
     'Montreal: 3-12C (37-54F) — slightly cooler<br>' +
@@ -306,7 +313,7 @@ function renderLogistics() {
     'Rain is possible — pack an umbrella</p></div>';
 
   // Tips
-  html += '<div class="card"><div class="card-label"><i class="lucide-lightbulb"></i> Pro Tips</div>' +
+  html += '<div class="card"><div class="card-label"><i class="bi bi-lightbulb"></i> Pro Tips</div>' +
     '<h3>Good to Know</h3>' +
     '<p>Canada uses CAD (roughly 0.73 USD)<br>' +
     'Tipping: 15-20% at restaurants<br>' +
@@ -325,7 +332,7 @@ function renderConfirmations() {
   s.innerHTML += '<div class="conf-upload">' +
     '<input type="text" id="conf-label" placeholder="Label (e.g. Flight Booking)">' +
     '<br><input type="file" id="conf-files" accept="image/*" multiple>' +
-    '<br><button class="upload-btn" onclick="uploadConfirmation()"><i class="lucide-upload"></i> Upload</button>' +
+    '<br><button class="upload-btn" onclick="uploadConfirmation()"><i class="bi bi-upload"></i> Upload</button>' +
     '</div>' +
     '<div class="conf-grid" id="conf-grid"></div>';
   return s;
@@ -400,12 +407,12 @@ function openCrewProfile(name) {
   if (profileData.photo) {
     photoHtml = '<img src="' + profileData.photo + '" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;display:block;">';
   } else {
-    photoHtml = '<div style="width:80px;height:80px;border-radius:50%;background:var(--burgundy);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="lucide-user" style="font-size:2rem;color:var(--cream);"></i></div>';
+    photoHtml = '<div style="width:80px;height:80px;border-radius:50%;background:var(--burgundy);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-person" style="font-size:2rem;color:var(--cream);"></i></div>';
   }
 
   // Payment status
   var paymentHtml = '<div style="margin-top:1.5rem;border-top:1px solid var(--border);padding-top:1rem;">' +
-    '<h4 style="font-family:Cormorant Garamond,serif;font-size:1.1rem;color:var(--cream);margin-bottom:0.6rem;"><i class="lucide-wallet"></i> Payments</h4>';
+    '<h4 style="font-family:Cormorant Garamond,serif;font-size:1.1rem;color:var(--cream);margin-bottom:0.6rem;"><i class="bi bi-wallet2"></i> Payments</h4>';
   var totalOwed = 0, totalPaid = 0;
   if (typeof travelData !== 'undefined') {
     TRIP.payments.forEach(function(p, pi) {
@@ -420,7 +427,7 @@ function openCrewProfile(name) {
 
   // Outfits
   var outfitHtml = '<div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;">' +
-    '<h4 style="font-family:Cormorant Garamond,serif;font-size:1.1rem;color:var(--cream);margin-bottom:0.6rem;"><i class="lucide-shirt"></i> Outfits</h4>';
+    '<h4 style="font-family:Cormorant Garamond,serif;font-size:1.1rem;color:var(--cream);margin-bottom:0.6rem;"><i class="bi bi-palette"></i> Outfits</h4>';
   var hasOutfits = false;
   if (typeof travelData !== 'undefined' && travelData.outfits) {
     Object.keys(travelData.outfits).forEach(function(key) {
@@ -437,13 +444,13 @@ function openCrewProfile(name) {
   if (!hasOutfits) outfitHtml += '<p style="font-size:0.8rem;color:var(--text-muted);">No outfits added yet</p>';
   outfitHtml += '</div>';
 
-  card.innerHTML = '<button onclick="document.getElementById(\'crew-popup\').remove()" style="float:right;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;"><i class="lucide-x"></i></button>' +
+  card.innerHTML = '<button onclick="document.getElementById(\'crew-popup\').remove()" style="float:right;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;"><i class="bi bi-x-lg"></i></button>' +
     photoHtml +
     '<h3 style="font-family:Cormorant Garamond,serif;font-size:1.5rem;text-align:center;color:var(--cream);">' + name + '</h3>' +
     '<p style="text-align:center;font-size:0.8rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em;">' + person.role + '</p>' +
     '<div style="text-align:center;margin-top:1rem;">' +
       '<label style="display:inline-block;padding:0.4rem 1rem;background:rgba(201,149,107,0.1);border:1px solid rgba(201,149,107,0.2);border-radius:100px;cursor:pointer;font-size:0.75rem;color:var(--accent);">' +
-        '<i class="lucide-camera"></i> Set Photo' +
+        '<i class="bi bi-camera"></i> Set Photo' +
         '<input type="file" accept="image/*" style="display:none;" onchange="setCrewPhoto(\'' + name + '\', this)">' +
       '</label>' +
     '</div>' +

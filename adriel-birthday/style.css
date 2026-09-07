@@ -42,15 +42,13 @@ body {
   display: flex; align-items:center; justify-content:center;
 }
 .loader-content { text-align:center; }
-.leaf-fall { font-size:2rem; margin-bottom:2rem; }
-.leaf-fall span {
-  display:inline-block; animation: leafDrop 2s ease-in-out infinite;
-  margin:0 0.4rem;
+.leaf-fall { margin-bottom:2rem; display:flex; gap:0.8rem; justify-content:center; }
+.leaf-icon {
+  color:var(--accent);
+  animation: leafDrop 2s ease-in-out infinite;
 }
-.leaf-fall span:nth-child(2) { animation-delay:0.2s; }
-.leaf-fall span:nth-child(3) { animation-delay:0.4s; }
-.leaf-fall span:nth-child(4) { animation-delay:0.6s; }
-.leaf-fall span:nth-child(5) { animation-delay:0.8s; }
+.leaf-icon:nth-child(2) { animation-delay:0.3s; color:var(--forest); }
+.leaf-icon:nth-child(3) { animation-delay:0.6s; color:var(--accent-gold); }
 @keyframes leafDrop {
   0%,100% { transform:translateY(0) rotate(0); opacity:0.4; }
   50% { transform:translateY(12px) rotate(15deg); opacity:1; }
@@ -211,13 +209,14 @@ body {
   height:1px; background:var(--border);
   margin:0.4rem 1.5rem;
 }
-/* === LUCIDE ICONS === */
-.card-label i, .card-detail i, .venue-meta i, .menu-item i {
+/* === BOOTSTRAP ICONS === */
+.card-label i, .card-detail i, .venue-meta i {
   font-size:0.85rem; vertical-align:middle;
   margin-right:0.15rem; opacity:0.8;
 }
 .card-label i { color:var(--accent); }
 .card-detail i { color:var(--text-muted); font-size:0.8rem; }
+.menu-item i { font-size:1rem; width:20px; text-align:center; }
 
 /* === SECTIONS === */
 .section {

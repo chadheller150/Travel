@@ -477,7 +477,97 @@ body {
 }
 .collapsible-body.open { display:block; }
 
-/* === VENUE CARDS === */
+/* === DINING GUIDE === */
+.dining-toggle {
+  display:flex; gap:0;
+  background:var(--surface);
+  border-radius:100px;
+  padding:3px;
+  margin-bottom:2rem;
+  width:fit-content;
+}
+.dining-tab {
+  background:none; border:none;
+  padding:0.5rem 1.5rem;
+  border-radius:100px;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.82rem; font-weight:600;
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+.dining-tab.active {
+  background:var(--accent);
+  color:var(--bg);
+}
+.dining-city { display:none; }
+.dining-city.active { display:block; }
+
+.dining-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:1rem;
+}
+.dining-card {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.3rem;
+  transition:all 0.3s ease;
+}
+.dining-card:hover {
+  border-color:rgba(201,149,107,0.3);
+  transform:translateY(-2px);
+  box-shadow:0 6px 24px rgba(0,0,0,0.2);
+}
+.dining-card-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:0.6rem;
+}
+.dining-card-type {
+  font-size:0.65rem;
+  text-transform:uppercase;
+  letter-spacing:0.15em;
+  color:var(--text-muted);
+  font-weight:600;
+}
+.dining-card-price {
+  font-size:0.75rem;
+  font-weight:700;
+  padding:0.15rem 0.5rem;
+  border-radius:100px;
+}
+.dining-card-price.budget { color:#4a7c5c; background:rgba(74,124,92,0.12); }
+.dining-card-price.mid { color:var(--accent); background:rgba(201,149,107,0.12); }
+.dining-card-price.upscale { color:var(--accent-gold); background:rgba(232,200,126,0.12); }
+.dining-card-price.splurge { color:#c46464; background:rgba(139,58,58,0.12); }
+
+.dining-card-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem; font-weight:500;
+  color:var(--cream);
+  margin-bottom:0.4rem;
+}
+.dining-card-meta {
+  display:flex; gap:0.8rem;
+  font-size:0.72rem;
+  color:var(--text-muted);
+  margin-bottom:0.6rem;
+}
+.dining-card-meta i { font-size:0.7rem; margin-right:0.15rem; }
+.dining-card-desc {
+  font-size:0.82rem;
+  color:var(--text-dim);
+  line-height:1.5;
+}
+
+[data-theme="light"] .dining-card { box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+[data-theme="light"] .dining-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.1); }
+[data-theme="light"] .dining-toggle { background:var(--border); }
+
+/* === VENUE CARDS (nightlife) === */
 .venue-card {
   background:var(--bg-card);
   border:1px solid var(--border);

@@ -297,40 +297,64 @@ function renderMapSection() {
 function renderDining() {
   var s = createSection('dining', 'Dining Guide', 'Curated picks for every meal');
 
-  // Toronto
-  var th = el('h2', '');
-  th.style.cssText = 'font-family:Cormorant Garamond,serif;font-size:1.5rem;color:var(--cream);margin-bottom:1rem;';
-  th.textContent = 'Toronto';
-  s.appendChild(th);
+  // City toggle
+  s.innerHTML += '<div class="dining-toggle" id="dining-toggle">' +
+    '<button class="dining-tab active" onclick="switchDiningCity(\'toronto\')">Toronto</button>' +
+    '<button class="dining-tab" onclick="switchDiningCity(\'montreal\')">Montreal</button>' +
+    '</div>';
 
-  TRIP.dining.toronto.forEach(function(v) {
-    s.appendChild(makeVenueCard(v));
-  });
+  // Toronto section
+  var torontoDiv = el('div', 'dining-city active');
+  torontoDiv.id = 'dining-toronto';
+  var torontoGrid = buildDiningGrid(TRIP.dining.toronto);
+  torontoDiv.appendChild(torontoGrid);
+  s.appendChild(torontoDiv);
 
-  // Montreal
-  var mh = el('h2', '');
-  mh.style.cssText = 'font-family:Cormorant Garamond,serif;font-size:1.5rem;color:var(--cream);margin:2rem 0 1rem;';
-  mh.textContent = 'Montreal';
-  s.appendChild(mh);
-
-  TRIP.dining.montreal.forEach(function(v) {
-    s.appendChild(makeVenueCard(v));
-  });
+  // Montreal section
+  var montrealDiv = el('div', 'dining-city');
+  montrealDiv.id = 'dining-montreal';
+  var montrealGrid = buildDiningGrid(TRIP.dining.montreal);
+  montrealDiv.appendChild(montrealGrid);
+  s.appendChild(montrealDiv);
 
   return s;
 }
 
-function makeVenueCard(v) {
-  var c = el('div', 'venue-card');
-  c.innerHTML = '<h3>' + v.name + '</h3>' +
-    '<div class="venue-meta">' +
-      '<span><i class="bi bi-egg-fried"></i> ' + v.type + '</span>' +
-      '<span><i class="bi bi-wallet2"></i> ' + v.price + '</span>' +
-      '<span><i class="bi bi-geo-alt"></i> ' + v.neighborhood + '</span>' +
-      (v.cuisine ? '<span><i class="bi bi-tag"></i> ' + v.cuisine + '</span>' : '') +
-    '</div>' +
-    '<div class="venue-desc">' + v.desc + '</div>';
-  return c;
+function buildDiningGrid(venues) {
+  var grid = el('div', 'dining-grid');
+  venues.forEach(function(v) {
+    var card = el('div', 'dining-card');
+    var priceClass = v.price.length <= 1 ? 'budget' : (v.price.length <= 2 ? 'mid' : (v.price.length <= 3 ? 'upscale' : 'splurge'));
+    card.innerHTML = '<div class="dining-card-top">' +
+        '<div class="dining-card-type">' + v.type + '</div>' +
+        '<div class="dining-card-price ' + priceClass + '">' + v.price + '</div>' +
+      '</div>' +
+      '<h3 class="dining-card-name">' + v.name + '</h3>' +
+      '<div class="dining-card-meta">' +
+        '<span><i class="bi bi-geo-alt"></i> ' + v.neighborhood + '</span>' +
+        (v.cuisine ? '<span><i class="bi bi-tag"></i> ' + v.cuisine + '</span>' : '') +
+      '</div>' +
+      '<p class="dining-card-desc">' + v.desc + '</p>';
+    grid.appendChild(card);
+  });
+  return grid;
+}
+
+function switchDiningCity(city) {
+  var tabs = document.querySelectorAll('.dining-tab');
+  tabs.forEach(function(t) { t.classList.remove('active'); });
+  event.target.classList.add('active');
+
+  var cities = document.querySelectorAll('.dining-city');
+  cities.forEach(function(c) {
+    c.classList.remove('active');
+    c.style.animation = '';
+  });
+  var target = document.getElementById('dining-' + city);
+  if (target) {
+    target.classList.add('active');
+    target.style.animation = 'fadeUp 0.4s ease';
+  }
 }
 
 /* === NIGHTLIFE === */

@@ -230,26 +230,44 @@ function renderDay(id, day) {
     // Add outfit collapsible
     if (item.tag === 'food' || item.tag === 'activity' || item.tag === 'concert') {
       var outfitKey = id + '-' + i;
-      var outfitDiv = el('div', 'collapsible');
+      var outfitDiv = document.createElement('div');
+      outfitDiv.className = 'collapsible';
       outfitDiv.setAttribute('data-outfit', outfitKey);
-      outfitDiv.innerHTML = '<button class="collapsible-toggle" onclick="toggleCollapsible(this)">' +
-        '<i class="bi bi-palette"></i> Outfit ideas <span class="arrow">&#9662;</span></button>' +
-        '<div class="collapsible-body" id="outfit-' + outfitKey + '">' +
-          buildOutfitForm(outfitKey) +
-        '</div>';
+
+      var outfitBtn = document.createElement('button');
+      outfitBtn.className = 'collapsible-toggle';
+      outfitBtn.onclick = function() { toggleCollapsible(this); };
+      outfitBtn.innerHTML = '<i class="bi bi-palette"></i> Outfit ideas <span class="arrow">&#9662;</span>';
+
+      var outfitBody = document.createElement('div');
+      outfitBody.className = 'collapsible-body';
+      outfitBody.id = 'outfit-' + outfitKey;
+      outfitBody.innerHTML = buildOutfitForm(outfitKey);
+
+      outfitDiv.appendChild(outfitBtn);
+      outfitDiv.appendChild(outfitBody);
       t.appendChild(outfitDiv);
     }
 
     // Add food vote collapsible for food items
     if (item.tag === 'food') {
       var voteKey = id + '-food-' + i;
-      var voteDiv = el('div', 'collapsible');
+      var voteDiv = document.createElement('div');
+      voteDiv.className = 'collapsible';
       voteDiv.setAttribute('data-vote', voteKey);
-      voteDiv.innerHTML = '<button class="collapsible-toggle" onclick="toggleCollapsible(this)">' +
-        '<i class="bi bi-hand-thumbs-up"></i> Vote + Suggest <span class="arrow">&#9662;</span></button>' +
-        '<div class="collapsible-body" id="vote-' + voteKey + '">' +
-          buildVoteForm(voteKey) +
-        '</div>';
+
+      var voteBtn = document.createElement('button');
+      voteBtn.className = 'collapsible-toggle';
+      voteBtn.onclick = function() { toggleCollapsible(this); };
+      voteBtn.innerHTML = '<i class="bi bi-hand-thumbs-up"></i> Vote + Suggest <span class="arrow">&#9662;</span>';
+
+      var voteBody = document.createElement('div');
+      voteBody.className = 'collapsible-body';
+      voteBody.id = 'vote-' + voteKey;
+      voteBody.innerHTML = buildVoteForm(voteKey);
+
+      voteDiv.appendChild(voteBtn);
+      voteDiv.appendChild(voteBody);
       t.appendChild(voteDiv);
     }
 

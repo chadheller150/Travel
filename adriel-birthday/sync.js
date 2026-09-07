@@ -501,64 +501,125 @@ function addSuggestion(key) {
 }
 
 // === OUTFITS GALLERY TAB ===
+var outfitSlideIdx = 0;
+
 function renderOutfitsGallery() {
   var gallery = document.getElementById('outfits-gallery');
   if (!gallery) return;
 
   var events = TRIP.outfitEvents || [];
-  var hasAny = false;
-  var html = '';
+  if (events.length === 0) return;
 
-  // Group by day
-  var currentDay = '';
-  events.forEach(function(evt) {
-    var outfits = travelData.outfits[evt.key] || [];
+  // Clamp index
+  if (outfitSlideIdx < 0) outfitSlideIdx = 0;
+  if (outfitSlideIdx >= events.length) outfitSlideIdx = events.length - 1;
 
-    // Day header
-    if (evt.day !== currentDay) {
-      if (currentDay !== '') html += '</div>'; // close previous day
-      currentDay = evt.day;
-      html += '<div class="outfit-day-group">' +
-        '<h2 class="outfit-day-header">' + evt.day + '</h2>';
-    }
+  var evt = events[outfitSlideIdx];
+  var outfits = travelData.outfits[evt.key] || [];
 
-    // Event section
-    html += '<div class="outfit-event">' +
-      '<h3 class="outfit-event-title">' + evt.label + '</h3>';
+  var html = '<div class="outfit-slideshow">';
 
-    if (outfits.length > 0) {
-      hasAny = true;
-      html += '<div class="outfit-people-grid">';
-      outfits.forEach(function(o, i) {
-        html += '<div class="outfit-person-card">';
-        if (o.image) {
-          html += '<img src="' + o.image + '" class="outfit-person-img" onclick="openOutfitLightbox(\'' + evt.key + '\',' + i + ')">';
-        } else {
-          html += '<div class="outfit-person-img outfit-placeholder"><i class="bi bi-camera" style="font-size:1.5rem;color:var(--text-muted);"></i></div>';
-        }
-        html += '<div class="outfit-person-name">' + o.name + '</div>';
-        if (o.desc) html += '<div class="outfit-person-desc">' + o.desc + '</div>';
-        html += '</div>';
-      });
+  // Navigation header
+  html += '<div class="outfit-slide-nav">' +
+    '<button class="outfit-nav-btn" onclick="outfitSlidePrev()" ' + (outfitSlideIdx === 0 ? 'disabled' : '') + '>' +
+      '<i class="bi bi-chevron-left"></i>' +
+    '</button>' +
+    '<div class="outfit-slide-header">' +
+      '<div class="outfit-slide-day">' + evt.day + '</div>' +
+      '<div class="outfit-slide-title">' + evt.label + '</div>' +
+      '<div class="outfit-slide-counter">' + (outfitSlideIdx + 1) + ' / ' + events.length + '</div>' +
+    '</div>' +
+    '<button class="outfit-nav-btn" onclick="outfitSlideNext()" ' + (outfitSlideIdx === events.length - 1 ? 'disabled' : '') + '>' +
+      '<i class="bi bi-chevron-right"></i>' +
+    '</button>' +
+  '</div>';
+
+  // Slide content area
+  html += '<div class="outfit-slide-content" id="outfit-slide-content">';
+
+  if (outfits.length > 0) {
+    html += '<div class="outfit-slide-grid">';
+    outfits.forEach(function(o, i) {
+      html += '<div class="outfit-slide-card">';
+      if (o.image) {
+        html += '<img src="' + o.image + '" class="outfit-slide-img" onclick="openOutfitLightbox(\'' + evt.key + '\',' + i + ')">';
+      } else {
+        html += '<div class="outfit-slide-img outfit-slide-placeholder"><i class="bi bi-camera" style="font-size:1.8rem;color:var(--text-muted);"></i></div>';
+      }
+      html += '<div class="outfit-slide-name">' + o.name + '</div>';
+      if (o.desc) html += '<div class="outfit-slide-desc">' + o.desc + '</div>';
       html += '</div>';
-    } else {
-      html += '<p class="outfit-empty">No outfits added yet</p>';
-    }
-
+    });
     html += '</div>';
-  });
-
-  if (currentDay !== '') html += '</div>'; // close last day
-
-  if (!hasAny) {
-    html = '<div style="text-align:center;padding:3rem 1rem;">' +
-      '<i class="bi bi-palette" style="font-size:2.5rem;color:var(--text-muted);display:block;margin-bottom:1rem;"></i>' +
-      '<p style="font-size:1rem;color:var(--text-dim);">No outfits added yet</p>' +
-      '<p style="font-size:0.82rem;color:var(--text-muted);margin-top:0.5rem;">Head to any day tab and tap "Outfit ideas" on an event to add yours</p>' +
-      '</div>';
+  } else {
+    html += '<div class="outfit-slide-empty">' +
+      '<i class="bi bi-palette" style="font-size:2rem;color:var(--text-muted);display:block;margin-bottom:0.8rem;"></i>' +
+      '<p style="color:var(--text-dim);font-size:0.9rem;">No outfits added for this event</p>' +
+      '<p style="color:var(--text-muted);font-size:0.78rem;margin-top:0.3rem;">Add one from the day tab</p>' +
+    '</div>';
   }
 
+  html += '</div>';
+
+  // Dot indicators
+  html += '<div class="outfit-slide-dots">';
+  events.forEach(function(e, idx) {
+    var hasOutfits = (travelData.outfits[e.key] || []).length > 0;
+    html += '<button class="outfit-dot' + (idx === outfitSlideIdx ? ' active' : '') + (hasOutfits ? ' has-content' : '') + '" onclick="outfitSlideGo(' + idx + ')"></button>';
+  });
+  html += '</div>';
+
+  html += '</div>';
   gallery.innerHTML = html;
+}
+
+function outfitSlidePrev() {
+  if (outfitSlideIdx <= 0) return;
+  var content = document.getElementById('outfit-slide-content');
+  if (content) {
+    content.style.animation = 'slideOutRight 0.25s ease forwards';
+    setTimeout(function() {
+      outfitSlideIdx--;
+      renderOutfitsGallery();
+      var newContent = document.getElementById('outfit-slide-content');
+      if (newContent) newContent.style.animation = 'slideInLeft 0.3s ease forwards';
+    }, 250);
+  } else {
+    outfitSlideIdx--;
+    renderOutfitsGallery();
+  }
+}
+
+function outfitSlideNext() {
+  var events = TRIP.outfitEvents || [];
+  if (outfitSlideIdx >= events.length - 1) return;
+  var content = document.getElementById('outfit-slide-content');
+  if (content) {
+    content.style.animation = 'slideOutLeft 0.25s ease forwards';
+    setTimeout(function() {
+      outfitSlideIdx++;
+      renderOutfitsGallery();
+      var newContent = document.getElementById('outfit-slide-content');
+      if (newContent) newContent.style.animation = 'slideInRight 0.3s ease forwards';
+    }, 250);
+  } else {
+    outfitSlideIdx++;
+    renderOutfitsGallery();
+  }
+}
+
+function outfitSlideGo(idx) {
+  var dir = idx > outfitSlideIdx ? 'left' : 'right';
+  var content = document.getElementById('outfit-slide-content');
+  if (content && idx !== outfitSlideIdx) {
+    content.style.animation = 'slideOut' + (dir === 'left' ? 'Left' : 'Right') + ' 0.25s ease forwards';
+    setTimeout(function() {
+      outfitSlideIdx = idx;
+      renderOutfitsGallery();
+      var newContent = document.getElementById('outfit-slide-content');
+      if (newContent) newContent.style.animation = 'slideIn' + (dir === 'left' ? 'Right' : 'Left') + ' 0.3s ease forwards';
+    }, 250);
+  }
 }
 
 // === INIT ===

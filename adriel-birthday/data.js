@@ -207,7 +207,8 @@ var TRIP = {
   ],
 
   payments: [
-    { item:'VIA Rail Tickets', cost:0, per:0, due:'TBD', note:'Book as group when available' },
+    { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid' },
+    { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid' },
     { item:'Olivia Rodrigo Tickets', cost:0, per:0, due:'TBD', note:'Jessica + Adriel only' },
     { item:'Rental Car', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup' }
   ]

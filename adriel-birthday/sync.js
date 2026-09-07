@@ -4,7 +4,7 @@
 
 var JSONBIN_KEY = '$2a$10$mTkMFOlAeFOuwCPIQM13vu0gXQ29GR0MkjBeMaGMSsVmOar5/oISq';
 var BIN_ID_KEY = 'adriel-trip-binId';
-var DATA_VERSION = 2;
+var DATA_VERSION = 3;
 
 var travelData = {
   version: DATA_VERSION,
@@ -276,19 +276,11 @@ function renderOutfits() {
   var containers = document.querySelectorAll('[data-outfit]');
   containers.forEach(function(c) {
     var key = c.getAttribute('data-outfit');
-    var body = c.querySelector('.collapsible-body');
-    if (!body) return;
+    var listDiv = document.getElementById('outfit-list-' + key);
+    if (!listDiv) return;
 
     var outfits = travelData.outfits[key] || [];
-    var html = '<div style="margin-bottom:0.8rem;">' +
-      '<select id="outfit-name-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;margin-right:0.5rem;">';
-    TRIP.people.forEach(function(p) { html += '<option value="' + p + '">' + p + '</option>'; });
-    html += '</select>' +
-      '<input type="text" id="outfit-desc-' + key + '" placeholder="Description" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;width:140px;margin-right:0.5rem;">' +
-      '<input type="file" id="outfit-file-' + key + '" accept="image/*" style="font-size:0.75rem;color:var(--text-dim);max-width:140px;">' +
-      '<button onclick="addOutfit(\'' + key + '\')" style="margin-top:0.5rem;background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.35rem 0.8rem;cursor:pointer;font-size:0.75rem;font-weight:600;">Add</button>' +
-      '</div>';
-
+    var html = '';
     outfits.forEach(function(o, i) {
       html += '<div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;padding:0.5rem;background:rgba(201,149,107,0.05);border-radius:8px;">';
       if (o.image) {
@@ -298,8 +290,10 @@ function renderOutfits() {
       if (o.desc) html += '<br><span style="font-size:0.75rem;color:var(--text-dim);">' + o.desc + '</span>';
       html += '</div></div>';
     });
-
-    body.innerHTML = html;
+    if (outfits.length === 0) {
+      html = '<p style="font-size:0.78rem;color:var(--text-muted);">No outfits added yet</p>';
+    }
+    listDiv.innerHTML = html;
   });
 }
 
@@ -402,79 +396,70 @@ function togglePayment(payIdx, person) {
 // === FOOD VOTING ===
 function renderVotes() {
   var containers = document.querySelectorAll('[data-vote]');
-  console.log('renderVotes: found ' + containers.length + ' vote containers');
   containers.forEach(function(c) {
     var key = c.getAttribute('data-vote');
-    var body = c.querySelector('.collapsible-body');
-    if (!body) return;
-
     var voteData = travelData.votes[key] || { options: [], votes: {} };
     var existingOptions = voteData.options || [];
-    console.log('renderVotes: key=' + key + ' options=' + existingOptions.length);
 
-    var html = '<div style="margin-bottom:0.8rem;">' +
-      '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.8rem;">' +
-        '<select id="vote-name-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;">';
-    TRIP.people.forEach(function(p) { html += '<option value="' + p + '">' + p + '</option>'; });
-    html += '</select>' +
-      '<select id="vote-choice-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;flex:1;min-width:120px;">';
-    existingOptions.forEach(function(o) { html += '<option value="' + o.name + '">' + o.name + '</option>'; });
-    html += '</select>' +
-      '<button onclick="castVote(\'' + key + '\')" style="background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.35rem 0.8rem;cursor:pointer;font-size:0.75rem;font-weight:600;">Vote</button>' +
-      '</div>';
-
-    // Add suggestion input
-    html += '<div style="display:flex;gap:0.4rem;margin-bottom:0.8rem;">' +
-      '<input type="text" id="suggest-name-' + key + '" placeholder="Restaurant name" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;flex:1;">' +
-      '<input type="text" id="suggest-link-' + key + '" placeholder="Link (optional)" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;flex:1;">' +
-      '<button onclick="addSuggestion(\'' + key + '\')" style="background:rgba(201,149,107,0.15);color:var(--accent);border:1px solid rgba(201,149,107,0.25);border-radius:100px;padding:0.35rem 0.8rem;cursor:pointer;font-size:0.75rem;font-weight:600;">+ Add</button>' +
-      '</div>';
-
-    // Show vote results
-    if (existingOptions.length > 0) {
-      var totalVotes = Object.keys(voteData.votes || {}).length;
-      var voteCounts = {};
-      existingOptions.forEach(function(o) { voteCounts[o.name] = { count:0, voters:[] }; });
-      Object.keys(voteData.votes || {}).forEach(function(voter) {
-        var choice = voteData.votes[voter];
-        if (voteCounts[choice]) {
-          voteCounts[choice].count++;
-          voteCounts[choice].voters.push(voter);
-        }
-      });
-
-      // Sort by vote count
-      var sorted = existingOptions.slice().sort(function(a, b) {
-        return (voteCounts[b.name] ? voteCounts[b.name].count : 0) - (voteCounts[a.name] ? voteCounts[a.name].count : 0);
-      });
-
-      sorted.forEach(function(o) {
-        var vc = voteCounts[o.name] || { count:0, voters:[] };
-        var pct = totalVotes > 0 ? Math.round((vc.count / totalVotes) * 100) : 0;
-        html += '<div style="margin-bottom:0.6rem;">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.2rem;">' +
-            '<span style="font-size:0.82rem;color:var(--cream);">' + o.name;
-        if (o.link) {
-          html += ' <a href="' + o.link + '" target="_blank" style="color:var(--accent);font-size:0.7rem;text-decoration:none;border-bottom:1px solid rgba(201,149,107,0.3);"><i class="bi bi-box-arrow-up-right"></i></a>';
-        }
-        html += '</span>' +
-            '<span style="font-size:0.7rem;color:var(--text-muted);">' + vc.count + ' vote' + (vc.count !== 1 ? 's' : '') + '</span>' +
-          '</div>' +
-          '<div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">' +
-            '<div style="height:100%;width:' + pct + '%;background:var(--accent);border-radius:3px;transition:width 0.3s;"></div>' +
-          '</div>';
-        if (vc.voters.length > 0) {
-          html += '<div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.15rem;">' + vc.voters.join(', ') + '</div>';
-        }
-        html += '</div>';
-      });
-    } else {
-      html += '<p style="font-size:0.8rem;color:var(--text-muted);">No suggestions yet — add one above!</p>';
+    // Update the vote choice dropdown
+    var choiceSelect = document.getElementById('vote-choice-' + key);
+    if (choiceSelect) {
+      choiceSelect.innerHTML = '';
+      if (existingOptions.length === 0) {
+        choiceSelect.innerHTML = '<option value="">-- add suggestions first --</option>';
+      } else {
+        existingOptions.forEach(function(o) {
+          choiceSelect.innerHTML += '<option value="' + o.name + '">' + o.name + '</option>';
+        });
+      }
     }
 
-    html += '</div>';
-    body.innerHTML = html;
-    console.log('renderVotes: set innerHTML, length=' + html.length);
+    // Update the results area
+    var resultsDiv = document.getElementById('vote-results-' + key);
+    if (!resultsDiv) return;
+
+    if (existingOptions.length === 0) {
+      resultsDiv.innerHTML = '<p style="font-size:0.78rem;color:var(--text-muted);">No suggestions yet</p>';
+      return;
+    }
+
+    var totalVotes = Object.keys(voteData.votes || {}).length;
+    var voteCounts = {};
+    existingOptions.forEach(function(o) { voteCounts[o.name] = { count:0, voters:[] }; });
+    Object.keys(voteData.votes || {}).forEach(function(voter) {
+      var choice = voteData.votes[voter];
+      if (voteCounts[choice]) {
+        voteCounts[choice].count++;
+        voteCounts[choice].voters.push(voter);
+      }
+    });
+
+    var sorted = existingOptions.slice().sort(function(a, b) {
+      return (voteCounts[b.name] ? voteCounts[b.name].count : 0) - (voteCounts[a.name] ? voteCounts[a.name].count : 0);
+    });
+
+    var html = '';
+    sorted.forEach(function(o) {
+      var vc = voteCounts[o.name] || { count:0, voters:[] };
+      var pct = totalVotes > 0 ? Math.round((vc.count / totalVotes) * 100) : 0;
+      html += '<div style="margin-bottom:0.5rem;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.2rem;">' +
+          '<span style="font-size:0.82rem;color:var(--cream);">' + o.name;
+      if (o.link) {
+        html += ' <a href="' + o.link + '" target="_blank" style="color:var(--accent);font-size:0.7rem;text-decoration:none;border-bottom:1px solid rgba(201,149,107,0.3);"><i class="bi bi-box-arrow-up-right"></i></a>';
+      }
+      html += '</span>' +
+          '<span style="font-size:0.7rem;color:var(--text-muted);">' + vc.count + ' vote' + (vc.count !== 1 ? 's' : '') + '</span>' +
+        '</div>' +
+        '<div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">' +
+          '<div style="height:100%;width:' + pct + '%;background:var(--accent);border-radius:3px;transition:width 0.3s;"></div>' +
+        '</div>';
+      if (vc.voters.length > 0) {
+        html += '<div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.1rem;">' + vc.voters.join(', ') + '</div>';
+      }
+      html += '</div>';
+    });
+    resultsDiv.innerHTML = html;
   });
 }
 

@@ -229,11 +229,14 @@ function renderDay(id, day) {
 
     // Add outfit collapsible
     if (item.tag === 'food' || item.tag === 'activity' || item.tag === 'concert') {
+      var outfitKey = id + '-' + i;
       var outfitDiv = el('div', 'collapsible');
-      outfitDiv.setAttribute('data-outfit', id + '-' + i);
+      outfitDiv.setAttribute('data-outfit', outfitKey);
       outfitDiv.innerHTML = '<button class="collapsible-toggle" onclick="toggleCollapsible(this)">' +
         '<i class="bi bi-palette"></i> Outfit ideas <span class="arrow">&#9662;</span></button>' +
-        '<div class="collapsible-body" id="outfit-' + id + '-' + i + '"></div>';
+        '<div class="collapsible-body" id="outfit-' + outfitKey + '">' +
+          buildOutfitForm(outfitKey) +
+        '</div>';
       t.appendChild(outfitDiv);
     }
 
@@ -244,7 +247,9 @@ function renderDay(id, day) {
       voteDiv.setAttribute('data-vote', voteKey);
       voteDiv.innerHTML = '<button class="collapsible-toggle" onclick="toggleCollapsible(this)">' +
         '<i class="bi bi-hand-thumbs-up"></i> Vote + Suggest <span class="arrow">&#9662;</span></button>' +
-        '<div class="collapsible-body" id="vote-' + voteKey + '"></div>';
+        '<div class="collapsible-body" id="vote-' + voteKey + '">' +
+          buildVoteForm(voteKey) +
+        '</div>';
       t.appendChild(voteDiv);
     }
 
@@ -441,6 +446,42 @@ function toggleCollapsible(btn) {
   btn.classList.toggle('open');
   var body = btn.nextElementSibling;
   body.classList.toggle('open');
+}
+
+/* === BUILD INLINE FORMS === */
+function buildOutfitForm(key) {
+  var html = '<div style="margin-bottom:0.6rem;">' +
+    '<select id="outfit-name-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;margin-right:0.4rem;">';
+  TRIP.people.forEach(function(p) { html += '<option value="' + p + '">' + p + '</option>'; });
+  html += '</select>' +
+    '<input type="text" id="outfit-desc-' + key + '" placeholder="Description" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;width:120px;margin-right:0.4rem;">' +
+    '<input type="file" id="outfit-file-' + key + '" accept="image/*" style="font-size:0.7rem;color:var(--text-dim);max-width:120px;">' +
+    '<button onclick="addOutfit(\'' + key + '\')" style="margin-top:0.4rem;background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.3rem 0.7rem;cursor:pointer;font-size:0.72rem;font-weight:600;">Add</button>' +
+    '</div>' +
+    '<div id="outfit-list-' + key + '"></div>';
+  return html;
+}
+
+function buildVoteForm(key) {
+  var html = '<div style="margin-bottom:0.6rem;">' +
+    '<p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">Add a restaurant suggestion, then vote!</p>' +
+    '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.6rem;">' +
+      '<input type="text" id="suggest-name-' + key + '" placeholder="Restaurant name" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;flex:1;min-width:100px;">' +
+      '<input type="text" id="suggest-link-' + key + '" placeholder="Link (optional)" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;flex:1;min-width:100px;">' +
+      '<button onclick="addSuggestion(\'' + key + '\')" style="background:rgba(201,149,107,0.15);color:var(--accent);border:1px solid rgba(201,149,107,0.25);border-radius:100px;padding:0.3rem 0.7rem;cursor:pointer;font-size:0.72rem;font-weight:600;">+ Add</button>' +
+    '</div>' +
+    '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.6rem;">' +
+      '<select id="vote-name-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;">';
+  TRIP.people.forEach(function(p) { html += '<option value="' + p + '">' + p + '</option>'; });
+  html += '</select>' +
+      '<select id="vote-choice-' + key + '" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.8rem;flex:1;min-width:100px;">' +
+        '<option value="">-- add suggestions first --</option>' +
+      '</select>' +
+      '<button onclick="castVote(\'' + key + '\')" style="background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.3rem 0.7rem;cursor:pointer;font-size:0.72rem;font-weight:600;">Vote</button>' +
+    '</div>' +
+    '<div id="vote-results-' + key + '"></div>' +
+    '</div>';
+  return html;
 }
 
 /* === CREW PROFILE POPUP === */

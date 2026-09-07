@@ -218,8 +218,8 @@ function renderDay(id, day) {
     var t = el('div', 'tl-item' + (item.tag === 'concert' ? ' highlight' : ''));
     t.style.animationDelay = (i * 0.08) + 's';
     var html = '<div class="tl-time">' + item.time + '</div>' +
-      '<div class="tl-title">' + item.title + '</div>' +
-      '<div class="tl-desc">' + item.desc + '</div>';
+      '<div class="tl-title">' + linkifyPlaces(item.title) + '</div>' +
+      '<div class="tl-desc">' + linkifyPlaces(item.desc) + '</div>';
     if (item.tag) {
       html += '<span class="tl-tag ' + item.tag + '">' + item.tag + '</span>';
     }
@@ -517,6 +517,40 @@ function createSection(id, title, subtitle) {
   s.innerHTML = '<h1 class="section-title">' + title + '</h1>' +
     '<p class="section-sub">' + subtitle + '</p>';
   return s;
+}
+
+// Build a lookup of location names to links
+var PLACE_LINKS = {};
+(function() {
+  if (typeof TRIP !== 'undefined' && TRIP.locations) {
+    TRIP.locations.forEach(function(loc) {
+      if (loc.link) PLACE_LINKS[loc.name] = loc.link;
+    });
+  }
+  // Add dining + nightlife venues with Google Maps links
+  if (typeof TRIP !== 'undefined') {
+    var allVenues = [].concat(
+      TRIP.dining.toronto || [], TRIP.dining.montreal || [],
+      TRIP.nightlife.toronto || [], TRIP.nightlife.montreal || []
+    );
+    allVenues.forEach(function(v) {
+      if (!PLACE_LINKS[v.name]) {
+        PLACE_LINKS[v.name] = 'https://www.google.com/search?q=' + encodeURIComponent(v.name + ' ' + (v.neighborhood || ''));
+      }
+    });
+  }
+})();
+
+function linkifyPlaces(text) {
+  var keys = Object.keys(PLACE_LINKS).sort(function(a, b) { return b.length - a.length; });
+  var result = text;
+  keys.forEach(function(name) {
+    // Only match if not already inside an <a> tag
+    var escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var regex = new RegExp('(?!<a[^>]*>)(' + escaped + ')(?![^<]*</a>)', 'g');
+    result = result.replace(regex, '<a href="' + PLACE_LINKS[name] + '" target="_blank" class="place-link">$1</a>');
+  });
+  return result;
 }
 
 function toggleCollapsible(btn) {

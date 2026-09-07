@@ -121,10 +121,13 @@ function buildDestinationsList() {
       '<div class="dest-list">';
 
     locs.forEach(function(loc) {
-      html += '<div class="dest-item" onclick="flyToLocation(' + loc.lat + ',' + loc.lng + ')">' +
+      html += '<div class="dest-item">' +
         '<span class="dest-emoji">' + loc.emoji + '</span>' +
-        '<span class="dest-name">' + loc.name + '</span>' +
-      '</div>';
+        '<span class="dest-name" onclick="flyToLocation(' + loc.lat + ',' + loc.lng + ')">' + loc.name + '</span>';
+      if (loc.link) {
+        html += '<a href="' + loc.link + '" target="_blank" class="dest-link"><i class="bi bi-box-arrow-up-right"></i></a>';
+      }
+      html += '</div>';
     });
 
     html += '</div></div>';

@@ -402,14 +402,15 @@ function togglePayment(payIdx, person) {
 // === FOOD VOTING ===
 function renderVotes() {
   var containers = document.querySelectorAll('[data-vote]');
+  console.log('renderVotes: found ' + containers.length + ' vote containers');
   containers.forEach(function(c) {
     var key = c.getAttribute('data-vote');
     var body = c.querySelector('.collapsible-body');
     if (!body) return;
 
     var voteData = travelData.votes[key] || { options: [], votes: {} };
-    // Extract suggested options from the timeline desc
     var existingOptions = voteData.options || [];
+    console.log('renderVotes: key=' + key + ' options=' + existingOptions.length);
 
     var html = '<div style="margin-bottom:0.8rem;">' +
       '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.8rem;">' +
@@ -473,6 +474,7 @@ function renderVotes() {
 
     html += '</div>';
     body.innerHTML = html;
+    console.log('renderVotes: set innerHTML, length=' + html.length);
   });
 }
 
@@ -506,7 +508,10 @@ function addSuggestion(key) {
 
 // === INIT ===
 document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(loadFromCloud, 500);
+  // Small delay to ensure app.js renderAll() has completed
+  setTimeout(function() {
+    loadFromCloud();
+  }, 800);
   // Auto-refresh every 30s
   setInterval(function() { loadFromCloud(); }, 30000);
 });

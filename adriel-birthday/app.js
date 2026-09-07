@@ -760,8 +760,9 @@ function loadEdits() {
   try {
     var data = JSON.parse(saved);
     Object.keys(data).forEach(function(id) {
-      // Skip sections with dynamic content
+      // Skip sections with dynamic content (overview has crew click handlers, day tabs have outfit/vote sync)
       if (id === 'tab-confirmations' || id === 'tab-budget' || id === 'tab-overview') return;
+      if (id.indexOf('tab-day') === 0) return;
       var section = document.getElementById(id);
       if (section) {
         section.innerHTML = data[id];

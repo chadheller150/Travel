@@ -33,6 +33,55 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initial render
   renderAll();
   showTab('overview');
+
+  // Keyboard shortcuts
+  var TAB_ORDER = ['overview','day1','day2','day3','day4','day5','map','dining','nightlife','logistics','confirmations','budget'];
+  var currentTabIdx = 0;
+
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.contentEditable === 'true') return;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      currentTabIdx = Math.min(currentTabIdx + 1, TAB_ORDER.length - 1);
+      switchToTab(currentTabIdx);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      currentTabIdx = Math.max(currentTabIdx - 1, 0);
+      switchToTab(currentTabIdx);
+    } else if (e.key === 'm' || e.key === 'M') {
+      toggleMenu();
+    } else if (e.key === 'Escape') {
+      var popup = document.getElementById('crew-popup');
+      if (popup) popup.remove();
+      var lb = document.getElementById('lightbox');
+      if (lb) lb.classList.remove('open');
+      var menu = document.getElementById('side-menu');
+      if (menu.classList.contains('open')) toggleMenu();
+    }
+  });
+
+  function switchToTab(idx) {
+    var tab = TAB_ORDER[idx];
+    var menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(function(b) { b.classList.remove('active'); });
+    menuItems.forEach(function(b) { if (b.dataset.tab === tab) b.classList.add('active'); });
+    showTab(tab);
+  }
+
+  // Swipe gestures for mobile tab switching
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', function(e) {
+    var diff = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(diff) < 60) return;
+    if (diff < 0) {
+      currentTabIdx = Math.min(currentTabIdx + 1, TAB_ORDER.length - 1);
+    } else {
+      currentTabIdx = Math.max(currentTabIdx - 1, 0);
+    }
+    switchToTab(currentTabIdx);
+  });
 });
 
 function toggleMenu() {
@@ -184,9 +233,20 @@ function renderDay(id, day) {
       var outfitDiv = el('div', 'collapsible');
       outfitDiv.setAttribute('data-outfit', id + '-' + i);
       outfitDiv.innerHTML = '<button class="collapsible-toggle" onclick="toggleCollapsible(this)">' +
-        '👗 Outfit ideas <span class="arrow">▾</span></button>' +
+        '<i class="bi bi-palette"></i> Outfit ideas <span class="arrow">&#9662;</span></button>' +
         '<div class="collapsible-body" id="outfit-' + id + '-' + i + '"></div>';
       t.appendChild(outfitDiv);
+    }
+
+    // Add food vote collapsible for food items
+    if (item.tag === 'food') {
+      var voteKey = id + '-food-' + i;
+      var voteDiv = el('div', 'collapsible');
+      voteDiv.setAttribute('data-vote', voteKey);
+      voteDiv.innerHTML = '<button class="collapsible-toggle" onclick="toggleCollapsible(this)">' +
+        '<i class="bi bi-hand-thumbs-up"></i> Vote + Suggest <span class="arrow">&#9662;</span></button>' +
+        '<div class="collapsible-body" id="vote-' + voteKey + '"></div>';
+      t.appendChild(voteDiv);
     }
 
     tl.appendChild(t);

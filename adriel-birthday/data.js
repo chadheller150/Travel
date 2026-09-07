@@ -210,6 +210,8 @@ var TRIP = {
     { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
     { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
     { item:'Olivia Rodrigo Tickets', cost:0, per:0, due:'Paid', note:'Adriel + Jessica only — already purchased', appliesTo:['Adriel','Jessica'] },
-    { item:'Rental Car', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup', appliesTo:[] }
+    { item:'Toronto Lodging (1 night)', cost:0, per:0, due:'TBD', note:'Split 5 ways', appliesTo:[] },
+    { item:'Montreal Airbnb (3 nights)', cost:0, per:0, due:'TBD', note:'Split 5 ways — 5945 Rue Bergevin', appliesTo:[] },
+    { item:'Rental Car (2 days)', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup + drop at YUL', appliesTo:[] }
   ]
 };

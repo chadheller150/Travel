@@ -4,11 +4,11 @@
 
 var TRIP = {
   crew: [
-    { name:'Adriel', role:'Birthday Boy', emoji:'🎂', color:'var(--accent-gold)' },
-    { name:'Chad', role:'Planner', emoji:'✨', color:'var(--accent)' },
-    { name:'Haydee', role:'Adriel\'s Mom', emoji:'💛', color:'var(--burgundy)' },
-    { name:'Lulu', role:'The Energy', emoji:'🔥', color:'var(--forest)' },
-    { name:'Jessica', role:'Concert Buddy', emoji:'🎶', color:'#8886e6' }
+    { name:'Adriel', role:'Birthday Boy', emoji:'🎂', color:'var(--accent-gold)', photo:'./photos/adriel.jpg' },
+    { name:'Chad', role:'Planner', emoji:'✨', color:'var(--accent)', photo:'./photos/chad.jpg' },
+    { name:'Haydee', role:'Adriel\'s Mom', emoji:'💛', color:'var(--burgundy)', photo:'./photos/haydee.jpg' },
+    { name:'Lulu', role:'The Energy', emoji:'🔥', color:'var(--forest)', photo:'./photos/lulu.jpg' },
+    { name:'Jessica', role:'Concert Buddy', emoji:'🎶', color:'#8886e6', photo:'./photos/jessica.jpg' }
   ],
   people: ['Adriel','Chad','Haydee','Lulu','Jessica'],
 

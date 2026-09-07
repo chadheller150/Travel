@@ -91,7 +91,7 @@ function renderOverview() {
   var badges = el('div', 'crew-grid');
   TRIP.crew.forEach(function(c) {
     var b = el('div', 'crew-badge' + (c.name === 'Adriel' ? ' birthday' : ''));
-    b.innerHTML = '<div class="avatar-placeholder"><i class="bi bi-person"></i></div><span>' + c.name + '</span>';
+    b.innerHTML = '<img class="crew-thumb" src="' + c.photo + '" alt="' + c.name + '"><span>' + c.name + '</span>';
     b.style.cursor = 'pointer';
     b.onclick = (function(person) { return function() { openCrewProfile(person); }; })(c.name);
     badges.appendChild(b);
@@ -388,7 +388,6 @@ function openCrewProfile(name) {
   var person = TRIP.crew.find(function(c) { return c.name === name; });
   if (!person) return;
 
-  // Remove existing popup
   var existing = document.getElementById('crew-popup');
   if (existing) existing.remove();
 
@@ -398,16 +397,17 @@ function openCrewProfile(name) {
   overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
 
   var profileData = (typeof travelData !== 'undefined' && travelData.profiles && travelData.profiles[name]) || {};
+  var photoSrc = profileData.photo || person.photo || '';
 
   var card = document.createElement('div');
   card.style.cssText = 'background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;';
 
-  // Profile photo
+  // Profile photo with blob shape
   var photoHtml = '';
-  if (profileData.photo) {
-    photoHtml = '<img src="' + profileData.photo + '" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;display:block;">';
+  if (photoSrc) {
+    photoHtml = '<div class="profile-blob-wrap"><img src="' + photoSrc + '" class="profile-blob"></div>';
   } else {
-    photoHtml = '<div style="width:80px;height:80px;border-radius:50%;background:var(--burgundy);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"><i class="bi bi-person" style="font-size:2rem;color:var(--cream);"></i></div>';
+    photoHtml = '<div class="profile-blob-wrap"><div class="profile-blob" style="background:var(--burgundy);display:flex;align-items:center;justify-content:center;"><i class="bi bi-person" style="font-size:2.5rem;color:var(--cream);"></i></div></div>';
   }
 
   // Payment status

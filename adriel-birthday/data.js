@@ -84,7 +84,7 @@ var TRIP = {
       city:'Montreal',
       items: [
         { time:'~10:00 AM', title:'Sleep In + Brunch', desc:'Regine Cafe (rococo decor, great plating, $$), La Fabrique (polished Plateau, $$), or Cafe Parvis (urban oasis, $$)', tag:'food', drive:'' },
-        { time:'~11:30 AM', title:'Monography Coffee', desc:'Trendy cafe on Rue Saint-Denis in the Plateau. Great coffee + aesthetic vibes. Quick stop before museum.', tag:'food', drive:'5 min walk if brunching in Plateau' },
+        { time:'~11:30 AM', title:'Monography Photo Studio', desc:'Self-portrait photography studio at 3674 Saint-Denis. Professional lighting + equipment — take amazing group photos and solo shots. Book ahead!', tag:'activity', drive:'5 min walk if brunching in Plateau' },
         { time:'~12:00 PM', title:'Montreal Museum of Fine Arts (MMFA)', desc:'World-class collection on Sherbrooke Street. Allow 1.5-2 hours. Great for art lovers.', tag:'activity', drive:'10 min from Plateau' },
         { time:'~2:00 PM', title:'Old Montreal Exploring', desc:'Cobblestone streets, Notre-Dame Basilica ($16 entry, stunning interior), Old Port waterfront, Ferris wheel ($25)', tag:'activity', drive:'Walkable district' },
         { time:'~4:00 PM', title:'Phi Centre', desc:'Stunning private art space in a renovated Old Montreal heritage building. Free/low-cost. The building itself is part of the experience.', tag:'activity', drive:'In Old Montreal — walkable' },
@@ -137,7 +137,6 @@ var TRIP = {
       { name:'St. Lawrence Market', type:'Lunch/Snacks', price:'$', desc:'Iconic indoor market. Peameal bacon sandwich is a must-try.', cuisine:'Market', neighborhood:'Old Town' }
     ],
     montreal: [
-      { name:'Monography Coffee', type:'Cafe', price:'$', desc:'Trendy cafe on Rue Saint-Denis in the Plateau. Great coffee, aesthetic vibes.', cuisine:'Cafe', neighborhood:'Plateau' },
       { name:'Regine Cafe', type:'Brunch', price:'$$', desc:'Elaborate plating, rococo-inspired decor. Very aesthetic.', cuisine:'Brunch', neighborhood:'Plateau' },
       { name:'La Fabrique', type:'Brunch', price:'$$', desc:'Beautifully plated dishes in polished Plateau setting.', cuisine:'Brunch', neighborhood:'Plateau' },
       { name:'Cafe Parvis', type:'Brunch', price:'$$', desc:'Urban oasis cafe with greenery and vintage accents. Visually gorgeous.', cuisine:'Cafe', neighborhood:'Downtown' },
@@ -187,7 +186,7 @@ var TRIP = {
     { name:'Jean-Talon Market', lat:45.5362, lng:-73.6153, emoji:'🛒', city:'Montreal' },
     { name:'Montreal Botanical Garden', lat:45.5593, lng:-73.5617, emoji:'🌿', city:'Montreal' },
     { name:'Saint Joseph\'s Oratory', lat:45.4917, lng:-73.6170, emoji:'⛪', city:'Montreal' },
-    { name:'Monography Coffee', lat:45.5170, lng:-73.5660, emoji:'☕', city:'Montreal' },
+    { name:'Monography Photo Studio', lat:45.5170, lng:-73.5660, emoji:'📸', city:'Montreal' },
     { name:'Quartier DIX30', lat:45.4629, lng:-73.4541, emoji:'🛍️', city:'Montreal' },
     { name:'Montreal Lodging', lat:45.4321, lng:-73.6175, emoji:'🏠', city:'Montreal' },
     { name:'Mont-Tremblant', lat:46.2094, lng:-74.5850, emoji:'🏔️', city:'Laurentians' },

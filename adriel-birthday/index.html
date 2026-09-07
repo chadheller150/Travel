@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/lucide.css"/>
 <link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
@@ -14,23 +15,58 @@
 <div id="loader">
   <div class="loader-content">
     <div class="leaf-fall">
-      <span>🍁</span><span>🍂</span><span>🍁</span><span>🍂</span><span>🍁</span>
+      <span class="leaf">&#9752;</span>
+      <span class="leaf">&#9752;</span>
+      <span class="leaf">&#9752;</span>
     </div>
     <h1 class="loader-title">Adriel's Birthday</h1>
-    <p class="loader-sub">Toronto & Montreal</p>
+    <p class="loader-sub">Toronto &middot; Montreal</p>
     <div class="loader-bar"><div class="loader-fill"></div></div>
   </div>
 </div>
 
 <!-- Main App -->
 <div id="app" style="display:none;">
+  <!-- Top bar with hamburger -->
+  <div class="top-bar" id="top-bar">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+    <span class="top-bar-title" id="top-bar-title">Overview</span>
+  </div>
+
+  <!-- Slide-out menu -->
+  <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
+  <nav class="side-menu" id="side-menu">
+    <div class="menu-header">
+      <h2>Adriel's Birthday</h2>
+      <p>Toronto &middot; Montreal</p>
+    </div>
+    <div class="menu-items">
+      <button class="menu-item active" data-tab="overview"><i class="lucide-layout-dashboard"></i> Overview</button>
+      <div class="menu-divider"></div>
+      <button class="menu-item" data-tab="day1"><i class="lucide-plane-landing"></i> Tue 10/20 — Arrival</button>
+      <button class="menu-item" data-tab="day2"><i class="lucide-train-front"></i> Wed 10/21 — Train Day</button>
+      <button class="menu-item" data-tab="day3"><i class="lucide-music"></i> Thu 10/22 — Concert</button>
+      <button class="menu-item" data-tab="day4"><i class="lucide-trees"></i> Fri 10/23 — Nature</button>
+      <button class="menu-item" data-tab="day5"><i class="lucide-plane-takeoff"></i> Sat 10/24 — Departure</button>
+      <div class="menu-divider"></div>
+      <button class="menu-item" data-tab="map"><i class="lucide-map-pin"></i> Map</button>
+      <button class="menu-item" data-tab="dining"><i class="lucide-utensils"></i> Dining Guide</button>
+      <button class="menu-item" data-tab="nightlife"><i class="lucide-wine"></i> Nightlife</button>
+      <button class="menu-item" data-tab="logistics"><i class="lucide-compass"></i> Logistics</button>
+      <button class="menu-item" data-tab="confirmations"><i class="lucide-paperclip"></i> Confirmations</button>
+      <button class="menu-item" data-tab="budget"><i class="lucide-wallet"></i> Budget</button>
+    </div>
+  </nav>
+
   <!-- Hero -->
   <header class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <p class="hero-eyebrow">October 20 - 24, 2026</p>
       <h1 class="hero-title">Adriel's Birthday</h1>
-      <p class="hero-subtitle">Toronto <span class="dot">.</span> Montreal</p>
+      <p class="hero-subtitle">Toronto <span class="dot">&middot;</span> Montreal</p>
       <div class="hero-tags">
         <span class="tag">5 Friends</span>
         <span class="tag">2 Cities</span>
@@ -39,24 +75,6 @@
       </div>
     </div>
   </header>
-
-  <!-- Navigation -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <button class="nav-btn active" data-tab="overview">Overview</button>
-      <button class="nav-btn" data-tab="day1">Tue 10/20</button>
-      <button class="nav-btn" data-tab="day2">Wed 10/21</button>
-      <button class="nav-btn" data-tab="day3">Thu 10/22</button>
-      <button class="nav-btn" data-tab="day4">Fri 10/23</button>
-      <button class="nav-btn" data-tab="day5">Sat 10/24</button>
-      <button class="nav-btn" data-tab="map">Map</button>
-      <button class="nav-btn" data-tab="dining">Dining</button>
-      <button class="nav-btn" data-tab="nightlife">Nightlife</button>
-      <button class="nav-btn" data-tab="logistics">Logistics</button>
-      <button class="nav-btn" data-tab="confirmations">Confirmations</button>
-      <button class="nav-btn" data-tab="budget">Budget</button>
-    </div>
-  </nav>
 
   <!-- Sections -->
   <main id="content"></main>

@@ -105,6 +105,15 @@ function renderOverview() {
     '<div class="card-detail"><span class="icon">💰</span> ' + TRIP.train.price + '</div>';
   grid.appendChild(tr);
 
+  // Montreal Lodging
+  var ml = el('div', 'card');
+  ml.innerHTML = '<div class="card-label">🏠 Montreal Home Base</div>' +
+    '<h3>5945 Rue Bergevin</h3>' +
+    '<div class="card-detail"><span class="icon">📅</span> ' + TRIP.lodging.checkin + '</div>' +
+    '<div class="card-detail"><span class="icon">🔑</span> Checkout: ' + TRIP.lodging.checkout + '</div>' +
+    '<div class="card-detail"><span class="icon">📍</span> ' + TRIP.lodging.note + '</div>';
+  grid.appendChild(ml);
+
   // Rental Car
   var rc = el('div', 'card');
   rc.innerHTML = '<div class="card-label">Rental Car</div>' +
@@ -344,3 +353,197 @@ function toggleCollapsible(btn) {
   var body = btn.nextElementSibling;
   body.classList.toggle('open');
 }
+
+/* === EDIT MODE === */
+var editMode = false;
+
+function initEditMode() {
+  var btn = document.createElement('button');
+  btn.id = 'edit-toggle';
+  btn.innerHTML = '✏️';
+  btn.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;width:48px;height:48px;border-radius:50%;background:var(--accent);color:var(--bg);border:none;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.4);transition:all 0.3s;';
+  btn.onclick = toggleEditMode;
+  document.body.appendChild(btn);
+}
+
+function toggleEditMode() {
+  editMode = !editMode;
+  var btn = document.getElementById('edit-toggle');
+
+  if (editMode) {
+    btn.innerHTML = '💾';
+    btn.style.background = 'var(--forest)';
+    enableEditing();
+  } else {
+    btn.innerHTML = '✏️';
+    btn.style.background = 'var(--accent)';
+    disableEditing();
+    saveEdits();
+  }
+}
+
+function enableEditing() {
+  // Make all text editable
+  var editables = document.querySelectorAll('.tl-time, .tl-title, .tl-desc, .card h3, .card p, .card-detail, .venue-card h3, .venue-desc, .venue-meta, .section-title, .section-sub, .budget-item .amount, .budget-item .label, .conf-label');
+  editables.forEach(function(el) {
+    el.contentEditable = 'true';
+    el.style.outline = '1px dashed rgba(201,149,107,0.3)';
+    el.style.outlineOffset = '2px';
+  });
+
+  // Add delete buttons to timeline items
+  var tlItems = document.querySelectorAll('.tl-item');
+  tlItems.forEach(function(item) {
+    if (!item.querySelector('.delete-btn')) {
+      var del = document.createElement('button');
+      del.className = 'delete-btn';
+      del.innerHTML = '🗑️';
+      del.style.cssText = 'position:absolute;top:0;right:0;background:rgba(139,58,58,0.3);border:1px solid rgba(139,58,58,0.5);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center;';
+      del.onclick = function() {
+        if (confirm('Delete this item?')) {
+          item.remove();
+        }
+      };
+      item.appendChild(del);
+    }
+  });
+
+  // Add "+" buttons to timelines
+  var timelines = document.querySelectorAll('.timeline');
+  timelines.forEach(function(tl) {
+    if (!tl.querySelector('.add-item-btn')) {
+      var addBtn = document.createElement('button');
+      addBtn.className = 'add-item-btn';
+      addBtn.innerHTML = '+ Add Item';
+      addBtn.style.cssText = 'display:block;width:100%;padding:0.8rem;margin-top:1rem;background:rgba(201,149,107,0.08);border:1px dashed rgba(201,149,107,0.25);border-radius:10px;color:var(--accent);font-family:DM Sans,sans-serif;font-size:0.85rem;cursor:pointer;transition:all 0.2s;';
+      addBtn.onmouseover = function() { this.style.background = 'rgba(201,149,107,0.15)'; };
+      addBtn.onmouseout = function() { this.style.background = 'rgba(201,149,107,0.08)'; };
+      addBtn.onclick = function() { addTimelineItem(tl); };
+      tl.appendChild(addBtn);
+    }
+  });
+
+  // Add "+" to card grids
+  var grids = document.querySelectorAll('.card-grid');
+  grids.forEach(function(g) {
+    if (!g.querySelector('.add-card-btn')) {
+      var addBtn = document.createElement('button');
+      addBtn.className = 'add-card-btn';
+      addBtn.innerHTML = '+ Add Card';
+      addBtn.style.cssText = 'padding:1.5rem;background:rgba(201,149,107,0.05);border:1px dashed rgba(201,149,107,0.2);border-radius:var(--radius);color:var(--accent);font-family:DM Sans,sans-serif;font-size:0.85rem;cursor:pointer;transition:all 0.2s;min-height:120px;display:flex;align-items:center;justify-content:center;';
+      addBtn.onclick = function() { addCard(g); };
+      g.appendChild(addBtn);
+    }
+  });
+
+  // Add delete to venue cards
+  var venueCards = document.querySelectorAll('.venue-card');
+  venueCards.forEach(function(vc) {
+    if (!vc.querySelector('.delete-btn')) {
+      var del = document.createElement('button');
+      del.className = 'delete-btn';
+      del.innerHTML = '🗑️';
+      del.style.cssText = 'float:right;background:rgba(139,58,58,0.3);border:1px solid rgba(139,58,58,0.5);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:0.75rem;';
+      del.onclick = function() {
+        if (confirm('Delete this venue?')) vc.remove();
+      };
+      vc.prepend(del);
+    }
+  });
+}
+
+function disableEditing() {
+  var editables = document.querySelectorAll('[contenteditable="true"]');
+  editables.forEach(function(el) {
+    el.contentEditable = 'false';
+    el.style.outline = 'none';
+    el.style.outlineOffset = '';
+  });
+
+  // Remove delete buttons
+  var delBtns = document.querySelectorAll('.delete-btn');
+  delBtns.forEach(function(b) { b.remove(); });
+
+  // Remove add buttons
+  var addBtns = document.querySelectorAll('.add-item-btn, .add-card-btn');
+  addBtns.forEach(function(b) { b.remove(); });
+}
+
+function addTimelineItem(timeline) {
+  var time = prompt('Time (e.g. ~3:00 PM):');
+  if (!time) return;
+  var title = prompt('Title:');
+  if (!title) return;
+  var desc = prompt('Description (optional):') || '';
+
+  var item = document.createElement('div');
+  item.className = 'tl-item';
+  item.innerHTML = '<div class="tl-time">' + time + '</div>' +
+    '<div class="tl-title">' + title + '</div>' +
+    '<div class="tl-desc">' + desc + '</div>';
+
+  // Insert before the add button
+  var addBtn = timeline.querySelector('.add-item-btn');
+  if (addBtn) {
+    timeline.insertBefore(item, addBtn);
+  } else {
+    timeline.appendChild(item);
+  }
+}
+
+function addCard(grid) {
+  var label = prompt('Card label (e.g. Note, Reminder):');
+  if (!label) return;
+  var title = prompt('Title:');
+  if (!title) return;
+  var detail = prompt('Details (optional):') || '';
+
+  var card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = '<div class="card-label">' + label + '</div>' +
+    '<h3>' + title + '</h3>' +
+    '<p>' + detail + '</p>';
+
+  var addBtn = grid.querySelector('.add-card-btn');
+  if (addBtn) {
+    grid.insertBefore(card, addBtn);
+  } else {
+    grid.appendChild(card);
+  }
+}
+
+function saveEdits() {
+  // Save all section HTML to localStorage
+  var sections = document.querySelectorAll('.section');
+  var data = {};
+  sections.forEach(function(s) {
+    data[s.id] = s.innerHTML;
+  });
+  try {
+    localStorage.setItem('adriel-trip-edits', JSON.stringify(data));
+  } catch(e) {}
+}
+
+function loadEdits() {
+  var saved = localStorage.getItem('adriel-trip-edits');
+  if (!saved) return;
+  try {
+    var data = JSON.parse(saved);
+    Object.keys(data).forEach(function(id) {
+      // Skip sections with dynamic content
+      if (id === 'tab-confirmations' || id === 'tab-budget') return;
+      var section = document.getElementById(id);
+      if (section) {
+        section.innerHTML = data[id];
+      }
+    });
+  } catch(e) {}
+}
+
+// Init edit mode on load
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    initEditMode();
+    loadEdits();
+  }, 2600);
+});

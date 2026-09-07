@@ -34,6 +34,15 @@ var TRIP = {
     note:'Book early for cheapest fares. Scenic ride through Ontario countryside. Board at Union Station.'
   },
 
+  lodging: {
+    address:'5945 Rue Bergevin, Montreal',
+    type:'Airbnb / Rental',
+    checkin:'Wed Oct 21, ~6:00 PM',
+    checkout:'Sat Oct 24, ~9:30 AM',
+    nights:3,
+    note:'LaSalle area — ~20 min from downtown Montreal'
+  },
+
   rental: {
     city:'Montreal', dates:'Oct 23-24 (Fri-Sat)',
     note:'Pickup downtown Montreal, drop off at YUL airport',
@@ -50,7 +59,7 @@ var TRIP = {
         { time:'~4:00 PM', title:'Land at Toronto Pearson (YYZ)', desc:'Grab bags, clear customs. Should be out by ~4:45.', tag:'transport', drive:'' },
         { time:'~5:30 PM', title:'Check into Toronto Lodging', desc:'Drop bags, freshen up quickly', tag:'lodging', drive:'30-45 min from YYZ via UP Express ($12.35) or taxi' },
         { time:'~6:15 PM', title:'CN Tower', desc:'Iconic skyline views — catch golden hour/sunset from the observation deck ($43 CAD). Book tickets online in advance to skip the line.', tag:'activity', drive:'10-15 min walk from downtown' },
-        { time:'~8:00 PM', title:'Dinner — Aera or Bar Etc.', desc:'Aera: trendy fine dining, seasonal tasting menus ($$$$). Bar Etc: design-forward cocktails + food ($$$). Reserve ahead.', tag:'food', drive:'5-10 min walk from CN Tower' },
+        { time:'~8:00 PM', title:'Dinner — Casual First Night', desc:'Keep it chill after a long travel day. Pai Northern Thai ($, amazing pad thai), Seven Lives Tacos ($, cult-favorite fish tacos in Kensington), or grab something near the Village before going out.', tag:'food', drive:'5-10 min walk from CN Tower' },
         { time:'~10:00 PM', title:'Church-Wellesley Village', desc:'Toronto\'s LGBTQ+ district. Crews and Tangos (drag shows), The Drink (stylish cocktails), Woody\'s (classic bar).', tag:'activity', drive:'10 min taxi from downtown' }
       ]
     },
@@ -64,9 +73,9 @@ var TRIP = {
         { time:'~11:15 AM', title:'Head to Union Station', desc:'Quick walk or taxi to Union Station. Grab snacks + drinks for the train.', tag:'transport', drive:'10-15 min from AGO' },
         { time:'11:38 AM', title:'VIA Rail to Montreal', desc:'Board at Union Station. 5.5 hour scenic ride through Ontario countryside. Business class includes meal + more legroom.', tag:'transport', drive:'' },
         { time:'5:05 PM', title:'Arrive in Montreal', desc:'Gare Centrale (Central Station). Right in the heart of downtown.', tag:'transport', drive:'' },
-        { time:'~5:45 PM', title:'Check into Montreal Lodging', desc:'Drop bags, refresh, settle in', tag:'lodging', drive:'5-10 min walk from Gare Centrale' },
-        { time:'~7:30 PM', title:'Dinner — Bouillon Bilk or Le Violon', desc:'Bouillon Bilk: sleek minimalist fine dining ($$$$). Le Violon: warm, elegant French ($$$). Both need reservations.', tag:'food', drive:'' },
-        { time:'~10:00 PM', title:'Le Village Night Out', desc:'Montreal\'s LGBTQ+ district. Complexe Sky (rooftop + multiple floors), Cabaret Mado (drag shows), Club Unity (dance floors)', tag:'activity', drive:'10 min from downtown' }
+        { time:'~5:45 PM', title:'Check into Montreal — 5945 Rue Bergevin', desc:'Drop bags, refresh, settle in. LaSalle area, ~20 min from downtown.', tag:'lodging', drive:'~20 min from Gare Centrale via taxi/Uber' },
+        { time:'~7:30 PM', title:'🎂 Adriel\'s Birthday Dinner', desc:'THE birthday dinner! Agrikol (tropical Haitian, fun vibes, great rum cocktails, $$), Le Violon (warm + elegant French, $$$), or Bouillon Bilk (minimalist fine dining, $$$$). Make it special — reserve ahead!', tag:'food', drive:'~20 min from lodging to downtown' },
+        { time:'~10:00 PM', title:'Birthday Night Out — Le Village', desc:'Montreal\'s LGBTQ+ district for the birthday celebration! Complexe Sky (rooftop + multiple floors), Cabaret Mado (drag shows), Club Unity (dance floors)', tag:'activity', drive:'10 min from dinner area' }
       ]
     },
     day3: {
@@ -74,13 +83,14 @@ var TRIP = {
       date:'Thursday, October 22',
       city:'Montreal',
       items: [
-        { time:'~10:00 AM', title:'Sleep In + Brunch', desc:'Dandy (chic Old Montreal, $$$), Regine Cafe (rococo decor, $$), or Bar George (glamorous mansion, $$$$)', tag:'food', drive:'' },
-        { time:'~12:00 PM', title:'Montreal Museum of Fine Arts (MMFA)', desc:'World-class collection on Sherbrooke Street. Allow 1.5-2 hours. Great for art lovers.', tag:'activity', drive:'10 min from Old Montreal' },
+        { time:'~10:00 AM', title:'Sleep In + Brunch', desc:'Regine Cafe (rococo decor, great plating, $$), La Fabrique (polished Plateau, $$), or Cafe Parvis (urban oasis, $$)', tag:'food', drive:'' },
+        { time:'~11:30 AM', title:'Monography Coffee', desc:'Trendy cafe on Rue Saint-Denis in the Plateau. Great coffee + aesthetic vibes. Quick stop before museum.', tag:'food', drive:'5 min walk if brunching in Plateau' },
+        { time:'~12:00 PM', title:'Montreal Museum of Fine Arts (MMFA)', desc:'World-class collection on Sherbrooke Street. Allow 1.5-2 hours. Great for art lovers.', tag:'activity', drive:'10 min from Plateau' },
         { time:'~2:00 PM', title:'Old Montreal Exploring', desc:'Cobblestone streets, Notre-Dame Basilica ($16 entry, stunning interior), Old Port waterfront, Ferris wheel ($25)', tag:'activity', drive:'Walkable district' },
         { time:'~4:00 PM', title:'Phi Centre', desc:'Stunning private art space in a renovated Old Montreal heritage building. Free/low-cost. The building itself is part of the experience.', tag:'activity', drive:'In Old Montreal — walkable' },
-        { time:'~5:30 PM', title:'Pre-Concert Dinner', desc:'Quick dinner near Centre Bell. Grab something downtown before the show.', tag:'food', drive:'10 min walk' },
+        { time:'~5:30 PM', title:'Pre-Concert Dinner', desc:'Quick and affordable near Centre Bell. Poutine from La Banquise ($), or shawarma/falafel from Boustan ($). Fuel up before the show.', tag:'food', drive:'10 min walk' },
         { time:'7:00 PM', title:'🎵 Olivia Rodrigo @ Centre Bell', desc:'Jessica + Adriel! 1909 Ave des Canadiens-de-Montreal. Doors likely 6:00 PM.', tag:'concert', drive:'' },
-        { time:'During Concert', title:'Chad, Haydee, Lulu — Alt Plans', desc:'Explore Plateau / Mile End neighborhoods. Dinner at Mon Lapin (inventive small plates, $$$) or Agrikol (tropical Haitian, $$). Bar hop along Saint-Laurent.', tag:'activity', drive:'' },
+        { time:'During Concert', title:'Chad, Haydee, Lulu — Alt Plans', desc:'Explore Plateau / Mile End neighborhoods. Dinner at Agrikol (tropical Haitian, fun vibes, $$) or grab bagels + browse Mile End shops. Bar hop along Saint-Laurent.', tag:'activity', drive:'' },
         { time:'~10:30 PM', title:'Regroup + Nightlife', desc:'Meet up after the concert. Late drinks in Le Village or Plateau. Complexe Sky rooftop if weather allows.', tag:'activity', drive:'' }
       ]
     },
@@ -94,10 +104,10 @@ var TRIP = {
         { time:'~11:30 AM', title:'Drive North to the Laurentians', desc:'Scenic Route 117 through Saint-Sauveur and Sainte-Adele. Peak fall foliage territory — rolling hills covered in red, orange, gold. The drive itself is the attraction.', tag:'activity', drive:'~1 hour from Botanical Garden' },
         { time:'~12:30 PM', title:'Lunch in Saint-Sauveur or Val-David', desc:'Charming mountain village with cafes, bakeries, and craft shops. Browse the main street.', tag:'food', drive:'Along the route' },
         { time:'~2:00 PM', title:'Mont-Tremblant Area', desc:'Stunning resort village at the base of the mountain. Take the panoramic gondola for incredible fall views from the summit. Walk the pedestrian village.', tag:'activity', drive:'30 min from Val-David' },
-        { time:'~4:00 PM', title:'Drive Back to Montreal', desc:'Scenic return drive. ~1.5 hours back to the city. Stop for photos along the way — the light is gorgeous in late afternoon.', tag:'transport', drive:'~1.5 hours' },
-        { time:'~6:00 PM', title:'Back to Lodging — Freshen Up', desc:'Rest and get ready for birthday dinner', tag:'lodging', drive:'' },
-        { time:'~8:00 PM', title:'Birthday Dinner — Celeste or Marcus', desc:'Celeste: luminous atrium, grand and elegant ($$$$). Marcus at Four Seasons: skyline terrace, celebrity chef ($$$$). THIS is THE dinner. Reserve well ahead.', tag:'food', drive:'10-15 min' },
-        { time:'~10:30 PM', title:'Birthday Night Out', desc:'Le Village for the full experience. Complexe Sky rooftop, Club Unity dance floors, Cabaret Mado drag show', tag:'activity', drive:'' }
+        { time:'~4:00 PM', title:'Drive Back — Quartier DIX30 Stop', desc:'Huge open-air lifestyle shopping district in Brossard (South Shore). Simons, Zara, Lululemon, Uniqlo + tons of restaurants and cafes. On the way back from the Laurentians. Browse for 1-1.5 hours.', tag:'activity', drive:'~1 hour from Tremblant, 20 min from lodging' },
+        { time:'~6:00 PM', title:'Back to Lodging — Freshen Up', desc:'Rest and get ready for dinner', tag:'lodging', drive:'' },
+        { time:'~8:00 PM', title:'Dinner Out', desc:'Keep it relaxed after a big day. Agrikol (tropical Haitian, $$), Le Petit Dep (casual but cool, $$), or cook at the Airbnb if everyone is tired.', tag:'food', drive:'~20 min to downtown' },
+        { time:'~10:00 PM', title:'Night Out or Chill', desc:'Le Village if you have energy, or game night at the Airbnb. Last night in Montreal!', tag:'activity', drive:'' }
       ]
     },
     day5: {
@@ -106,7 +116,7 @@ var TRIP = {
       city:'Montreal → Austin',
       items: [
         { time:'~9:00 AM', title:'Wake Up + Pack', desc:'Clean up lodging, get organized. Check out.', tag:'lodging', drive:'' },
-        { time:'~10:00 AM', title:'Final Montreal Brunch', desc:'Leméac (upscale Parisian, $$$), La Fabrique (polished Plateau, $$), or Cafe Parvis (urban oasis greenery)', tag:'food', drive:'' },
+        { time:'~10:00 AM', title:'Final Montreal Brunch', desc:'La Fabrique (polished Plateau, $$), Cafe Parvis (urban oasis, $$), or bagels from Fairmount/St-Viateur ($) + coffee', tag:'food', drive:'' },
         { time:'~11:30 AM', title:'Saint Joseph\'s Oratory', desc:'Stunning hilltop basilica — one of the largest churches in the world. Incredible city views from the top. Worth 45 min.', tag:'activity', drive:'15 min from downtown' },
         { time:'~12:30 PM', title:'Last Stops + Souvenirs', desc:'Grab maple syrup, one last poutine. Quick stroll through any missed spots.', tag:'activity', drive:'' },
         { time:'~1:30 PM', title:'Drive to YUL Airport', desc:'Return rental car at airport. Allow 30 min for car return process.', tag:'transport', drive:'25-30 min from downtown' },
@@ -118,27 +128,26 @@ var TRIP = {
 
   dining: {
     toronto: [
-      { name:'KOST', type:'Brunch', price:'$$$$', desc:'44th-floor rooftop brunch with panoramic skyline views. Stunning for photos.', cuisine:'Contemporary', neighborhood:'Financial District' },
-      { name:'The Drake Hotel', type:'Brunch', price:'$$', desc:'Art-forward hotel restaurant with buzzy weekend brunch. Great cocktails.', cuisine:'Canadian Modern', neighborhood:'Queen West' },
       { name:'Lady Marmalade', type:'Brunch', price:'$$', desc:'East End brunch staple. Long lines but worth it. Cash-friendly.', cuisine:'Brunch', neighborhood:'Leslieville' },
       { name:'Light Cafe', type:'Brunch', price:'$$', desc:'Cute, soft, playful. Cozy and highly Instagram-worthy.', cuisine:'Cafe', neighborhood:'Downtown' },
-      { name:'Aera', type:'Dinner', price:'$$$$', desc:'Trendy fine dining. Scene-y room, seasonal tasting menus.', cuisine:'Contemporary', neighborhood:'King West' },
-      { name:'Bar Etc.', type:'Dinner', price:'$$$', desc:'Design-forward cocktail bar + restaurant. Playful edge, great drinks.', cuisine:'Modern', neighborhood:'Downtown' },
+      { name:'The Drake Hotel', type:'Brunch', price:'$$', desc:'Art-forward hotel restaurant with buzzy weekend brunch. Great cocktails.', cuisine:'Canadian Modern', neighborhood:'Queen West' },
+      { name:'Pai Northern Thai', type:'Dinner', price:'$', desc:'Best Thai in Toronto. Known for their pad thai and khao soi. Always busy — go early.', cuisine:'Thai', neighborhood:'Entertainment District' },
+      { name:'Seven Lives Tacos', type:'Lunch', price:'$', desc:'Cult-favorite taco spot in Kensington Market. Fish tacos are legendary. Cash only.', cuisine:'Mexican', neighborhood:'Kensington Market' },
+      { name:'Bar Etc.', type:'Dinner', price:'$$$', desc:'Design-forward cocktail bar + restaurant. Good vibes, great drinks.', cuisine:'Modern', neighborhood:'Downtown' },
       { name:'St. Lawrence Market', type:'Lunch/Snacks', price:'$', desc:'Iconic indoor market. Peameal bacon sandwich is a must-try.', cuisine:'Market', neighborhood:'Old Town' }
     ],
     montreal: [
-      { name:'Dandy', type:'Brunch', price:'$$$', desc:'Chic retro-modern Old Montreal spot. Instagram-worthy interiors.', cuisine:'Contemporary', neighborhood:'Old Montreal' },
+      { name:'Monography Coffee', type:'Cafe', price:'$', desc:'Trendy cafe on Rue Saint-Denis in the Plateau. Great coffee, aesthetic vibes.', cuisine:'Cafe', neighborhood:'Plateau' },
       { name:'Regine Cafe', type:'Brunch', price:'$$', desc:'Elaborate plating, rococo-inspired decor. Very aesthetic.', cuisine:'Brunch', neighborhood:'Plateau' },
-      { name:'Bar George', type:'Brunch', price:'$$$$', desc:'Glamorous brunch in a stunning historic mansion. Movie-set vibes.', cuisine:'British-French', neighborhood:'Downtown' },
-      { name:'Bouillon Bilk', type:'Dinner', price:'$$$$', desc:'Sleek, minimalist fine dining. One of Montreal\'s best restaurants.', cuisine:'Contemporary French', neighborhood:'Downtown' },
-      { name:'Le Violon', type:'Dinner', price:'$$$', desc:'Minimalist warmth, elegant and refined. Beautiful atmosphere.', cuisine:'French', neighborhood:'Plateau' },
-      { name:'Celeste', type:'Dinner', price:'$$$$', desc:'Luminous atrium setting, grand and elegant. Perfect for a birthday dinner.', cuisine:'Contemporary', neighborhood:'Downtown' },
-      { name:'Marcus', type:'Dinner', price:'$$$$', desc:'Four Seasons restaurant with gorgeous terrace. Celebrity chef Marcus Samuelsson.', cuisine:'Canadian-Ethiopian', neighborhood:'Downtown' },
-      { name:'Mon Lapin', type:'Dinner', price:'$$$', desc:'Acclaimed contemporary wine bar with inventive small plates.', cuisine:'Contemporary', neighborhood:'Mile End' },
-      { name:'Agrikol', type:'Dinner', price:'$$', desc:'Tropical, highly photogenic Haitian restaurant. Great rum cocktails.', cuisine:'Haitian', neighborhood:'Sainte-Catherine' },
-      { name:'Leméac', type:'Brunch', price:'$$$', desc:'Upscale Parisian institution in Outremont. Classic and reliable.', cuisine:'French Bistro', neighborhood:'Outremont' },
       { name:'La Fabrique', type:'Brunch', price:'$$', desc:'Beautifully plated dishes in polished Plateau setting.', cuisine:'Brunch', neighborhood:'Plateau' },
-      { name:'Cafe Parvis', type:'Brunch', price:'$$', desc:'Urban oasis cafe with greenery and vintage accents. Visually gorgeous.', cuisine:'Cafe', neighborhood:'Downtown' }
+      { name:'Cafe Parvis', type:'Brunch', price:'$$', desc:'Urban oasis cafe with greenery and vintage accents. Visually gorgeous.', cuisine:'Cafe', neighborhood:'Downtown' },
+      { name:'Agrikol', type:'Dinner', price:'$$', desc:'Tropical, highly photogenic Haitian restaurant. Great rum cocktails. Fun group vibes.', cuisine:'Haitian', neighborhood:'Sainte-Catherine' },
+      { name:'Le Violon', type:'Dinner', price:'$$$', desc:'Minimalist warmth, elegant and refined. Beautiful atmosphere. Great for birthday dinner.', cuisine:'French', neighborhood:'Plateau' },
+      { name:'Bouillon Bilk', type:'Dinner/Splurge', price:'$$$$', desc:'Sleek, minimalist fine dining. One of Montreal\'s best. Worth the splurge for a special night.', cuisine:'Contemporary French', neighborhood:'Downtown' },
+      { name:'La Banquise', type:'Late Night', price:'$', desc:'Montreal\'s most famous poutine spot. Open 24 hours. 30+ poutine varieties.', cuisine:'Poutine', neighborhood:'Plateau' },
+      { name:'Fairmount Bagels', type:'Snack', price:'$', desc:'Iconic Montreal bagel shop. Open 24 hours. Wood-fired, slightly sweet. Get a dozen to share.', cuisine:'Bagels', neighborhood:'Mile End' },
+      { name:'St-Viateur Bagels', type:'Snack', price:'$', desc:'The other legendary Montreal bagel spot. Fairmount vs St-Viateur is the city\'s great debate.', cuisine:'Bagels', neighborhood:'Mile End' },
+      { name:'Boustan', type:'Quick Meal', price:'$', desc:'Best shawarma and falafel in Montreal. Quick, cheap, delicious. Multiple locations.', cuisine:'Lebanese', neighborhood:'Various' }
     ]
   },
 
@@ -178,6 +187,9 @@ var TRIP = {
     { name:'Jean-Talon Market', lat:45.5362, lng:-73.6153, emoji:'🛒', city:'Montreal' },
     { name:'Montreal Botanical Garden', lat:45.5593, lng:-73.5617, emoji:'🌿', city:'Montreal' },
     { name:'Saint Joseph\'s Oratory', lat:45.4917, lng:-73.6170, emoji:'⛪', city:'Montreal' },
+    { name:'Monography Coffee', lat:45.5170, lng:-73.5660, emoji:'☕', city:'Montreal' },
+    { name:'Quartier DIX30', lat:45.4629, lng:-73.4541, emoji:'🛍️', city:'Montreal' },
+    { name:'Montreal Lodging', lat:45.4321, lng:-73.6175, emoji:'🏠', city:'Montreal' },
     { name:'Mont-Tremblant', lat:46.2094, lng:-74.5850, emoji:'🏔️', city:'Laurentians' },
     { name:'Saint-Sauveur', lat:45.9325, lng:-74.1724, emoji:'🍂', city:'Laurentians' },
     { name:'YUL Airport', lat:45.4707, lng:-73.7407, emoji:'✈️', city:'Montreal' }
@@ -190,7 +202,7 @@ var TRIP = {
     { item:'Montreal Lodging (3 nights)', est:'$50-80', per:'person/night', note:'Split 5 ways' },
     { item:'Rental Car (2 days)', est:'CA$100-140', per:'total split 5', note:'Oct 23-24, drop at YUL' },
     { item:'Olivia Rodrigo Tickets', est:'Varies', per:'person', note:'Jessica + Adriel only' },
-    { item:'Dining (~5 days)', est:'$200-350', per:'person', note:'Mix of budget + splurge' },
+    { item:'Dining (~5 days)', est:'$150-250', per:'person', note:'Mostly affordable + 1 nice birthday dinner' },
     { item:'Nightlife', est:'$80-150', per:'person', note:'Covers + drinks' },
     { item:'Activities', est:'$60-120', per:'person', note:'CN Tower ($43), AGO ($30), Basilica ($16), Gondola, Botanical Garden' }
   ],

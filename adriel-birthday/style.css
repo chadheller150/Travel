@@ -607,6 +607,60 @@ body {
   overflow:hidden;
   border:1px solid var(--border);
 }
+.map-marker-wrap { background:none !important; border:none !important; }
+.map-marker {
+  font-size:1.4rem; text-align:center;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
+/* Destinations List */
+.map-destinations {
+  margin-top:1.5rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:1rem;
+}
+.dest-city-group {
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.dest-city-header {
+  display:flex; align-items:center; gap:0.6rem;
+  padding:0.8rem 1.2rem;
+  border-bottom:1px solid var(--border);
+}
+.dest-city-dot {
+  width:8px; height:8px;
+  border-radius:50%; flex-shrink:0;
+}
+.dest-city-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem; font-weight:500;
+  color:var(--cream); flex:1;
+}
+.dest-city-count {
+  font-size:0.7rem; color:var(--text-muted);
+  background:var(--surface);
+  padding:0.15rem 0.5rem;
+  border-radius:100px;
+}
+.dest-list { padding:0.4rem 0; }
+.dest-item {
+  display:flex; align-items:center; gap:0.6rem;
+  padding:0.5rem 1.2rem;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.dest-item:hover { background:rgba(201,149,107,0.06); }
+.dest-emoji { font-size:1rem; width:24px; text-align:center; }
+.dest-name {
+  font-size:0.82rem; color:var(--text-dim);
+}
+.dest-item:hover .dest-name { color:var(--cream); }
+
+[data-theme="light"] .dest-city-group { box-shadow:0 1px 4px rgba(0,0,0,0.06); }
 
 /* === BUDGET === */
 .budget-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.2rem; }

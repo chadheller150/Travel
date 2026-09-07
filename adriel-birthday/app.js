@@ -289,7 +289,8 @@ function renderOutfitsTab() {
 /* === MAP === */
 function renderMapSection() {
   var s = createSection('map', 'Trip Map', 'All locations across both cities');
-  s.innerHTML += '<div id="map-container"></div>';
+  s.innerHTML += '<div id="map-container"></div>' +
+    '<div id="map-destinations" class="map-destinations"></div>';
   return s;
 }
 

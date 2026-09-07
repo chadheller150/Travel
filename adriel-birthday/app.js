@@ -236,13 +236,13 @@ function renderDay(id, day) {
 
       var outfitBtn = document.createElement('button');
       outfitBtn.className = 'collapsible-toggle';
-      outfitBtn.onclick = function() { toggleCollapsible(this); };
+      outfitBtn.addEventListener('click', function() { this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open'); });
       outfitBtn.innerHTML = '<i class="bi bi-palette"></i> Outfit ideas <span class="arrow">&#9662;</span>';
 
       var outfitBody = document.createElement('div');
       outfitBody.className = 'collapsible-body';
       outfitBody.id = 'outfit-' + outfitKey;
-      outfitBody.innerHTML = buildOutfitForm(outfitKey);
+      try { outfitBody.innerHTML = buildOutfitForm(outfitKey); } catch(err) { outfitBody.innerHTML = '<p style="color:red;">Error: ' + err.message + '</p>'; }
 
       outfitDiv.appendChild(outfitBtn);
       outfitDiv.appendChild(outfitBody);
@@ -258,13 +258,13 @@ function renderDay(id, day) {
 
       var voteBtn = document.createElement('button');
       voteBtn.className = 'collapsible-toggle';
-      voteBtn.onclick = function() { toggleCollapsible(this); };
+      voteBtn.addEventListener('click', function() { this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open'); });
       voteBtn.innerHTML = '<i class="bi bi-hand-thumbs-up"></i> Vote + Suggest <span class="arrow">&#9662;</span>';
 
       var voteBody = document.createElement('div');
       voteBody.className = 'collapsible-body';
       voteBody.id = 'vote-' + voteKey;
-      voteBody.innerHTML = buildVoteForm(voteKey);
+      try { voteBody.innerHTML = buildVoteForm(voteKey); } catch(err) { voteBody.innerHTML = '<p style="color:red;">Error: ' + err.message + '</p>'; }
 
       voteDiv.appendChild(voteBtn);
       voteDiv.appendChild(voteBody);

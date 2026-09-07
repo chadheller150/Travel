@@ -4,7 +4,7 @@
 
 var JSONBIN_KEY = '$2a$10$mTkMFOlAeFOuwCPIQM13vu0gXQ29GR0MkjBeMaGMSsVmOar5/oISq';
 var BIN_ID_KEY = 'adriel-trip-binId';
-var DATA_VERSION = 1;
+var DATA_VERSION = 2;
 
 var travelData = {
   version: DATA_VERSION,
@@ -14,6 +14,17 @@ var travelData = {
   profiles: {},
   votes: {}
 };
+
+// Clear stale data on version bump
+(function() {
+  var savedVer = localStorage.getItem('adriel-trip-version');
+  if (savedVer !== String(DATA_VERSION)) {
+    localStorage.removeItem('adriel-trip-binId');
+    localStorage.removeItem('adriel-trip-data');
+    localStorage.removeItem('adriel-trip-edits');
+    localStorage.setItem('adriel-trip-version', String(DATA_VERSION));
+  }
+})();
 
 // === JSONBin Operations ===
 function createBin() {

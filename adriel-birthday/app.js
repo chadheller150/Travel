@@ -6,7 +6,7 @@
 var TAB_LABELS = {
   overview:'Overview', day1:'Tue 10/20', day2:'Wed 10/21', day3:'Thu 10/22',
   day4:'Fri 10/23', day5:'Sat 10/24', map:'Map', dining:'Dining Guide',
-  nightlife:'Nightlife', logistics:'Logistics', confirmations:'Confirmations', budget:'Budget'
+  nightlife:'Nightlife', logistics:'Logistics', budget:'Budget'
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
   showTab('overview');
 
   // Keyboard shortcuts
-  var TAB_ORDER = ['overview','day1','day2','day3','day4','day5','map','dining','nightlife','logistics','confirmations','budget'];
+  var TAB_ORDER = ['overview','day1','day2','day3','day4','day5','map','dining','nightlife','logistics','budget'];
   var currentTabIdx = 0;
 
   document.addEventListener('keydown', function(e) {
@@ -125,7 +125,6 @@ function renderAll() {
   content.appendChild(renderDining());
   content.appendChild(renderNightlife());
   content.appendChild(renderLogistics());
-  content.appendChild(renderConfirmations());
   content.appendChild(renderBudget());
 }
 
@@ -760,7 +759,7 @@ function loadEdits() {
     var data = JSON.parse(saved);
     Object.keys(data).forEach(function(id) {
       // Skip sections with dynamic content
-      if (id === 'tab-confirmations' || id === 'tab-budget') return;
+      if (id === 'tab-confirmations' || id === 'tab-budget' || id === 'tab-overview') return;
       var section = document.getElementById(id);
       if (section) {
         section.innerHTML = data[id];

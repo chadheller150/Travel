@@ -641,13 +641,19 @@ body {
 .lightbox-nav.next { right:1.5rem; }
 
 [data-theme="light"] .hamburger span { background:var(--text); }
-[data-theme="light"] .bg-orb { opacity:0.06; }
+[data-theme="light"] .bg-orb { opacity:0.08; }
+[data-theme="light"] .bg-orb:nth-child(1) { background:#d4a574; }
+[data-theme="light"] .bg-orb:nth-child(2) { background:#6ba87a; }
+[data-theme="light"] .bg-orb:nth-child(3) { background:#c47a7a; }
+[data-theme="light"] .bg-orb:nth-child(4) { background:#d4b86a; }
 [data-theme="light"] .hero { background:linear-gradient(135deg, #f0e8dd 0%, #f8f5f0 40%, #e8f0e8 100%); }
 [data-theme="light"] .card { box-shadow:0 1px 4px rgba(0,0,0,0.06); }
 [data-theme="light"] .card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.1); }
 [data-theme="light"] #loader { background:var(--bg); }
 [data-theme="light"] .loader-title { color:var(--text); }
 [data-theme="light"] .side-menu { background:var(--bg); }
+[data-theme="light"] .venue-card { box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+[data-theme="light"] .tl-item::before { border-color:var(--bg); }
 
 /* === RESPONSIVE === */
 @media(max-width:768px) {

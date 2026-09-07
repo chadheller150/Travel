@@ -524,19 +524,24 @@ function appendNavButtons(section) {
   nav.className = 'section-nav';
   nav.innerHTML = '<button class="section-nav-btn prev" onclick="navigateTab(-1)"' + (!section._prevLabel ? ' disabled' : '') + '>' +
     '<i class="bi bi-chevron-left"></i>' +
-    '<div class="section-nav-label">' +
-      '<span class="section-nav-hint">Previous</span>' +
-      '<span class="section-nav-name">' + (section._prevLabel || '') + '</span>' +
-    '</div>' +
+    '<span class="section-nav-name">' + (section._prevLabel || '') + '</span>' +
+  '</button>' +
+  '<button class="section-nav-btn home" onclick="navigateToHome()">' +
+    '<i class="bi bi-house"></i>' +
   '</button>' +
   '<button class="section-nav-btn next" onclick="navigateTab(1)"' + (!section._nextLabel ? ' disabled' : '') + '>' +
-    '<div class="section-nav-label" style="text-align:right;">' +
-      '<span class="section-nav-hint">Next</span>' +
-      '<span class="section-nav-name">' + (section._nextLabel || '') + '</span>' +
-    '</div>' +
+    '<span class="section-nav-name">' + (section._nextLabel || '') + '</span>' +
     '<i class="bi bi-chevron-right"></i>' +
   '</button>';
   section.appendChild(nav);
+}
+
+function navigateToHome() {
+  var menuItems = document.querySelectorAll('.menu-item');
+  menuItems.forEach(function(b) { b.classList.remove('active'); });
+  menuItems.forEach(function(b) { if (b.dataset.tab === 'overview') b.classList.add('active'); });
+  showTab('overview');
+  window.scrollTo(0, 0);
 }
 
 // Build a lookup of location names to links

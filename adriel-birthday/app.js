@@ -502,6 +502,8 @@ function openCrewProfile(name) {
     '<h4 style="font-family:Cormorant Garamond,serif;font-size:1.1rem;color:var(--cream);margin-bottom:0.6rem;"><i class="bi bi-wallet2"></i> Payments</h4>';
   if (typeof travelData !== 'undefined') {
     TRIP.payments.forEach(function(p, pi) {
+      // Skip if this payment doesn't apply to this person
+      if (p.appliesTo && p.appliesTo.length > 0 && p.appliesTo.indexOf(name) === -1) return;
       var paidData = travelData.payments[pi] || {};
       var paid = paidData[name] ? true : false;
       paymentHtml += '<div style="display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.82rem;">' +

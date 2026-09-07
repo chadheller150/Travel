@@ -358,22 +358,23 @@ function renderPaymentTracker() {
   var html = '';
   TRIP.payments.forEach(function(p, pi) {
     var paidData = travelData.payments[pi] || {};
+    var applicablePeople = (p.appliesTo && p.appliesTo.length > 0) ? p.appliesTo : TRIP.people;
     var paidCount = 0;
-    TRIP.people.forEach(function(person) { if (paidData[person]) paidCount++; });
+    applicablePeople.forEach(function(person) { if (paidData[person]) paidCount++; });
 
     html += '<div class="payment-row"><div>' +
       '<div class="item-name">' + p.item + '</div>' +
       '<div style="font-size:0.75rem;color:var(--text-muted);">' + p.note + '</div>' +
       '<div class="payment-checks">';
 
-    TRIP.people.forEach(function(person) {
+    applicablePeople.forEach(function(person) {
       var paid = paidData[person] ? true : false;
       html += '<div class="payment-check ' + (paid ? 'paid' : '') + '" onclick="togglePayment(' + pi + ',\'' + person + '\')">' +
-        (paid ? '✓ ' : '') + person + '</div>';
+        (paid ? '&#10003; ' : '') + person + '</div>';
     });
 
     html += '</div></div>' +
-      '<div class="item-cost">' + paidCount + '/' + TRIP.people.length + ' paid</div></div>';
+      '<div class="item-cost">' + paidCount + '/' + applicablePeople.length + ' paid</div></div>';
   });
 
   container.innerHTML = html;

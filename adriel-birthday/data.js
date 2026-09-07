@@ -207,9 +207,9 @@ var TRIP = {
   ],
 
   payments: [
-    { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid' },
-    { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid' },
-    { item:'Olivia Rodrigo Tickets', cost:0, per:0, due:'Paid', note:'Adriel + Jessica only — already purchased' },
-    { item:'Rental Car', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup' }
+    { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
+    { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
+    { item:'Olivia Rodrigo Tickets', cost:0, per:0, due:'Paid', note:'Adriel + Jessica only — already purchased', appliesTo:['Adriel','Jessica'] },
+    { item:'Rental Car', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup', appliesTo:[] }
   ]
 };

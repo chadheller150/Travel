@@ -326,11 +326,12 @@ function buildDiningGrid(venues) {
   venues.forEach(function(v) {
     var card = el('div', 'dining-card');
     var priceClass = v.price.length <= 1 ? 'budget' : (v.price.length <= 2 ? 'mid' : (v.price.length <= 3 ? 'upscale' : 'splurge'));
+    var searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(v.name + ' ' + (v.neighborhood || '') + ' restaurant');
     card.innerHTML = '<div class="dining-card-top">' +
         '<div class="dining-card-type">' + v.type + '</div>' +
         '<div class="dining-card-price ' + priceClass + '">' + v.price + '</div>' +
       '</div>' +
-      '<h3 class="dining-card-name">' + v.name + '</h3>' +
+      '<h3 class="dining-card-name"><a href="' + searchUrl + '" target="_blank" class="place-link">' + v.name + '</a></h3>' +
       '<div class="dining-card-meta">' +
         '<span><i class="bi bi-geo-alt"></i> ' + v.neighborhood + '</span>' +
         (v.cuisine ? '<span><i class="bi bi-tag"></i> ' + v.cuisine + '</span>' : '') +
@@ -369,7 +370,8 @@ function renderNightlife() {
 
   TRIP.nightlife.toronto.forEach(function(v) {
     var c = el('div', 'venue-card');
-    c.innerHTML = '<h3>' + v.name + '</h3>' +
+    var searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(v.name + ' Toronto nightlife');
+    c.innerHTML = '<h3><a href="' + searchUrl + '" target="_blank" class="place-link">' + v.name + '</a></h3>' +
       '<div class="venue-meta">' +
         '<span><i class="bi bi-stars"></i> ' + v.type + '</span>' +
         '<span><i class="bi bi-ticket-perforated"></i> ' + v.cover + '</span>' +
@@ -386,7 +388,8 @@ function renderNightlife() {
 
   TRIP.nightlife.montreal.forEach(function(v) {
     var c = el('div', 'venue-card');
-    c.innerHTML = '<h3>' + v.name + '</h3>' +
+    var searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(v.name + ' Montreal nightlife');
+    c.innerHTML = '<h3><a href="' + searchUrl + '" target="_blank" class="place-link">' + v.name + '</a></h3>' +
       '<div class="venue-meta">' +
         '<span><i class="bi bi-stars"></i> ' + v.type + '</span>' +
         '<span><i class="bi bi-ticket-perforated"></i> ' + v.cover + '</span>' +

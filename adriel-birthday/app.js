@@ -34,55 +34,36 @@ document.addEventListener('DOMContentLoaded', function() {
   renderAll();
   showTab('overview');
 
-  // Keyboard shortcuts
-  var TAB_ORDER = ['overview','day1','day2','day3','day4','day5','map','dining','nightlife','outfits','logistics','budget'];
-  var currentTabIdx = 0;
-
+  // Keep Escape for closing popups
   document.addEventListener('keydown', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.contentEditable === 'true') return;
-
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      currentTabIdx = Math.min(currentTabIdx + 1, TAB_ORDER.length - 1);
-      switchToTab(currentTabIdx);
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      currentTabIdx = Math.max(currentTabIdx - 1, 0);
-      switchToTab(currentTabIdx);
-    } else if (e.key === 'm' || e.key === 'M') {
-      toggleMenu();
-    } else if (e.key === 'Escape') {
+    if (e.key === 'Escape') {
       var popup = document.getElementById('crew-popup');
       if (popup) popup.remove();
       var lb = document.getElementById('lightbox');
       if (lb) lb.classList.remove('open');
       var menu = document.getElementById('side-menu');
-      if (menu.classList.contains('open')) toggleMenu();
+      if (menu && menu.classList.contains('open')) toggleMenu();
     }
-  });
-
-  function switchToTab(idx) {
-    var tab = TAB_ORDER[idx];
-    var menuItems = document.querySelectorAll('.menu-item');
-    menuItems.forEach(function(b) { b.classList.remove('active'); });
-    menuItems.forEach(function(b) { if (b.dataset.tab === tab) b.classList.add('active'); });
-    showTab(tab);
-  }
-
-  // Swipe gestures for mobile tab switching
-  var touchStartX = 0;
-  document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
-  document.addEventListener('touchend', function(e) {
-    var diff = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(diff) < 60) return;
-    if (diff < 0) {
-      currentTabIdx = Math.min(currentTabIdx + 1, TAB_ORDER.length - 1);
-    } else {
-      currentTabIdx = Math.max(currentTabIdx - 1, 0);
-    }
-    switchToTab(currentTabIdx);
   });
 });
+
+// Tab order for nav buttons
+var TAB_ORDER = ['overview','day1','day2','day3','day4','day5','map','dining','nightlife','outfits','logistics','budget'];
+
+function navigateTab(direction) {
+  var currentTab = '';
+  var menuItems = document.querySelectorAll('.menu-item');
+  menuItems.forEach(function(b) { if (b.classList.contains('active')) currentTab = b.dataset.tab; });
+  var idx = TAB_ORDER.indexOf(currentTab);
+  if (idx < 0) idx = 0;
+  var newIdx = idx + direction;
+  if (newIdx < 0 || newIdx >= TAB_ORDER.length) return;
+  var newTab = TAB_ORDER[newIdx];
+  menuItems.forEach(function(b) { b.classList.remove('active'); });
+  menuItems.forEach(function(b) { if (b.dataset.tab === newTab) b.classList.add('active'); });
+  showTab(newTab);
+  window.scrollTo(0, 0);
+}
 
 function toggleMenu() {
   var menu = document.getElementById('side-menu');
@@ -115,18 +96,24 @@ function showTab(tab) {
 function renderAll() {
   var content = document.getElementById('content');
   content.innerHTML = '';
-  content.appendChild(renderOverview());
-  content.appendChild(renderDay('day1', TRIP.days.day1));
-  content.appendChild(renderDay('day2', TRIP.days.day2));
-  content.appendChild(renderDay('day3', TRIP.days.day3));
-  content.appendChild(renderDay('day4', TRIP.days.day4));
-  content.appendChild(renderDay('day5', TRIP.days.day5));
-  content.appendChild(renderMapSection());
-  content.appendChild(renderDining());
-  content.appendChild(renderNightlife());
-  content.appendChild(renderOutfitsTab());
-  content.appendChild(renderLogistics());
-  content.appendChild(renderBudget());
+  var sections = [
+    renderOverview(),
+    renderDay('day1', TRIP.days.day1),
+    renderDay('day2', TRIP.days.day2),
+    renderDay('day3', TRIP.days.day3),
+    renderDay('day4', TRIP.days.day4),
+    renderDay('day5', TRIP.days.day5),
+    renderMapSection(),
+    renderDining(),
+    renderNightlife(),
+    renderOutfitsTab(),
+    renderLogistics(),
+    renderBudget()
+  ];
+  sections.forEach(function(s) {
+    appendNavButtons(s);
+    content.appendChild(s);
+  });
 }
 
 /* === OVERVIEW === */
@@ -516,9 +503,40 @@ function el(tag, cls) {
 function createSection(id, title, subtitle) {
   var s = el('section', 'section');
   s.id = 'tab-' + id;
+
+  var idx = TAB_ORDER.indexOf(id);
+  var prevLabel = idx > 0 ? TAB_LABELS[TAB_ORDER[idx - 1]] || '' : '';
+  var nextLabel = idx < TAB_ORDER.length - 1 ? TAB_LABELS[TAB_ORDER[idx + 1]] || '' : '';
+
   s.innerHTML = '<h1 class="section-title">' + title + '</h1>' +
     '<p class="section-sub">' + subtitle + '</p>';
+
+  // Store nav labels for appending after content
+  s._prevLabel = prevLabel;
+  s._nextLabel = nextLabel;
+  s._hasNav = true;
   return s;
+}
+
+function appendNavButtons(section) {
+  if (!section._hasNav) return;
+  var nav = document.createElement('div');
+  nav.className = 'section-nav';
+  nav.innerHTML = '<button class="section-nav-btn prev" onclick="navigateTab(-1)"' + (!section._prevLabel ? ' disabled' : '') + '>' +
+    '<i class="bi bi-chevron-left"></i>' +
+    '<div class="section-nav-label">' +
+      '<span class="section-nav-hint">Previous</span>' +
+      '<span class="section-nav-name">' + (section._prevLabel || '') + '</span>' +
+    '</div>' +
+  '</button>' +
+  '<button class="section-nav-btn next" onclick="navigateTab(1)"' + (!section._nextLabel ? ' disabled' : '') + '>' +
+    '<div class="section-nav-label" style="text-align:right;">' +
+      '<span class="section-nav-hint">Next</span>' +
+      '<span class="section-nav-name">' + (section._nextLabel || '') + '</span>' +
+    '</div>' +
+    '<i class="bi bi-chevron-right"></i>' +
+  '</button>';
+  section.appendChild(nav);
 }
 
 // Build a lookup of location names to links

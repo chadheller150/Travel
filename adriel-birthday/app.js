@@ -778,12 +778,10 @@ function setCrewPhotoBase64(name, file) {
 var editMode = false;
 
 function initEditMode() {
-  var btn = document.createElement('button');
-  btn.id = 'edit-toggle';
-  btn.innerHTML = '✏️';
-  btn.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;width:48px;height:48px;border-radius:50%;background:var(--accent);color:var(--bg);border:none;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.4);transition:all 0.3s;';
-  btn.onclick = toggleEditMode;
-  document.body.appendChild(btn);
+  var footer = document.createElement('div');
+  footer.style.cssText = 'text-align:center;padding:2rem 0 3rem;';
+  footer.innerHTML = '<button id="edit-toggle" onclick="toggleEditMode()" style="background:none;border:none;color:var(--text-muted);font-family:DM Sans,sans-serif;font-size:0.65rem;cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;opacity:0.4;transition:opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=0.4">edit</button>';
+  document.getElementById('content').appendChild(footer);
 }
 
 function toggleEditMode() {
@@ -791,12 +789,14 @@ function toggleEditMode() {
   var btn = document.getElementById('edit-toggle');
 
   if (editMode) {
-    btn.innerHTML = '💾';
-    btn.style.background = 'var(--forest)';
+    btn.textContent = 'save + exit';
+    btn.style.opacity = '0.8';
+    btn.style.color = 'var(--forest)';
     enableEditing();
   } else {
-    btn.innerHTML = '✏️';
-    btn.style.background = 'var(--accent)';
+    btn.textContent = 'edit';
+    btn.style.opacity = '0.4';
+    btn.style.color = 'var(--text-muted)';
     disableEditing();
     saveEdits();
   }

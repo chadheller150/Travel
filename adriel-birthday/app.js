@@ -410,16 +410,16 @@ function renderLogistics() {
   // Toronto transport
   html += '<div class="card"><div class="card-label"><i class="bi bi-train-front"></i> Getting Around Toronto</div>' +
     '<h3>Transit + Walking</h3>' +
-    '<p>UP Express from airport to Union Station: 25 min, CA$12.35<br>' +
-    'TTC subway: CA$3.35/ride, day pass CA$13.50<br>' +
+    '<p><a href="https://www.upexpress.com" target="_blank" class="place-link">UP Express</a> from airport to <a href="https://maps.google.com/?q=Union+Station+Toronto" target="_blank" class="place-link">Union Station</a>: 25 min, CA$12.35<br>' +
+    '<a href="https://www.ttc.ca" target="_blank" class="place-link">TTC subway</a>: CA$3.35/ride, day pass CA$13.50<br>' +
     'Uber/Lyft widely available<br>' +
     'Downtown core is very walkable</p></div>';
 
   // Montreal transport
   html += '<div class="card"><div class="card-label"><i class="bi bi-car-front"></i> Getting Around Montreal</div>' +
     '<h3>Metro + Rental Car</h3>' +
-    '<p>STM Metro: CA$3.75/ride<br>' +
-    'Old Montreal, Plateau, Le Village all walkable<br>' +
+    '<p><a href="https://www.stm.info/en" target="_blank" class="place-link">STM Metro</a>: CA$3.75/ride<br>' +
+    '<a href="https://maps.google.com/?q=Old+Montreal" target="_blank" class="place-link">Old Montreal</a>, <a href="https://maps.google.com/?q=Plateau+Mont-Royal+Montreal" target="_blank" class="place-link">Plateau</a>, <a href="https://maps.google.com/?q=Le+Village+Montreal" target="_blank" class="place-link">Le Village</a> all walkable<br>' +
     'Rental car Oct 23-24 for exploring further out + airport<br>' +
     'Parking downtown: CA$15-30/day</p></div>';
 
@@ -444,26 +444,25 @@ function renderLogistics() {
   html += '<div class="card"><div class="card-label"><i class="bi bi-currency-exchange"></i> Money Exchange</div>' +
     '<h3>USD to CAD</h3>' +
     '<p><strong>Toronto:</strong><br>' +
-    'Calforex — 220 Yonge St (Eaton Centre). Mon-Sat 10am-9pm, Sun 11am-7pm. Great rates.<br>' +
-    'Interchange Financial — 20 Dundas St W. Mon-Fri 10am-7pm, Sat 10am-4pm.<br><br>' +
+    '<a href="https://maps.google.com/?q=Calforex+220+Yonge+St+Toronto" target="_blank" class="place-link">Calforex</a> — 220 Yonge St (Eaton Centre). Mon-Sat 10am-9pm, Sun 11am-7pm.<br>' +
+    '<a href="https://maps.google.com/?q=Interchange+Financial+20+Dundas+St+W+Toronto" target="_blank" class="place-link">Interchange Financial</a> — 20 Dundas St W. Mon-Fri 10am-7pm, Sat 10am-4pm.<br><br>' +
     '<strong>Montreal:</strong><br>' +
-    'SQDC is not for money! For exchange:<br>' +
-    'Calforex — 1230 Rue Peel. Downtown, reliable rates.<br>' +
-    'Seven Exchange — Sainte-Catherine St. Good walk-in rates.<br><br>' +
-    '<strong>Tip:</strong> Avoid airport kiosks (worst rates). Wise app is best for large amounts. Most places accept USD credit cards too.</p></div>';
+    '<a href="https://maps.google.com/?q=Calforex+1230+Rue+Peel+Montreal" target="_blank" class="place-link">Calforex</a> — 1230 Rue Peel. Downtown, reliable rates.<br>' +
+    '<a href="https://maps.google.com/?q=Seven+Exchange+Sainte-Catherine+Montreal" target="_blank" class="place-link">Seven Exchange</a> — Sainte-Catherine St. Good walk-in rates.<br><br>' +
+    '<strong>Tip:</strong> Avoid airport kiosks (worst rates). <a href="https://wise.com" target="_blank" class="place-link">Wise app</a> is best for large amounts.</p></div>';
 
   // Dispensaries
   html += '<div class="card"><div class="card-label"><i class="bi bi-flower1"></i> Cannabis / Dispensaries</div>' +
     '<h3>Legal in Canada</h3>' +
     '<p><strong>Toronto (19+ with ID):</strong><br>' +
-    'Canna Cabana — 563 Yonge St (near Wellesley Station). Best prices downtown.<br>' +
-    'Canna North — 117 Yonge St (Financial District). Members-only pricing.<br>' +
-    'The Green Closet — 439 Parliament St. Open 9am-11pm daily, cheap prices.<br><br>' +
+    '<a href="https://maps.google.com/?q=Canna+Cabana+563+Yonge+St+Toronto" target="_blank" class="place-link">Canna Cabana</a> — 563 Yonge St (near Wellesley Station). Best prices.<br>' +
+    '<a href="https://maps.google.com/?q=Canna+North+117+Yonge+St+Toronto" target="_blank" class="place-link">Canna North</a> — 117 Yonge St (Financial District).<br>' +
+    '<a href="https://maps.google.com/?q=The+Green+Closet+439+Parliament+St+Toronto" target="_blank" class="place-link">The Green Closet</a> — 439 Parliament St. Open 9am-11pm daily.<br><br>' +
     '<strong>Montreal (21+ with ID):</strong><br>' +
-    'All legal cannabis is sold through SQDC (government-run).<br>' +
-    'SQDC Crescent — Downtown, 4.6/5 rating. Best reviewed location.<br>' +
-    'SQDC Village — Central, 4.2/5 with 449 reviews.<br>' +
-    'SQDC Metro Peel — Also downtown, easy to access.<br><br>' +
+    'All legal cannabis through <a href="https://www.sqdc.ca/en" target="_blank" class="place-link">SQDC</a> (government-run).<br>' +
+    '<a href="https://maps.google.com/?q=SQDC+Crescent+Montreal" target="_blank" class="place-link">SQDC Crescent</a> — Downtown, 4.6/5 rating.<br>' +
+    '<a href="https://maps.google.com/?q=SQDC+Village+Montreal" target="_blank" class="place-link">SQDC Village</a> — Central, 4.2/5 with 449 reviews.<br>' +
+    '<a href="https://maps.google.com/?q=SQDC+Metro+Peel+Montreal" target="_blank" class="place-link">SQDC Metro Peel</a> — Downtown, easy to access.<br><br>' +
     '<strong>Note:</strong> Quebec legal age is 21 (not 19 like Ontario). Bring valid government ID. Max 30g in public.</p></div>';
 
   html += '</div>';

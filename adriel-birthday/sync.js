@@ -154,33 +154,38 @@ function showSaveStatus(status) {
 }
 
 function loadFromCloud() {
-  // First try to get shared bin ID from config
+  // First check localStorage for an existing bin
   var binId = SHARED_BIN_ID || localStorage.getItem(BIN_ID_KEY);
 
   if (!binId) {
-    // Try loading from config.json (GitHub-hosted shared ID)
+    // Try loading shared ID from config.json
     fetch('./config.json?' + Date.now())
       .then(function(r) { return r.json(); })
       .then(function(cfg) {
-        if (cfg.binId) {
-          SHARED_BIN_ID = cfg.binId;
+        if (cfg.binId && cfg.binId.length > 5) {
           localStorage.setItem(BIN_ID_KEY, cfg.binId);
           loadFromCloudWithBin(cfg.binId);
         } else {
-          // No shared bin exists yet — create one
+          // Create new bin and show ID prominently
           renderSyncUI();
           createBin().then(function(id) {
-            alert('New bin created: ' + id + ' — update config.json with this ID');
+            // Show the ID on screen so user can report it
+            var notice = document.createElement('div');
+            notice.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:var(--bg-card);border:2px solid var(--accent);border-radius:16px;padding:2rem;max-width:90%;text-align:center;font-family:DM Sans,sans-serif;';
+            notice.innerHTML = '<p style="color:var(--cream);font-size:1rem;margin-bottom:1rem;">Sync bin created! Copy this ID:</p>' +
+              '<p style="color:var(--accent);font-size:0.85rem;font-weight:700;word-break:break-all;background:var(--surface);padding:0.8rem;border-radius:8px;user-select:all;">' + id + '</p>' +
+              '<p style="color:var(--text-muted);font-size:0.75rem;margin-top:1rem;">Send this to Chad to lock in sync for everyone</p>' +
+              '<button onclick="this.parentElement.remove()" style="margin-top:1rem;background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.5rem 1.5rem;cursor:pointer;font-size:0.8rem;">Got it</button>';
+            document.body.appendChild(notice);
             loadFromCloudWithBin(id);
-          });
+          }).catch(function() { renderSyncUI(); });
         }
       })
       .catch(function() {
-        // config.json not available, create bin
         renderSyncUI();
         createBin().then(function(id) {
           loadFromCloudWithBin(id);
-        });
+        }).catch(function() {});
       });
     return;
   }

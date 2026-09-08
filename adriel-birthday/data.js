@@ -87,7 +87,8 @@ var TRIP = {
         { time:'~11:30 AM', title:'Monography Photo Studio', desc:'Self-portrait photography studio at 3674 Saint-Denis. Professional lighting + equipment — take amazing group photos and solo shots. Book ahead!', tag:'activity', drive:'5 min walk if brunching in Plateau' },
         { time:'~12:00 PM', title:'Montreal Museum of Fine Arts (MMFA)', desc:'World-class collection on Sherbrooke Street. Allow 1.5-2 hours. Great for art lovers.', tag:'activity', drive:'10 min from Plateau' },
         { time:'~2:00 PM', title:'Old Montreal Exploring', desc:'Cobblestone streets, Notre-Dame Basilica ($16 entry, stunning interior), Old Port waterfront, Ferris wheel ($25)', tag:'activity', drive:'Walkable district' },
-        { time:'~4:00 PM', title:'Phi Centre', desc:'Stunning private art space in a renovated Old Montreal heritage building. Free/low-cost. The building itself is part of the experience.', tag:'activity', drive:'In Old Montreal — walkable' },
+        { time:'~3:30 PM', title:'Little Italy + Jean-Talon Market', desc:'Walk Saint-Laurent Boulevard through Little Italy — Italian cafes, bakeries, and shops. Stop at Jean-Talon Market for snacks and browsing. Check out Madonna della Difesa church for the architecture.', tag:'activity', drive:'15 min from Old Montreal via metro (Jean-Talon station)' },
+        { time:'~5:00 PM', title:'Phi Centre', desc:'Stunning private art space in a renovated Old Montreal heritage building. Free/low-cost. The building itself is part of the experience.', tag:'activity', drive:'15 min back to Old Montreal' },
         { time:'~5:30 PM', title:'Pre-Concert Dinner', desc:'Quick and affordable near Centre Bell. Poutine from La Banquise ($), or shawarma/falafel from Boustan ($). Fuel up before the show.', tag:'food', drive:'10 min walk' },
         { time:'7:00 PM', title:'🎵 Olivia Rodrigo @ Centre Bell', desc:'Jessica + Adriel! 1909 Ave des Canadiens-de-Montreal. Doors likely 6:00 PM.', tag:'concert', drive:'' },
         { time:'During Concert', title:'Chad, Haydee, Lulu — Alt Plans', desc:'Explore Plateau / Mile End neighborhoods. Dinner at Agrikol (tropical Haitian, fun vibes, $$) or grab bagels + browse Mile End shops. Bar hop along Saint-Laurent.', tag:'activity', drive:'' },
@@ -184,6 +185,7 @@ var TRIP = {
     { name:'Mont-Royal Park', lat:45.5048, lng:-73.5874, emoji:'🍁', city:'Montreal', link:'https://maps.google.com/?q=Mont-Royal+Park+Montreal' },
     { name:'Le Village', lat:45.5195, lng:-73.5540, emoji:'🏳️‍🌈', city:'Montreal', link:'https://maps.google.com/?q=Le+Village+Montreal' },
     { name:'Jean-Talon Market', lat:45.5362, lng:-73.6153, emoji:'🛒', city:'Montreal', link:'https://www.marchespublics-mtl.com/en/marches/jean-talon-market' },
+    { name:'Little Italy', lat:45.5340, lng:-73.6130, emoji:'🇮🇹', city:'Montreal', link:'https://maps.google.com/?q=Little+Italy+Montreal' },
     { name:'Montreal Botanical Garden', lat:45.5593, lng:-73.5617, emoji:'🌿', city:'Montreal', link:'https://espacepourlavie.ca/en/botanical-garden' },
     { name:'Saint Joseph\'s Oratory', lat:45.4917, lng:-73.6170, emoji:'⛪', city:'Montreal', link:'https://www.saint-joseph.org/en' },
     { name:'Monography Photo Studio', lat:45.5170, lng:-73.5660, emoji:'📸', city:'Montreal', link:'https://www.monography.ca' },
@@ -219,9 +221,10 @@ var TRIP = {
     { key:'day3-1', label:'Thu — Monography Photo Studio', day:'Thursday 10/22' },
     { key:'day3-2', label:'Thu — MMFA', day:'Thursday 10/22' },
     { key:'day3-3', label:'Thu — Old Montreal', day:'Thursday 10/22' },
-    { key:'day3-4', label:'Thu — Phi Centre', day:'Thursday 10/22' },
-    { key:'day3-5', label:'Thu — Pre-Concert Dinner', day:'Thursday 10/22' },
-    { key:'day3-6', label:'Thu — Olivia Rodrigo Concert', day:'Thursday 10/22' },
+    { key:'day3-4', label:'Thu — Little Italy + Jean-Talon', day:'Thursday 10/22' },
+    { key:'day3-5', label:'Thu — Phi Centre', day:'Thursday 10/22' },
+    { key:'day3-6', label:'Thu — Pre-Concert Dinner', day:'Thursday 10/22' },
+    { key:'day3-7', label:'Thu — Olivia Rodrigo Concert', day:'Thursday 10/22' },
     { key:'day4-2', label:'Fri — Botanical Garden', day:'Friday 10/23' },
     { key:'day4-4', label:'Fri — Laurentians Lunch', day:'Friday 10/23' },
     { key:'day4-5', label:'Fri — Quartier DIX30', day:'Friday 10/23' },
@@ -253,7 +256,7 @@ var TRIP = {
       { name:'La Fabrique', link:'' },
       { name:'Cafe Parvis', link:'' }
     ],
-    'day3-food-5': [
+    'day3-food-6': [
       { name:'La Banquise', link:'' },
       { name:'Boustan', link:'' }
     ],
@@ -277,7 +280,7 @@ var TRIP = {
   payments: [
     { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
     { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
-    { item:'Olivia Rodrigo Tickets', cost:0, per:0, due:'Paid', note:'Adriel + Jessica only — already purchased', appliesTo:['Adriel','Jessica'] },
+    { item:'Olivia Rodrigo Tickets ($225/ea)', cost:225, per:225, due:'Jessica owes Adriel', note:'Adriel paid — Jessica owes $225', appliesTo:['Adriel','Jessica'] },
     { item:'Toronto Lodging (1 night)', cost:0, per:0, due:'TBD', note:'Split 5 ways', appliesTo:[] },
     { item:'Montreal Airbnb (3 nights)', cost:0, per:0, due:'TBD', note:'Split 5 ways — 5945 Rue Bergevin', appliesTo:[] },
     { item:'Rental Car (2 days)', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup + drop at YUL', appliesTo:[] }

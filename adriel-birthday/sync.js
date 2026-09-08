@@ -4,11 +4,14 @@
    JSONBin syncs in background for cross-device sharing.
    ============================================================ */
 
-var JSONBIN_KEY = '$2a$10$mTkMFOlAeFOuwCPIQM13vu0gXQ29GR0MkjBeMaGMSsVmOar5/oISq';
+var JSONBIN_KEY = ''; // not needed anymore
 var IMGUR_CLIENT_ID = '546c25a59c58ad7';
 var LOCAL_KEY = 'adriel-trip-v2';
 var BIN_KEY = 'adriel-trip-bin';
 var saveTimeout = null;
+
+// JSONBlob — free, no auth, no rate limits
+var JSONBLOB_BASE = 'https://jsonblob.com/api/jsonBlob';
 
 var travelData = {
   confirmations: [],
@@ -61,28 +64,33 @@ function loadLocal() {
   return false;
 }
 
-// === JSONBIN (secondary — background sync for cross-device) ===
-function getBinId() { return localStorage.getItem(BIN_KEY) || ''; }
+// === JSONBLOB (free, no auth, no rate limits) ===
+function getBinId() {
+  var id = localStorage.getItem(BIN_KEY) || '';
+  // Clear old JSONBin IDs (they start with 6 and are 24 chars hex)
+  if (id && id.length === 24 && /^[0-9a-f]+$/.test(id)) {
+    localStorage.removeItem(BIN_KEY);
+    return '';
+  }
+  return id;
+}
 
 function ensureBin(callback) {
   var binId = getBinId();
   if (binId) { callback(binId); return; }
-  // Create a new bin
-  fetch('https://api.jsonbin.io/v3/b', {
+  fetch(JSONBLOB_BASE, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': JSONBIN_KEY,
-      'X-Bin-Name': 'adriel-bday'
-    },
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(travelData)
-  }).then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.metadata && data.metadata.id) {
-        localStorage.setItem(BIN_KEY, data.metadata.id);
-        callback(data.metadata.id);
-      }
-    }).catch(function() {});
+  }).then(function(r) {
+    // JSONBlob returns the blob URL in the Location header
+    var loc = r.headers.get('Location') || '';
+    var id = loc.split('/').pop();
+    if (id) {
+      localStorage.setItem(BIN_KEY, id);
+      callback(id);
+    }
+  }).catch(function() {});
 }
 
 function pushToCloud() {
@@ -91,9 +99,9 @@ function pushToCloud() {
     ensureBin(function() { pushToCloud(); });
     return;
   }
-  fetch('https://api.jsonbin.io/v3/b/' + binId, {
+  fetch(JSONBLOB_BASE + '/' + binId, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(travelData)
   }).then(function(r) {
     if (r.ok) showSaveStatus('saved');
@@ -104,18 +112,15 @@ function pushToCloud() {
 function pullFromCloud(callback) {
   var binId = getBinId();
   if (!binId) { callback(); return; }
-  fetch('https://api.jsonbin.io/v3/b/' + binId + '/latest', {
-    headers: { 'X-Master-Key': JSONBIN_KEY }
+  fetch(JSONBLOB_BASE + '/' + binId, {
+    headers: { 'Accept': 'application/json' }
   }).then(function(r) { return r.json(); })
-    .then(function(data) {
-      var cloud = data.record || {};
-      // Merge cloud into local — cloud wins for shared data
+    .then(function(cloud) {
       if (cloud.payments) travelData.payments = cloud.payments;
       if (cloud.outfits) travelData.outfits = cloud.outfits;
       if (cloud.profiles) travelData.profiles = cloud.profiles;
       if (cloud.votes) travelData.votes = cloud.votes;
       if (cloud.customPayments) travelData.customPayments = cloud.customPayments;
-      // Confirmations — keep local if it has more (images are local-heavy)
       if (cloud.confirmations && (!travelData.confirmations || cloud.confirmations.length > travelData.confirmations.length)) {
         travelData.confirmations = cloud.confirmations;
       }

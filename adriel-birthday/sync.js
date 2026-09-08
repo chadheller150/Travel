@@ -3,9 +3,12 @@
    ============================================================ */
 
 var JSONBIN_KEY = '$2a$10$mTkMFOlAeFOuwCPIQM13vu0gXQ29GR0MkjBeMaGMSsVmOar5/oISq';
-var IMGUR_CLIENT_ID = '546c25a59c58ad7'; // anonymous uploads, free tier
+var IMGUR_CLIENT_ID = '546c25a59c58ad7';
+var SHARED_BIN_ID = ''; // Will be set on first run, then hardcoded
 var BIN_ID_KEY = 'adriel-trip-binId';
-var DATA_VERSION = 5;
+var DATA_VERSION = 6;
+var saveTimeout = null;
+var pendingChanges = false;
 
 var travelData = {
   version: DATA_VERSION,
@@ -17,16 +20,8 @@ var travelData = {
   customPayments: []
 };
 
-// Clear stale data on version bump
-(function() {
-  var savedVer = localStorage.getItem('adriel-trip-version');
-  if (savedVer !== String(DATA_VERSION)) {
-    localStorage.removeItem('adriel-trip-binId');
-    localStorage.removeItem('adriel-trip-data');
-    localStorage.removeItem('adriel-trip-edits');
-    localStorage.setItem('adriel-trip-version', String(DATA_VERSION));
-  }
-})();
+// On first ever load, create a bin and log the ID so we can hardcode it
+// After that, all devices use the same bin
 
 // === JSONBin Operations ===
 
@@ -95,7 +90,7 @@ function createBin() {
 }
 
 function saveToCloud() {
-  var binId = localStorage.getItem(BIN_ID_KEY);
+  var binId = SHARED_BIN_ID || localStorage.getItem(BIN_ID_KEY);
   if (!binId) return;
 
   // Save locally as backup
@@ -103,22 +98,69 @@ function saveToCloud() {
     localStorage.setItem('adriel-trip-data', JSON.stringify(travelData));
   } catch(e) {}
 
-  // Images are now Imgur URLs (tiny strings), so data fits in JSONBin easily
-  fetch('https://api.jsonbin.io/v3/b/' + binId, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': JSONBIN_KEY
-    },
-    body: JSON.stringify(travelData)
-  }).catch(function() {});
+  // Mark as pending
+  pendingChanges = true;
+  showSaveStatus('unsaved');
+
+  // Debounce — wait 1s after last change before pushing
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(function() {
+    fetch('https://api.jsonbin.io/v3/b/' + binId, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify(travelData)
+    }).then(function(r) {
+      if (r.ok) {
+        pendingChanges = false;
+        showSaveStatus('saved');
+      } else {
+        showSaveStatus('error');
+      }
+    }).catch(function() {
+      showSaveStatus('error');
+    });
+  }, 1000);
+}
+
+function showSaveStatus(status) {
+  var el = document.getElementById('save-status');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'save-status';
+    el.style.cssText = 'position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:200;padding:0.4rem 1rem;border-radius:100px;font-family:DM Sans,sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s ease;pointer-events:none;';
+    document.body.appendChild(el);
+  }
+  if (status === 'saved') {
+    el.style.background = 'rgba(74,124,92,0.9)';
+    el.style.color = '#fff';
+    el.textContent = 'Saved';
+    el.style.opacity = '1';
+    setTimeout(function() { el.style.opacity = '0'; }, 2000);
+  } else if (status === 'unsaved') {
+    el.style.background = 'rgba(201,149,107,0.9)';
+    el.style.color = '#fff';
+    el.textContent = 'Saving...';
+    el.style.opacity = '1';
+  } else if (status === 'error') {
+    el.style.background = 'rgba(139,58,58,0.9)';
+    el.style.color = '#fff';
+    el.textContent = 'Save failed — will retry';
+    el.style.opacity = '1';
+    setTimeout(function() { el.style.opacity = '0'; }, 3000);
+  }
 }
 
 function loadFromCloud() {
-  var binId = localStorage.getItem(BIN_ID_KEY);
+  var binId = SHARED_BIN_ID || localStorage.getItem(BIN_ID_KEY);
   if (!binId) {
-    renderSyncUI(); // render with defaults immediately
-    createBin().then(function() { renderSyncUI(); }).catch(function() {});
+    renderSyncUI();
+    createBin().then(function(id) {
+      console.log('Created shared bin: ' + id + ' — hardcode this as SHARED_BIN_ID');
+      renderSyncUI();
+    }).catch(function() {});
     return;
   }
 

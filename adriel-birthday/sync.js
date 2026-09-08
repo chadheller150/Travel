@@ -13,7 +13,8 @@ var travelData = {
   outfits: {},
   payments: {},
   profiles: {},
-  votes: {}
+  votes: {},
+  customPayments: []
 };
 
 // Clear stale data on version bump
@@ -132,6 +133,7 @@ function loadFromCloud() {
       if (cloud.payments) travelData.payments = cloud.payments;
       if (cloud.profiles) travelData.profiles = cloud.profiles;
       if (cloud.votes) travelData.votes = cloud.votes;
+      if (cloud.customPayments) travelData.customPayments = cloud.customPayments;
 
       // Confirmations: prefer local (they have full images)
       var localStr = localStorage.getItem('adriel-trip-data');
@@ -416,7 +418,62 @@ function renderPaymentTracker() {
       '<div class="item-cost">' + paidCount + '/' + applicablePeople.length + ' paid</div></div>';
   });
 
+  // Custom (cloud-added) payment items
+  var customs = travelData.customPayments || [];
+  customs.forEach(function(p, ci) {
+    var payKey = 'custom-' + ci;
+    var paidData = travelData.payments[payKey] || {};
+    var applicablePeople = (p.appliesTo && p.appliesTo.length > 0) ? p.appliesTo : TRIP.people;
+    var paidCount = 0;
+    applicablePeople.forEach(function(person) { if (paidData[person]) paidCount++; });
+
+    html += '<div class="payment-row"><div>' +
+      '<div class="item-name">' + p.item +
+        ' <button onclick="removeCustomPayment(' + ci + ')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;opacity:0.5;">&#10005;</button>' +
+      '</div>' +
+      '<div style="font-size:0.75rem;color:var(--text-muted);">' + p.note + '</div>' +
+      '<div class="payment-checks">';
+
+    applicablePeople.forEach(function(person) {
+      var paid = paidData[person] ? true : false;
+      html += '<div class="payment-check ' + (paid ? 'paid' : '') + '" onclick="togglePayment(\'custom-' + ci + '\',\'' + person + '\')">' +
+        (paid ? '&#10003; ' : '') + person + '</div>';
+    });
+
+    html += '</div></div>' +
+      '<div class="item-cost">' + paidCount + '/' + applicablePeople.length + ' paid</div></div>';
+  });
+
   container.innerHTML = html;
+
+  // Add new item form
+  container.innerHTML += '<div class="payment-add">' +
+    '<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:1rem;">' +
+      '<input type="text" id="pay-new-item" placeholder="Item name" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.6rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.78rem;flex:2;min-width:120px;">' +
+      '<input type="text" id="pay-new-note" placeholder="Note" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.6rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.78rem;flex:1;min-width:80px;">' +
+      '<button onclick="addPaymentItem()" style="background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.4rem 0.8rem;cursor:pointer;font-size:0.72rem;font-weight:600;">+ Add</button>' +
+    '</div>' +
+  '</div>';
+}
+
+function addPaymentItem() {
+  var item = document.getElementById('pay-new-item').value.trim();
+  var note = document.getElementById('pay-new-note').value.trim();
+  if (!item) { alert('Enter an item name'); return; }
+
+  if (!travelData.customPayments) travelData.customPayments = [];
+  travelData.customPayments.push({ item: item, note: note || '', appliesTo: [] });
+  saveToCloud();
+  renderPaymentTracker();
+}
+
+function removeCustomPayment(idx) {
+  if (!travelData.customPayments) return;
+  if (confirm('Remove this item?')) {
+    travelData.customPayments.splice(idx, 1);
+    saveToCloud();
+    renderPaymentTracker();
+  }
 }
 
 function togglePayment(payIdx, person) {

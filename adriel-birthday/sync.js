@@ -154,16 +154,41 @@ function showSaveStatus(status) {
 }
 
 function loadFromCloud() {
+  // First try to get shared bin ID from config
   var binId = SHARED_BIN_ID || localStorage.getItem(BIN_ID_KEY);
+
   if (!binId) {
-    renderSyncUI();
-    createBin().then(function(id) {
-      console.log('Created shared bin: ' + id + ' — hardcode this as SHARED_BIN_ID');
-      renderSyncUI();
-    }).catch(function() {});
+    // Try loading from config.json (GitHub-hosted shared ID)
+    fetch('./config.json?' + Date.now())
+      .then(function(r) { return r.json(); })
+      .then(function(cfg) {
+        if (cfg.binId) {
+          SHARED_BIN_ID = cfg.binId;
+          localStorage.setItem(BIN_ID_KEY, cfg.binId);
+          loadFromCloudWithBin(cfg.binId);
+        } else {
+          // No shared bin exists yet — create one
+          renderSyncUI();
+          createBin().then(function(id) {
+            alert('New bin created: ' + id + ' — update config.json with this ID');
+            loadFromCloudWithBin(id);
+          });
+        }
+      })
+      .catch(function() {
+        // config.json not available, create bin
+        renderSyncUI();
+        createBin().then(function(id) {
+          loadFromCloudWithBin(id);
+        });
+      });
     return;
   }
 
+  loadFromCloudWithBin(binId);
+}
+
+function loadFromCloudWithBin(binId) {
   fetch('https://api.jsonbin.io/v3/b/' + binId + '/latest', {
     headers: { 'X-Master-Key': JSONBIN_KEY }
   }).then(function(r) { return r.json(); })

@@ -39,7 +39,7 @@ var TRIP = {
     checkin:'Tue Oct 20',
     checkout:'Wed Oct 21',
     nights:1,
-    cost:'$422/person',
+    cost:'$84/person ($422 total)',
     note:'Near CN Tower + waterfront'
   },
 
@@ -213,7 +213,7 @@ var TRIP = {
   budget: [
     { item:'Flights (AUS to YYZ + YUL to AUS)', est:'$250-400', per:'person', note:'Round trip estimate' },
     { item:'VIA Rail (Toronto to Montreal)', est:'CA$39-143', per:'person', note:'11:38 AM departure — book early' },
-    { item:'Toronto Lodging (1 night)', est:'$422', per:'person', note:'151 Dan Leckie Way — due Sep 13' },
+    { item:'Toronto Lodging (1 night)', est:'$84', per:'person', note:'$422 total / 5 — due Sep 13' },
     { item:'Montreal Lodging (3 nights)', est:'$238', per:'person', note:'$1,188 total / 5 — due Sep 13' },
     { item:'Rental Car (2 days)', est:'~CA$32', per:'person', note:'~$160 CA total / 5. Avis, Taschereau Blvd' },
     { item:'Olivia Rodrigo Tickets', est:'Varies', per:'person', note:'Jessica + Adriel only' },
@@ -295,7 +295,7 @@ var TRIP = {
     { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[], paidBy:['Adriel','Chad','Haydee','Lulu','Jessica'] },
     { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[], paidBy:['Adriel','Chad','Haydee','Lulu','Jessica'] },
     { item:'Olivia Rodrigo Tickets ($225/ea)', cost:225, per:225, due:'Jessica owes Adriel', note:'Adriel paid — Jessica owes $225', appliesTo:['Adriel','Jessica'], paidBy:['Adriel'] },
-    { item:'Toronto Airbnb — 151 Dan Leckie Way ($422/person)', cost:422, per:422, due:'Sep 13', note:'Pay Haydee via Apple Pay, Venmo, or Zelle', appliesTo:[], paidBy:[] },
+    { item:'Toronto Airbnb — 151 Dan Leckie Way ($84/person)', cost:84, per:84, due:'Sep 13', note:'$422 total / 5. Pay Haydee via Apple Pay, Venmo, or Zelle', appliesTo:[], paidBy:[] },
     { item:'Montreal Airbnb — 5945 Rue Bergevin ($238/person)', cost:238, per:238, due:'Sep 13', note:'$1,188 total / 5. Pay Haydee via Apple Pay, Venmo, or Zelle', appliesTo:[], paidBy:[] },
     { item:'Rental Car — Avis ($32 CA/person)', cost:32, per:32, due:'Oct 23', note:'~$160 CA total / 5. Pickup: 3229 Taschereau Blvd 8am. Drop: YUL 5pm.', appliesTo:[], paidBy:[] }
   ]

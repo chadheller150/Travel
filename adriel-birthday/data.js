@@ -211,8 +211,8 @@ var TRIP = {
   ],
 
   budget: [
-    { item:'Flights (AUS to YYZ + YUL to AUS)', est:'$250-400', per:'person', note:'Round trip estimate' },
-    { item:'VIA Rail (Toronto to Montreal)', est:'CA$39-143', per:'person', note:'11:38 AM departure — book early' },
+    { item:'Flights (AUS to YYZ + YUL to AUS)', est:'Paid', per:'person', note:'Already booked' },
+    { item:'VIA Rail (Toronto to Montreal)', est:'Paid', per:'person', note:'Already booked' },
     { item:'Toronto Lodging (1 night)', est:'$84', per:'person', note:'$422 total / 5 — due Sep 13' },
     { item:'Montreal Lodging (3 nights)', est:'$238', per:'person', note:'$1,188 total / 5 — due Sep 13' },
     { item:'Rental Car (2 days)', est:'~CA$32', per:'person', note:'~$160 CA total / 5. Avis, Taschereau Blvd' },

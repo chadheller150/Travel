@@ -160,8 +160,7 @@ function renderOverview() {
     '<h3>' + TRIP.train.route + '</h3>' +
     '<div class="card-detail"><i class="bi bi-calendar3"></i> ' + TRIP.train.date + '</div>' +
     '<div class="card-detail"><i class="bi bi-clock"></i> Depart ' + TRIP.train.depart + ' &rarr; Arrive ' + TRIP.train.arrive + '</div>' +
-    '<div class="card-detail"><i class="bi bi-stopwatch"></i> ' + TRIP.train.duration + '</div>' +
-    '<div class="card-detail"><i class="bi bi-wallet2"></i> ' + TRIP.train.price + '</div>';
+    '<div class="card-detail"><i class="bi bi-stopwatch"></i> ' + TRIP.train.duration + '</div>';
   grid.appendChild(tr);
 
   // Toronto Lodging

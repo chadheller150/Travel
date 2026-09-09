@@ -278,11 +278,11 @@ var TRIP = {
   },
 
   payments: [
-    { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
-    { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[] },
-    { item:'Olivia Rodrigo Tickets ($225/ea)', cost:225, per:225, due:'Jessica owes Adriel', note:'Adriel paid — Jessica owes $225', appliesTo:['Adriel','Jessica'] },
-    { item:'Toronto Lodging (1 night)', cost:0, per:0, due:'TBD', note:'Split 5 ways', appliesTo:[] },
-    { item:'Montreal Airbnb (3 nights)', cost:0, per:0, due:'TBD', note:'Split 5 ways — 5945 Rue Bergevin', appliesTo:[] },
-    { item:'Rental Car (2 days)', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup + drop at YUL', appliesTo:[] }
+    { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[], paidBy:['Adriel','Chad','Haydee','Lulu','Jessica'] },
+    { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[], paidBy:['Adriel','Chad','Haydee','Lulu','Jessica'] },
+    { item:'Olivia Rodrigo Tickets ($225/ea)', cost:225, per:225, due:'Jessica owes Adriel', note:'Adriel paid — Jessica owes $225', appliesTo:['Adriel','Jessica'], paidBy:['Adriel'] },
+    { item:'Toronto Lodging (1 night)', cost:0, per:0, due:'TBD', note:'Split 5 ways', appliesTo:[], paidBy:[] },
+    { item:'Montreal Airbnb (3 nights)', cost:0, per:0, due:'TBD', note:'Split 5 ways — 5945 Rue Bergevin', appliesTo:[], paidBy:[] },
+    { item:'Rental Car (2 days)', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup + drop at YUL', appliesTo:[], paidBy:[] }
   ]
 };

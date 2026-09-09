@@ -363,18 +363,30 @@ function renderPaymentTracker() {
   var html = '';
 
   TRIP.payments.forEach(function(p, pi) {
-    var paidData = travelData.payments[pi] || {};
+    var localPaid = travelData.payments[pi] || {};
+    var hardcodedPaid = p.paidBy || [];
     var applicablePeople = (p.appliesTo && p.appliesTo.length > 0) ? p.appliesTo : TRIP.people;
     var paidCount = 0;
-    applicablePeople.forEach(function(person) { if (paidData[person]) paidCount++; });
+
+    applicablePeople.forEach(function(person) {
+      if (hardcodedPaid.indexOf(person) >= 0 || localPaid[person]) paidCount++;
+    });
     html += '<div class="payment-row"><div>' +
       '<div class="item-name">' + p.item + '</div>' +
       '<div style="font-size:0.75rem;color:var(--text-muted);">' + p.note + '</div>' +
       '<div class="payment-checks">';
     applicablePeople.forEach(function(person) {
-      var paid = paidData[person] ? true : false;
-      html += '<div class="payment-check ' + (paid ? 'paid' : '') + '" onclick="togglePayment(' + pi + ',\'' + person + '\')">' +
-        (paid ? '&#10003; ' : '') + person + '</div>';
+      var isHardcoded = hardcodedPaid.indexOf(person) >= 0;
+      var isLocalPaid = localPaid[person] ? true : false;
+      var paid = isHardcoded || isLocalPaid;
+      if (isHardcoded) {
+        // Permanently paid — no toggle, locked
+        html += '<div class="payment-check paid locked">&#10003; ' + person + '</div>';
+      } else {
+        // Toggleable
+        html += '<div class="payment-check ' + (isLocalPaid ? 'paid' : '') + '" onclick="togglePayment(' + pi + ',\'' + person + '\')">' +
+          (isLocalPaid ? '&#10003; ' : '') + person + '</div>';
+      }
     });
     html += '</div></div><div class="item-cost">' + paidCount + '/' + applicablePeople.length + ' paid</div></div>';
   });

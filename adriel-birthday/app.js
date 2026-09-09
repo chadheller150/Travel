@@ -687,7 +687,8 @@ function openCrewProfile(name) {
       // Skip if this payment doesn't apply to this person
       if (p.appliesTo && p.appliesTo.length > 0 && p.appliesTo.indexOf(name) === -1) return;
       var paidData = travelData.payments[pi] || {};
-      var paid = (p.due === 'Paid') || (paidData[name] ? true : false);
+      var hardcoded = (p.paidBy || []).indexOf(name) >= 0;
+      var paid = hardcoded || (p.due === 'Paid') || (paidData[name] ? true : false);
       paymentHtml += '<div style="display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.82rem;">' +
         '<span style="color:var(--text-dim);">' + p.item + '</span>' +
         '<span style="color:' + (paid ? 'var(--forest)' : 'var(--text-muted)') + ';">' + (paid ? 'Paid' : (p.due || 'Unpaid')) + '</span></div>';

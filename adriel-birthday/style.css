@@ -725,6 +725,10 @@ body {
   border-color:rgba(74,124,92,0.3);
   color:var(--forest);
 }
+.payment-check.locked {
+  cursor:default;
+  opacity:0.85;
+}
 
 /* === CONFIRMATIONS === */
 .conf-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; }

@@ -34,19 +34,31 @@ var TRIP = {
     note:'Book early for cheapest fares. Scenic ride through Ontario countryside. Board at Union Station.'
   },
 
+  torontoLodging: {
+    address:'151 Dan Leckie Way, Toronto',
+    checkin:'Tue Oct 20',
+    checkout:'Wed Oct 21',
+    nights:1,
+    cost:'$422/person',
+    note:'Near CN Tower + waterfront'
+  },
+
   lodging: {
     address:'5945 Rue Bergevin, Montreal',
     type:'Airbnb / Rental',
     checkin:'Wed Oct 21, ~6:00 PM',
     checkout:'Sat Oct 24, ~9:30 AM',
     nights:3,
+    cost:'$238/person ($1,188 total)',
     note:'LaSalle area — ~20 min from downtown Montreal'
   },
 
   rental: {
     city:'Montreal', dates:'Oct 23-24 (Fri-Sat)',
-    note:'Pickup downtown Montreal, drop off at YUL airport',
-    est:'~CA$50-70/day', purpose:'Nature drive + explore further out + drive to airport'
+    pickup:'3229 Taschereau Blvd, Brossard — 8:00 AM',
+    dropoff:'YUL Airport — 5:00 PM',
+    note:'Avis. Pickup 8am 10/23, drop at YUL 5pm 10/24',
+    est:'~CA$160 total (~$32 CA/person)', purpose:'Nature drive + Laurentians + drive to airport'
   },
 
   days: {
@@ -176,6 +188,7 @@ var TRIP = {
     { name:'Distillery District', lat:43.6503, lng:-79.3596, emoji:'📸', city:'Toronto', link:'https://www.thedistillerydistrict.com' },
     { name:'Kensington Market', lat:43.6545, lng:-79.4005, emoji:'🛍️', city:'Toronto', link:'https://maps.google.com/?q=Kensington+Market+Toronto' },
     { name:'Church-Wellesley Village', lat:43.6658, lng:-79.3810, emoji:'🏳️‍🌈', city:'Toronto', link:'https://maps.google.com/?q=Church-Wellesley+Village+Toronto' },
+    { name:'Toronto Airbnb — 151 Dan Leckie Way', lat:43.6380, lng:-79.3957, emoji:'🏠', city:'Toronto', link:'https://maps.google.com/?q=151+Dan+Leckie+Way+Toronto' },
     { name:'Union Station (VIA Rail)', lat:43.6453, lng:-79.3806, emoji:'🚂', city:'Toronto', link:'https://www.viarail.ca' },
     { name:'Montreal Gare Centrale', lat:45.4996, lng:-73.5673, emoji:'🚂', city:'Montreal', link:'https://maps.google.com/?q=Gare+Centrale+Montreal' },
     { name:'Old Montreal / Notre-Dame', lat:45.5046, lng:-73.5566, emoji:'⛪', city:'Montreal', link:'https://www.basiliquenotredame.ca' },
@@ -190,6 +203,7 @@ var TRIP = {
     { name:'Saint Joseph\'s Oratory', lat:45.4917, lng:-73.6170, emoji:'⛪', city:'Montreal', link:'https://www.saint-joseph.org/en' },
     { name:'Monography Photo Studio', lat:45.5170, lng:-73.5660, emoji:'📸', city:'Montreal', link:'https://www.monography.ca' },
     { name:'Quartier DIX30', lat:45.4629, lng:-73.4541, emoji:'🛍️', city:'Montreal', link:'https://www.quartierdix30.com/en' },
+    { name:'Avis Rental — 3229 Taschereau Blvd', lat:45.4684, lng:-73.4615, emoji:'🚗', city:'Montreal', link:'https://maps.google.com/?q=3229+Boulevard+Taschereau+Brossard' },
     { name:'Montreal Lodging', lat:45.4321, lng:-73.6175, emoji:'🏠', city:'Montreal', link:'https://maps.google.com/?q=5945+Rue+Bergevin+Montreal' },
     { name:'Mont-Tremblant', lat:46.2094, lng:-74.5850, emoji:'🏔️', city:'Laurentians', link:'https://www.tremblant.ca/en' },
     { name:'Saint-Sauveur', lat:45.9325, lng:-74.1724, emoji:'🍂', city:'Laurentians', link:'https://maps.google.com/?q=Saint-Sauveur+Quebec' },
@@ -199,9 +213,9 @@ var TRIP = {
   budget: [
     { item:'Flights (AUS to YYZ + YUL to AUS)', est:'$250-400', per:'person', note:'Round trip estimate' },
     { item:'VIA Rail (Toronto to Montreal)', est:'CA$39-143', per:'person', note:'11:38 AM departure — book early' },
-    { item:'Toronto Lodging (1 night)', est:'$50-80', per:'person/night', note:'Split 5 ways' },
-    { item:'Montreal Lodging (3 nights)', est:'$50-80', per:'person/night', note:'Split 5 ways' },
-    { item:'Rental Car (2 days)', est:'CA$100-140', per:'total split 5', note:'Oct 23-24, drop at YUL' },
+    { item:'Toronto Lodging (1 night)', est:'$422', per:'person', note:'151 Dan Leckie Way — due Sep 13' },
+    { item:'Montreal Lodging (3 nights)', est:'$238', per:'person', note:'$1,188 total / 5 — due Sep 13' },
+    { item:'Rental Car (2 days)', est:'~CA$32', per:'person', note:'~$160 CA total / 5. Avis, Taschereau Blvd' },
     { item:'Olivia Rodrigo Tickets', est:'Varies', per:'person', note:'Jessica + Adriel only' },
     { item:'Dining (~5 days)', est:'$150-250', per:'person', note:'Mostly affordable + 1 nice birthday dinner' },
     { item:'Nightlife', est:'$80-150', per:'person', note:'Covers + drinks' },
@@ -281,8 +295,8 @@ var TRIP = {
     { item:'Flights (AUS to YYZ + YUL to AUS)', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[], paidBy:['Adriel','Chad','Haydee','Lulu','Jessica'] },
     { item:'VIA Rail Tickets', cost:0, per:0, due:'Paid', note:'Already booked and paid', appliesTo:[], paidBy:['Adriel','Chad','Haydee','Lulu','Jessica'] },
     { item:'Olivia Rodrigo Tickets ($225/ea)', cost:225, per:225, due:'Jessica owes Adriel', note:'Adriel paid — Jessica owes $225', appliesTo:['Adriel','Jessica'], paidBy:['Adriel'] },
-    { item:'Toronto Lodging (1 night)', cost:0, per:0, due:'TBD', note:'Split 5 ways', appliesTo:[], paidBy:[] },
-    { item:'Montreal Airbnb (3 nights)', cost:0, per:0, due:'TBD', note:'Split 5 ways — 5945 Rue Bergevin', appliesTo:[], paidBy:[] },
-    { item:'Rental Car (2 days)', cost:0, per:0, due:'Oct 23', note:'Split 5 ways at pickup + drop at YUL', appliesTo:[], paidBy:[] }
+    { item:'Toronto Airbnb — 151 Dan Leckie Way ($422/person)', cost:422, per:422, due:'Sep 13', note:'Pay Haydee via Apple Pay, Venmo, or Zelle', appliesTo:[], paidBy:[] },
+    { item:'Montreal Airbnb — 5945 Rue Bergevin ($238/person)', cost:238, per:238, due:'Sep 13', note:'$1,188 total / 5. Pay Haydee via Apple Pay, Venmo, or Zelle', appliesTo:[], paidBy:[] },
+    { item:'Rental Car — Avis ($32 CA/person)', cost:32, per:32, due:'Oct 23', note:'~$160 CA total / 5. Pickup: 3229 Taschereau Blvd 8am. Drop: YUL 5pm.', appliesTo:[], paidBy:[] }
   ]
 };

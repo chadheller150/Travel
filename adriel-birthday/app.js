@@ -164,21 +164,31 @@ function renderOverview() {
     '<div class="card-detail"><i class="bi bi-wallet2"></i> ' + TRIP.train.price + '</div>';
   grid.appendChild(tr);
 
+  // Toronto Lodging
+  var tl = el('div', 'card');
+  tl.innerHTML = '<div class="card-label"><i class="bi bi-house"></i> Toronto Home Base</div>' +
+    '<h3>151 Dan Leckie Way</h3>' +
+    '<div class="card-detail"><i class="bi bi-calendar3"></i> ' + TRIP.torontoLodging.checkin + ' &rarr; ' + TRIP.torontoLodging.checkout + '</div>' +
+    '<div class="card-detail"><i class="bi bi-wallet2"></i> ' + TRIP.torontoLodging.cost + '</div>' +
+    '<div class="card-detail"><i class="bi bi-geo-alt"></i> ' + TRIP.torontoLodging.note + '</div>';
+  grid.appendChild(tl);
+
   // Montreal Lodging
   var ml = el('div', 'card');
   ml.innerHTML = '<div class="card-label"><i class="bi bi-house"></i> Montreal Home Base</div>' +
     '<h3>5945 Rue Bergevin</h3>' +
-    '<div class="card-detail"><i class="bi bi-calendar3"></i> ' + TRIP.lodging.checkin + '</div>' +
-    '<div class="card-detail"><i class="bi bi-key"></i> Checkout: ' + TRIP.lodging.checkout + '</div>' +
+    '<div class="card-detail"><i class="bi bi-calendar3"></i> ' + TRIP.lodging.checkin + ' &rarr; ' + TRIP.lodging.checkout + '</div>' +
+    '<div class="card-detail"><i class="bi bi-wallet2"></i> ' + TRIP.lodging.cost + '</div>' +
     '<div class="card-detail"><i class="bi bi-geo-alt"></i> ' + TRIP.lodging.note + '</div>';
   grid.appendChild(ml);
 
   // Rental Car
   var rc = el('div', 'card');
-  rc.innerHTML = '<div class="card-label"><i class="bi bi-car-front"></i> Rental Car</div>' +
-    '<h3>Montreal &mdash; ' + TRIP.rental.dates + '</h3>' +
-    '<div class="card-detail"><i class="bi bi-wallet2"></i> ' + TRIP.rental.est + '/day est.</div>' +
-    '<p style="margin-top:0.5rem;">' + TRIP.rental.purpose + '</p>';
+  rc.innerHTML = '<div class="card-label"><i class="bi bi-car-front"></i> Rental Car — Avis</div>' +
+    '<h3>' + TRIP.rental.dates + '</h3>' +
+    '<div class="card-detail"><i class="bi bi-wallet2"></i> ' + TRIP.rental.est + '</div>' +
+    '<div class="card-detail"><i class="bi bi-geo-alt"></i> Pickup: ' + TRIP.rental.pickup + '</div>' +
+    '<div class="card-detail"><i class="bi bi-airplane"></i> Drop: ' + TRIP.rental.dropoff + '</div>';
   grid.appendChild(rc);
 
   // Concert

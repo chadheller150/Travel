@@ -417,7 +417,43 @@ function renderPaymentTracker() {
     '<input type="text" id="pay-new-note" placeholder="Note" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.6rem;color:var(--cream);font-family:DM Sans,sans-serif;font-size:0.78rem;flex:1;min-width:80px;">' +
     '<button onclick="addPaymentItem()" style="background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.4rem 0.8rem;cursor:pointer;font-size:0.72rem;font-weight:600;">+ Add</button></div>';
 
+  // Sync code section
+  var currentBin = getBinId();
+  html += '<div style="margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border);">' +
+    '<p style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">Sync Across Devices</p>';
+  if (currentBin) {
+    html += '<div style="display:flex;gap:0.4rem;align-items:center;">' +
+      '<input type="text" value="' + currentBin + '" readonly style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.6rem;color:var(--accent);font-family:monospace;font-size:0.72rem;flex:1;" onclick="this.select()">' +
+      '<button onclick="copySyncCode()" style="background:rgba(201,149,107,0.15);color:var(--accent);border:1px solid rgba(201,149,107,0.25);border-radius:100px;padding:0.4rem 0.8rem;cursor:pointer;font-size:0.7rem;">Copy</button></div>' +
+      '<p style="font-size:0.68rem;color:var(--text-muted);margin-top:0.3rem;">Share this code with other devices to sync payment updates</p>';
+  } else {
+    html += '<p style="font-size:0.75rem;color:var(--text-dim);">Make a change to generate a sync code</p>';
+  }
+  html += '<div style="display:flex;gap:0.4rem;align-items:center;margin-top:0.6rem;">' +
+    '<input type="text" id="sync-join-code" placeholder="Paste sync code from another device" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.6rem;color:var(--cream);font-family:monospace;font-size:0.72rem;flex:1;">' +
+    '<button onclick="joinSync()" style="background:var(--accent);color:var(--bg);border:none;border-radius:100px;padding:0.4rem 0.8rem;cursor:pointer;font-size:0.7rem;">Join</button></div>' +
+  '</div>';
+
   container.innerHTML = html;
+}
+
+function copySyncCode() {
+  var code = getBinId();
+  if (code && navigator.clipboard) {
+    navigator.clipboard.writeText(code);
+    showSaveStatus('saved');
+  }
+}
+
+function joinSync() {
+  var code = document.getElementById('sync-join-code').value.trim();
+  if (!code) return;
+  localStorage.setItem(BIN_KEY, code);
+  // Pull from the new blob
+  pullFromCloud(function() {
+    renderSyncUI();
+    showSaveStatus('saved');
+  });
 }
 
 function togglePayment(payIdx, person) {

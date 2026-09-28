@@ -286,24 +286,51 @@ function renderOutfitsTab() {
 }
 
 /* === OUTFIT INSPO TAB === */
-var currentInspoPerson = 'Chad';
+var currentInspoGroup = 'guys';
 var currentInspoDay = 'all';
+var INSPO_PERSON_ORDER = ['Chad','Adriel','Haydee','Jessica','Lulu'];
+
+function inspoGroupList() {
+  return (typeof TRIP !== 'undefined' && TRIP.inspoGroups) ? TRIP.inspoGroups : [];
+}
+function inspoGroupByKey(key) {
+  var found = inspoGroupList().filter(function(g) { return g.key === key; });
+  return found.length ? found[0] : null;
+}
+function inspoGroupMembers() {
+  var g = inspoGroupByKey(currentInspoGroup);
+  return g ? g.members : [];
+}
+function inspoSlotOf(o) {
+  var m = /\/[a-z]-([a-z0-9-]+)\.jpg$/.exec(o.img || '');
+  return m ? m[1] : '';
+}
 
 function renderInspoTab() {
-  var s = createSection('inspo', 'Outfit Inspo', 'Mood boards for every occasion on the itinerary — one set per person');
+  var s = createSection('inspo', 'Outfit Inspo', 'Mood boards for every occasion on the itinerary — two options per look');
   var list = (typeof TRIP !== 'undefined' && TRIP.inspo) ? TRIP.inspo : [];
-  var people = (typeof TRIP !== 'undefined' && TRIP.inspoPeople) ? TRIP.inspoPeople : [{key:'Chad',label:'Chad',icon:'bi-person'}];
+  var groups = inspoGroupList();
+  var slotOrder = (typeof TRIP !== 'undefined' && TRIP.inspoSlotOrder) ? TRIP.inspoSlotOrder : [];
 
-  var people_ui = '<div class="inspo-people">';
-  people.forEach(function(p, idx) {
-    var active = (p.key === currentInspoPerson) ? ' active' : '';
-    people_ui += '<button class="inspo-person-btn' + active + '" data-person="' + p.key + '" onclick="selectInspoPerson(this,\'' + p.key + '\')">' +
-      '<i class="bi ' + (p.icon || 'bi-person') + '"></i> ' + p.label + '</button>';
+  var groupUI = '<div class="inspo-people">';
+  groups.forEach(function(g) {
+    var active = (g.key === currentInspoGroup) ? ' active' : '';
+    groupUI += '<button class="inspo-person-btn' + active + '" data-group="' + g.key + '" onclick="selectInspoGroup(this,\'' + g.key + '\')">' +
+      '<i class="bi ' + (g.icon || 'bi-person') + '"></i> ' + g.label + '</button>';
   });
-  people_ui += '</div>';
+  groupUI += '</div>';
+
+  // Render in chronological occasion order so each pair's two options sit side by side
+  var order = list.map(function(o, i) { return { o: o, i: i }; });
+  order.sort(function(a, b) {
+    var sa = slotOrder.indexOf(inspoSlotOf(a.o)); if (sa < 0) sa = 999;
+    var sb = slotOrder.indexOf(inspoSlotOf(b.o)); if (sb < 0) sb = 999;
+    if (sa !== sb) return sa - sb;
+    return INSPO_PERSON_ORDER.indexOf(a.o.who || 'Chad') - INSPO_PERSON_ORDER.indexOf(b.o.who || 'Chad');
+  });
 
   var dayOrder = [];
-  list.forEach(function(o) { if (dayOrder.indexOf(o.day) < 0) dayOrder.push(o.day); });
+  order.forEach(function(x) { if (dayOrder.indexOf(x.o.day) < 0) dayOrder.push(x.o.day); });
   var chips = '<div class="inspo-filters" id="inspo-filters"><button class="inspo-chip active" data-day="all" onclick="filterInspo(this,\'all\')">All <span id="inspo-count-all"></span></button>';
   dayOrder.forEach(function(d) {
     chips += '<button class="inspo-chip" data-day="' + d + '" onclick="filterInspo(this,\'' + d + '\')">' + d + ' <span id="inspo-count-' + d.replace(/[^a-zA-Z0-9]/g,'') + '"></span></button>';
@@ -311,13 +338,15 @@ function renderInspoTab() {
   chips += '</div>';
 
   var grid = '<div class="inspo-grid" id="inspo-grid">';
-  list.forEach(function(o, i) {
-    var pieces = (o.pieces || []).map(function(p) { return '<li>' + p + '</li>'; }).join('');
+  order.forEach(function(x) {
+    var o = x.o;
     var who = o.who || 'Chad';
-    grid += '<article class="inspo-card" data-day="' + o.day + '" data-who="' + who + '" onclick="openInspo(' + i + ')">' +
+    var pieces = (o.pieces || []).map(function(p) { return '<li>' + p + '</li>'; }).join('');
+    grid += '<article class="inspo-card" data-day="' + o.day + '" data-who="' + who + '" data-idx="' + x.i + '" onclick="openInspo(' + x.i + ')">' +
       '<div class="inspo-img-wrap">' +
         '<img src="' + o.img + '" alt="' + o.title + '" loading="lazy">' +
         '<span class="inspo-mood">' + o.mood + '</span>' +
+        '<span class="inspo-who">' + who + '</span>' +
         '<span class="inspo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>' +
       '</div>' +
       '<div class="inspo-body">' +
@@ -330,20 +359,19 @@ function renderInspoTab() {
   });
   grid += '</div>';
 
-  s.innerHTML += people_ui + chips + grid +
-    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> Each person\'s looks share a core wardrobe on purpose — pieces repeat across boards. Tap a name above to switch, then a day to narrow it down.</p>';
+  s.innerHTML += groupUI + chips + grid +
+    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> Each occasion shows both options side by side, tagged with whose look it is — pick one each, or mix and match. Thursday evening splits: whoever\'s at Centre Bell gets the concert board, whoever isn\'t gets Mile End.</p>';
 
   setTimeout(function() { applyInspoFilters(); updateInspoChipCounts(); }, 0);
   return s;
 }
 
 function updateInspoChipCounts() {
+  var members = inspoGroupMembers();
   var list = TRIP.inspo || [];
-  var mine = list.filter(function(o) { return (o.who || 'Chad') === currentInspoPerson; });
+  var mine = list.filter(function(o) { return members.indexOf(o.who || 'Chad') >= 0; });
   var allEl = document.getElementById('inspo-count-all');
   if (allEl) allEl.textContent = mine.length;
-  var dayOrder = [];
-  mine.forEach(function(o) { if (dayOrder.indexOf(o.day) < 0) dayOrder.push(o.day); });
   document.querySelectorAll('#inspo-filters .inspo-chip').forEach(function(chip) {
     var d = chip.dataset.day;
     if (d === 'all') return;
@@ -353,8 +381,8 @@ function updateInspoChipCounts() {
   });
 }
 
-function selectInspoPerson(btn, person) {
-  currentInspoPerson = person;
+function selectInspoGroup(btn, key) {
+  currentInspoGroup = key;
   currentInspoDay = 'all';
   document.querySelectorAll('.inspo-person-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
@@ -371,17 +399,18 @@ function filterInspo(btn, day) {
 }
 
 function applyInspoFilters() {
+  var members = inspoGroupMembers();
   document.querySelectorAll('.inspo-card').forEach(function(c) {
     var showDay = (currentInspoDay === 'all' || c.dataset.day === currentInspoDay);
-    var showWho = (c.dataset.who === currentInspoPerson);
+    var showWho = members.indexOf(c.dataset.who) >= 0;
     c.style.display = (showDay && showWho) ? '' : 'none';
   });
 }
 
 function inspoVisibleIndices() {
   var idxs = [];
-  document.querySelectorAll('#inspo-grid .inspo-card').forEach(function(c, i) {
-    if (c.style.display !== 'none') idxs.push(i);
+  document.querySelectorAll('#inspo-grid .inspo-card').forEach(function(c) {
+    if (c.style.display !== 'none') idxs.push(parseInt(c.dataset.idx, 10));
   });
   return idxs;
 }

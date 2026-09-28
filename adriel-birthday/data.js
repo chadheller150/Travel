@@ -301,13 +301,15 @@ var TRIP = {
   ],
 
   /* === OUTFIT INSPO BOARDS === */
-  inspoPeople: [
-    { key:'Chad', label:'Chad', icon:'bi-person' },
-    { key:'Adriel', label:'Adriel', icon:'bi-cake2' },
-    { key:'Haydee', label:'Haydee', icon:'bi-person' },
-    { key:'Jessica', label:'Jessica', icon:'bi-person' },
-    { key:'Lulu', label:'Lulu', icon:'bi-person' }
+  inspoGroups: [
+    { key:'guys', label:'Chad &amp; Adriel', icon:'bi-people', members:['Chad','Adriel'] },
+    { key:'haydee', label:'Haydee', icon:'bi-person', members:['Haydee'] },
+    { key:'girls', label:'Jessica &amp; Lulu', icon:'bi-people', members:['Jessica','Lulu'] }
   ],
+
+  inspoSlotOrder: ['tue-flight','tue-cntower','tue-village','wed-brunch-ago','wed-train',
+    'wed-birthday-dinner','wed-village-mtl','thu-photostudio','thu-oldmontreal',
+    'thu-mileend','thu-concert','fri-laurentians','fri-dinner','sat-travel'],
 
   inspo: [
     /* ===== CHAD ===== */

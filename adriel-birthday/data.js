@@ -298,5 +298,73 @@ var TRIP = {
     { item:'Toronto Airbnb — 151 Dan Leckie Way ($84/person)', cost:84, per:84, due:'Sep 13', note:'$422 total / 5. Pay Haydee via Apple Pay, Venmo, or Zelle', appliesTo:[], paidBy:[] },
     { item:'Montreal Airbnb — 5945 Rue Bergevin ($238/person)', cost:238, per:238, due:'Sep 13', note:'$1,188 total / 5. Pay Haydee via Apple Pay, Venmo, or Zelle', appliesTo:[], paidBy:[] },
     { item:'Rental Car — Avis ($32 CA/person)', cost:32, per:32, due:'Oct 23', note:'~$160 CA total / 5. Pickup: 3229 Taschereau Blvd 8am. Drop: YUL 5pm.', appliesTo:[], paidBy:[] }
+  ],
+
+  /* === OUTFIT INSPO BOARDS === */
+  inspo: [
+    { day:'Tue 10/20', icon:'bi-airplane', mood:'Travel', title:'Flight Day — AUS to YYZ',
+      img:'outfit-boards/web/m-tue-flight.jpg',
+      note:'Comfortable leaving Texas, layered for a 45&deg;F landing.',
+      pieces:['Dark stretch travel trousers','Charcoal long-sleeve henley','Lightweight zip bomber','White leather sneakers','Merino beanie in the bag'] },
+
+    { day:'Tue 10/20', icon:'bi-building', mood:'Golden Hour', title:'CN Tower + First Dinner',
+      img:'outfit-boards/web/m-tue-cntower.jpg',
+      note:'Cool-weather layering with first-night polish. Wind up top at the observation deck.',
+      pieces:['Dark slim chinos','Forest or navy merino crewneck','Structured wool overcoat','Suede Chelsea boots','Silver watch + thin chain'] },
+
+    { day:'Tue 10/20', icon:'bi-moon-stars', mood:'Night Out', title:'Church-Wellesley Village',
+      img:'outfit-boards/web/m-tue-village.jpg',
+      note:'Crews &amp; Tangos, The Drink, Woody\'s. First-night statement.',
+      pieces:['Fitted black jeans','Ribbed fitted top','Cropped leather bomber','Chunky sneakers or boots','Layered silver chains'] },
+
+    { day:'Wed 10/21', icon:'bi-palette2', mood:'Smart Casual', title:'Brunch + AGO',
+      img:'outfit-boards/web/m-wed-brunch-ago.jpg',
+      note:'Gallery-appropriate and easy to wear straight through to Union Station.',
+      pieces:['Pleated trousers','Crewneck over a collared shirt','Trench or topcoat','Leather sneakers','Tortoiseshell sunglasses'] },
+
+    { day:'Wed 10/21', icon:'bi-train-front', mood:'Comfort', title:'VIA Rail — 5.5 Hours',
+      img:'outfit-boards/web/m-wed-train.jpg',
+      note:'Sit-all-day comfortable, but you step off this train headed for the birthday dinner.',
+      pieces:['Soft stretch wool trousers','Oatmeal cashmere crewneck','White tee underneath','Unstructured travel blazer','Suede loafers'] },
+
+    { day:'Wed 10/21', icon:'bi-cake2', mood:'Dress Up', title:'Adriel\'s Birthday Dinner',
+      img:'outfit-boards/web/m-wed-birthday-dinner.jpg',
+      note:'THE dinner. Agrikol, Le Violon, or Bouillon Bilk. Sharpest look of the trip.',
+      pieces:['Charcoal tailored trousers','Merino turtleneck or silk shirt','Fitted blazer + overcoat','Polished Chelsea boots','Minimal silver jewelry'] },
+
+    { day:'Wed 10/21', icon:'bi-stars', mood:'Big Night', title:'Le Village — Birthday Night Out',
+      img:'outfit-boards/web/m-wed-village-mtl.jpg',
+      note:'Complexe Sky rooftop, Cabaret Mado, Club Unity. The loudest look you pack.',
+      pieces:['Glossy black slim trousers','Sheer or ribbed fitted top','Cropped textured jacket','Chunky platform boots','Stacked chains + statement ring'] },
+
+    { day:'Thu 10/22', icon:'bi-camera2', mood:'On Camera', title:'Monography Photo Studio',
+      img:'outfit-boards/web/m-thu-photostudio.jpg',
+      note:'The one that matters most — solid rich color, strong silhouette, nothing busy. This is going on film.',
+      pieces:['Cream wide pleated trousers','Terracotta knit polo or mock-neck','Draped warm-brown overshirt','Leather loafers','Gold chain + signet ring'] },
+
+    { day:'Thu 10/22', icon:'bi-bank', mood:'Walking Day', title:'MMFA + Old Montreal + Little Italy',
+      img:'outfit-boards/web/m-thu-oldmontreal.jpg',
+      note:'Cobblestones, Notre-Dame, Jean-Talon Market. Built for mileage.',
+      pieces:['Slim dark denim','Rust quarter-zip sweater','Waxed shirt jacket','Suede desert boots','Beanie or flat cap'] },
+
+    { day:'Thu 10/22', icon:'bi-cup-straw', mood:'Evening', title:'Mile End + Plateau Bar Hop',
+      img:'outfit-boards/web/m-thu-mileend.jpg',
+      note:'Your alt plan while Adriel and Jessica are at Centre Bell. Creative-neighborhood energy.',
+      pieces:['Straight-leg raw denim','Heavyweight striped long-sleeve','Tobacco corduroy trucker','Wool overshirt layer','Worn leather boots'] },
+
+    { day:'Fri 10/23', icon:'bi-tree', mood:'Outdoors', title:'Botanical Garden + Laurentians',
+      img:'outfit-boards/web/m-fri-laurentians.jpg',
+      note:'Peak foliage, Mont-Tremblant gondola. Warm, weatherproof, photographs beautifully against fall color.',
+      pieces:['Oatmeal cable-knit sweater','Slim dark jeans','Quilted or shearling jacket','Weatherproof boots','Beanie + wool scarf'] },
+
+    { day:'Fri 10/23', icon:'bi-fire', mood:'Relaxed', title:'Last Night Dinner Out',
+      img:'outfit-boards/web/m-fri-dinner.jpg',
+      note:'Post-Laurentians. Easy but still sharp — last real night in Montreal.',
+      pieces:['Navy slim chinos','Cream ribbed knit','Deep green quilted bomber','Suede Chelsea boots','Simple silver bracelet'] },
+
+    { day:'Sat 10/24', icon:'bi-airplane-fill', mood:'Travel', title:'Oratory + Fly Home',
+      img:'outfit-boards/web/m-sat-travel.jpg',
+      note:'Saint Joseph\'s Oratory, last poutine, then YUL. Comfortable and airport-ready.',
+      pieces:['Heathered travel joggers','Oversized olive hoodie','Packable puffer vest','Slip-on sneakers','Headphones + crossbody pouch'] }
   ]
 };

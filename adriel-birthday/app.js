@@ -6,7 +6,7 @@
 var TAB_LABELS = {
   overview:'Overview', day1:'Tue 10/20', day2:'Wed 10/21', day3:'Thu 10/22',
   day4:'Fri 10/23', day5:'Sat 10/24', map:'Map', dining:'Dining Guide',
-  nightlife:'Nightlife', outfits:'Outfits', logistics:'Logistics', budget:'Budget'
+  nightlife:'Nightlife', outfits:'Outfits', inspo:'Outfit Inspo', logistics:'Logistics', budget:'Budget'
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (popup) popup.remove();
       var lb = document.getElementById('lightbox');
       if (lb) lb.classList.remove('open');
+      var ilb = document.getElementById('inspo-lightbox');
+      if (ilb) ilb.classList.remove('open');
       var menu = document.getElementById('side-menu');
       if (menu && menu.classList.contains('open')) toggleMenu();
     }
@@ -48,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Tab order for nav buttons
-var TAB_ORDER = ['overview','day1','day2','day3','day4','day5','map','dining','nightlife','outfits','logistics','budget'];
+var TAB_ORDER = ['overview','day1','day2','day3','day4','day5','map','dining','nightlife','outfits','inspo','logistics','budget'];
 
 function navigateTab(direction) {
   var currentTab = '';
@@ -107,6 +109,7 @@ function renderAll() {
     renderDining(),
     renderNightlife(),
     renderOutfitsTab(),
+    renderInspoTab(),
     renderLogistics(),
     renderBudget()
   ];
@@ -280,6 +283,86 @@ function renderOutfitsTab() {
   var s = createSection('outfits', 'Outfits', 'What everyone is wearing');
   s.innerHTML += '<div id="outfits-gallery"></div>';
   return s;
+}
+
+/* === OUTFIT INSPO TAB === */
+function renderInspoTab() {
+  var s = createSection('inspo', 'Outfit Inspo', 'Mood boards for every occasion on the itinerary');
+  var list = (typeof TRIP !== 'undefined' && TRIP.inspo) ? TRIP.inspo : [];
+
+  // Day filter chips
+  var dayOrder = [];
+  list.forEach(function(o) { if (dayOrder.indexOf(o.day) < 0) dayOrder.push(o.day); });
+  var chips = '<div class="inspo-filters"><button class="inspo-chip active" data-day="all" onclick="filterInspo(this,\'all\')">All ' +
+    list.length + '</button>';
+  dayOrder.forEach(function(d) {
+    var n = list.filter(function(o) { return o.day === d; }).length;
+    chips += '<button class="inspo-chip" data-day="' + d + '" onclick="filterInspo(this,\'' + d + '\')">' + d + ' <span>' + n + '</span></button>';
+  });
+  chips += '</div>';
+
+  var grid = '<div class="inspo-grid" id="inspo-grid">';
+  list.forEach(function(o, i) {
+    var pieces = (o.pieces || []).map(function(p) { return '<li>' + p + '</li>'; }).join('');
+    grid += '<article class="inspo-card" data-day="' + o.day + '" onclick="openInspo(' + i + ')">' +
+      '<div class="inspo-img-wrap">' +
+        '<img src="' + o.img + '" alt="' + o.title + '" loading="lazy">' +
+        '<span class="inspo-mood">' + o.mood + '</span>' +
+        '<span class="inspo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>' +
+      '</div>' +
+      '<div class="inspo-body">' +
+        '<div class="inspo-day"><i class="bi ' + o.icon + '"></i> ' + o.day + '</div>' +
+        '<h3>' + o.title + '</h3>' +
+        '<p class="inspo-note">' + o.note + '</p>' +
+        '<ul class="inspo-pieces">' + pieces + '</ul>' +
+      '</div>' +
+    '</article>';
+  });
+  grid += '</div>';
+
+  s.innerHTML += chips + grid +
+    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> These share a core on purpose — dark trousers, Chelsea boots and the overcoat repeat across most looks. Realistically you pack about 4 bottoms, 6 tops, 3 outerwear pieces and 2 pairs of shoes.</p>';
+  return s;
+}
+
+function filterInspo(btn, day) {
+  document.querySelectorAll('.inspo-chip').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.inspo-card').forEach(function(c) {
+    c.style.display = (day === 'all' || c.dataset.day === day) ? '' : 'none';
+  });
+}
+
+var inspoIdx = 0;
+function openInspo(i) {
+  var list = TRIP.inspo || [];
+  if (!list.length) return;
+  inspoIdx = (i + list.length) % list.length;
+  var o = list[inspoIdx];
+  var ov = document.getElementById('inspo-lightbox');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'inspo-lightbox';
+    ov.className = 'lightbox';
+    ov.innerHTML = '<button class="lightbox-close" onclick="closeInspo(event)">&times;</button>' +
+      '<button class="lightbox-nav prev" onclick="inspoNav(event,-1)">&#8249;</button>' +
+      '<img id="inspo-lb-img">' +
+      '<div class="lightbox-caption" id="inspo-lb-cap"></div>' +
+      '<button class="lightbox-nav next" onclick="inspoNav(event,1)">&#8250;</button>';
+    ov.addEventListener('click', function(e) { if (e.target === ov) closeInspo(e); });
+    document.body.appendChild(ov);
+  }
+  document.getElementById('inspo-lb-img').src = o.img;
+  document.getElementById('inspo-lb-cap').innerHTML =
+    '<strong>' + o.title + '</strong><span>' + o.day + ' &middot; ' + o.mood + '</span>';
+  ov.classList.add('open');
+}
+
+function inspoNav(e, dir) { if (e) e.stopPropagation(); openInspo(inspoIdx + dir); }
+function closeInspo(e) {
+  if (e) e.stopPropagation();
+  var ov = document.getElementById('inspo-lightbox');
+  if (ov) ov.classList.remove('open');
 }
 
 /* === MAP === */

@@ -359,7 +359,7 @@ function renderInspoTab() {
   grid += '</div>';
 
   s.innerHTML += groupUI + chips + grid +
-    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> Each occasion shows two options side by side — neither one is assigned to anybody, so take whichever you like or mix and match. Thursday evening splits by plan: one concert look, one Mile End look.</p>';
+    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> Most occasions show more than one option side by side — nothing is assigned to anybody, so take whichever you like or mix and match. Thursday evening splits by plan: concert looks and Mile End looks.</p>';
 
   setTimeout(function() { applyInspoFilters(); updateInspoChipCounts(); }, 0);
   return s;

@@ -510,6 +510,37 @@ var TRIP = {
       note:'Comfortable and put-together for the Oratory and the flight home.',
       pieces:['Ponte-knit joggers','Oversized cashmere-blend sweater','Packable puffer vest','Slip-on sneakers','Travel scarf'] },
 
+    /* ----- Haydee: boho chic alternates ----- */
+    { who:'Haydee', day:'Tue 10/20', icon:'bi-moon-stars', mood:'Boho Night', title:'Church-Wellesley Village',
+      img:'outfit-boards/web/b-tue-village.jpg',
+      note:'Boho take on the same night — flowing, jewel-toned, easy to dance in.',
+      pieces:['Wine velvet wide-leg palazzo trousers','Gold-embroidered bell-sleeve blouse','Fringed paisley kimono duster','Tooled-leather heeled boots','Layered brass + amber necklaces'] },
+
+    { who:'Haydee', day:'Wed 10/21', icon:'bi-cake2', mood:'Boho Formal', title:'Adriel\'s Birthday Dinner',
+      img:'outfit-boards/web/b-wed-birthday-dinner.jpg',
+      note:'Same dress-up night, softer and more romantic than the tailored option.',
+      pieces:['Midnight-plum velvet maxi dress','Embroidered rust + gold fringed shawl','Braided antique-gold waist belt','Pointed suede low-heel boots','Filigree gold collar necklace'] },
+
+    { who:'Haydee', day:'Thu 10/22', icon:'bi-camera2', mood:'Boho Portrait', title:'Monography Photo Studio',
+      img:'outfit-boards/web/b-thu-photostudio.jpg',
+      note:'Warm earth tones and soft movement — reads beautifully on camera.',
+      pieces:['Terracotta tiered linen midi dress','Cream fringed crochet cardigan','Wide woven tan leather belt','Camel suede ankle boots','Amber teardrop pendant + brass bangles'] },
+
+    { who:'Haydee', day:'Thu 10/22', icon:'bi-bank', mood:'Boho Layers', title:'MMFA + Old Montreal + Little Italy',
+      img:'outfit-boards/web/b-thu-oldmontreal.jpg',
+      note:'Cobblestone-friendly boots under a long skirt and a big blanket wrap.',
+      pieces:['Tiered olive corduroy skirt','Mustard waffle-knit henley','Kilim-print blanket wrap coat','Brown lace-up leather boots','Fringed suede crossbody'] },
+
+    { who:'Haydee', day:'Thu 10/22', icon:'bi-cup-straw', mood:'Boho Evening', title:'Mile End + Plateau Bar Hop',
+      img:'outfit-boards/web/b-thu-mileend.jpg',
+      note:'The looser, more relaxed version of the bar-hop night.',
+      pieces:['Flared dark indigo denim','Rust velvet embroidered peasant blouse','Caramel shearling-trimmed suede jacket','Western heeled ankle boots','Layered beaded + brass necklaces'] },
+
+    { who:'Haydee', day:'Fri 10/23', icon:'bi-tree', mood:'Boho Outdoors', title:'Botanical Garden + Laurentians',
+      img:'outfit-boards/web/b-fri-laurentians.jpg',
+      note:'Just as warm for the gondola, with more pattern against the foliage.',
+      pieces:['Cream fair-isle folk sweater','Fleece-lined olive utility trousers','Rust quilted coat with shearling collar','Waterproof leather hiking boots','Mustard + forest woven wool scarf'] },
+
     /* ===== JESSICA ===== */
     { who:'Jessica', day:'Tue 10/20', icon:'bi-airplane', mood:'Travel', title:'Flight Day — AUS to YYZ',
       img:'outfit-boards/web/j-tue-flight.jpg',

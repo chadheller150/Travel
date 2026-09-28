@@ -1050,6 +1050,21 @@ body {
 /* ============================================================
    OUTFIT INSPO TAB
    ============================================================ */
+.inspo-people { display:flex; flex-wrap:wrap; gap:0.6rem; margin:0 0 1.2rem; }
+.inspo-person-btn {
+  background:var(--bg-card); color:var(--text-dim);
+  border:1px solid var(--border); border-radius:999px;
+  padding:0.55rem 1.2rem; font-family:'DM Sans',sans-serif;
+  font-size:0.85rem; font-weight:600; letter-spacing:0.02em;
+  cursor:pointer; transition:all 0.25s ease; display:inline-flex;
+  align-items:center; gap:0.4rem;
+}
+.inspo-person-btn:hover { color:var(--text); border-color:var(--accent); }
+.inspo-person-btn.active {
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-gold) 100%);
+  color:#1a1412; border-color:transparent;
+  box-shadow:0 3px 14px rgba(201,149,107,0.35);
+}
 .inspo-filters { display:flex; flex-wrap:wrap; gap:0.5rem; margin:0 0 1.5rem; }
 .inspo-chip {
   background:var(--bg-card); color:var(--text-dim);

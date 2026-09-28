@@ -286,25 +286,35 @@ function renderOutfitsTab() {
 }
 
 /* === OUTFIT INSPO TAB === */
-function renderInspoTab() {
-  var s = createSection('inspo', 'Outfit Inspo', 'Mood boards for every occasion on the itinerary');
-  var list = (typeof TRIP !== 'undefined' && TRIP.inspo) ? TRIP.inspo : [];
+var currentInspoPerson = 'Chad';
+var currentInspoDay = 'all';
 
-  // Day filter chips
+function renderInspoTab() {
+  var s = createSection('inspo', 'Outfit Inspo', 'Mood boards for every occasion on the itinerary — one set per person');
+  var list = (typeof TRIP !== 'undefined' && TRIP.inspo) ? TRIP.inspo : [];
+  var people = (typeof TRIP !== 'undefined' && TRIP.inspoPeople) ? TRIP.inspoPeople : [{key:'Chad',label:'Chad',icon:'bi-person'}];
+
+  var people_ui = '<div class="inspo-people">';
+  people.forEach(function(p, idx) {
+    var active = (p.key === currentInspoPerson) ? ' active' : '';
+    people_ui += '<button class="inspo-person-btn' + active + '" data-person="' + p.key + '" onclick="selectInspoPerson(this,\'' + p.key + '\')">' +
+      '<i class="bi ' + (p.icon || 'bi-person') + '"></i> ' + p.label + '</button>';
+  });
+  people_ui += '</div>';
+
   var dayOrder = [];
   list.forEach(function(o) { if (dayOrder.indexOf(o.day) < 0) dayOrder.push(o.day); });
-  var chips = '<div class="inspo-filters"><button class="inspo-chip active" data-day="all" onclick="filterInspo(this,\'all\')">All ' +
-    list.length + '</button>';
+  var chips = '<div class="inspo-filters" id="inspo-filters"><button class="inspo-chip active" data-day="all" onclick="filterInspo(this,\'all\')">All <span id="inspo-count-all"></span></button>';
   dayOrder.forEach(function(d) {
-    var n = list.filter(function(o) { return o.day === d; }).length;
-    chips += '<button class="inspo-chip" data-day="' + d + '" onclick="filterInspo(this,\'' + d + '\')">' + d + ' <span>' + n + '</span></button>';
+    chips += '<button class="inspo-chip" data-day="' + d + '" onclick="filterInspo(this,\'' + d + '\')">' + d + ' <span id="inspo-count-' + d.replace(/[^a-zA-Z0-9]/g,'') + '"></span></button>';
   });
   chips += '</div>';
 
   var grid = '<div class="inspo-grid" id="inspo-grid">';
   list.forEach(function(o, i) {
     var pieces = (o.pieces || []).map(function(p) { return '<li>' + p + '</li>'; }).join('');
-    grid += '<article class="inspo-card" data-day="' + o.day + '" onclick="openInspo(' + i + ')">' +
+    var who = o.who || 'Chad';
+    grid += '<article class="inspo-card" data-day="' + o.day + '" data-who="' + who + '" onclick="openInspo(' + i + ')">' +
       '<div class="inspo-img-wrap">' +
         '<img src="' + o.img + '" alt="' + o.title + '" loading="lazy">' +
         '<span class="inspo-mood">' + o.mood + '</span>' +
@@ -320,17 +330,60 @@ function renderInspoTab() {
   });
   grid += '</div>';
 
-  s.innerHTML += chips + grid +
-    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> These share a core on purpose — dark trousers, Chelsea boots and the overcoat repeat across most looks. Realistically you pack about 4 bottoms, 6 tops, 3 outerwear pieces and 2 pairs of shoes.</p>';
+  s.innerHTML += people_ui + chips + grid +
+    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> Each person\'s looks share a core wardrobe on purpose — pieces repeat across boards. Tap a name above to switch, then a day to narrow it down.</p>';
+
+  setTimeout(function() { applyInspoFilters(); updateInspoChipCounts(); }, 0);
   return s;
 }
 
+function updateInspoChipCounts() {
+  var list = TRIP.inspo || [];
+  var mine = list.filter(function(o) { return (o.who || 'Chad') === currentInspoPerson; });
+  var allEl = document.getElementById('inspo-count-all');
+  if (allEl) allEl.textContent = mine.length;
+  var dayOrder = [];
+  mine.forEach(function(o) { if (dayOrder.indexOf(o.day) < 0) dayOrder.push(o.day); });
+  document.querySelectorAll('#inspo-filters .inspo-chip').forEach(function(chip) {
+    var d = chip.dataset.day;
+    if (d === 'all') return;
+    var n = mine.filter(function(o) { return o.day === d; }).length;
+    var el = document.getElementById('inspo-count-' + d.replace(/[^a-zA-Z0-9]/g,''));
+    if (el) el.textContent = n;
+  });
+}
+
+function selectInspoPerson(btn, person) {
+  currentInspoPerson = person;
+  currentInspoDay = 'all';
+  document.querySelectorAll('.inspo-person-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.inspo-chip').forEach(function(b) { b.classList.toggle('active', b.dataset.day === 'all'); });
+  updateInspoChipCounts();
+  applyInspoFilters();
+}
+
 function filterInspo(btn, day) {
+  currentInspoDay = day;
   document.querySelectorAll('.inspo-chip').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
+  applyInspoFilters();
+}
+
+function applyInspoFilters() {
   document.querySelectorAll('.inspo-card').forEach(function(c) {
-    c.style.display = (day === 'all' || c.dataset.day === day) ? '' : 'none';
+    var showDay = (currentInspoDay === 'all' || c.dataset.day === currentInspoDay);
+    var showWho = (c.dataset.who === currentInspoPerson);
+    c.style.display = (showDay && showWho) ? '' : 'none';
   });
+}
+
+function inspoVisibleIndices() {
+  var idxs = [];
+  document.querySelectorAll('#inspo-grid .inspo-card').forEach(function(c, i) {
+    if (c.style.display !== 'none') idxs.push(i);
+  });
+  return idxs;
 }
 
 var inspoIdx = 0;
@@ -354,11 +407,19 @@ function openInspo(i) {
   }
   document.getElementById('inspo-lb-img').src = o.img;
   document.getElementById('inspo-lb-cap').innerHTML =
-    '<strong>' + o.title + '</strong><span>' + o.day + ' &middot; ' + o.mood + '</span>';
+    '<strong>' + o.title + '</strong><span>' + (o.who || 'Chad') + ' &middot; ' + o.day + ' &middot; ' + o.mood + '</span>';
   ov.classList.add('open');
 }
 
-function inspoNav(e, dir) { if (e) e.stopPropagation(); openInspo(inspoIdx + dir); }
+function inspoNav(e, dir) {
+  if (e) e.stopPropagation();
+  var idxs = inspoVisibleIndices();
+  if (!idxs.length) return;
+  var pos = idxs.indexOf(inspoIdx);
+  if (pos < 0) pos = 0;
+  pos = (pos + dir + idxs.length) % idxs.length;
+  openInspo(idxs[pos]);
+}
 function closeInspo(e) {
   if (e) e.stopPropagation();
   var ov = document.getElementById('inspo-lightbox');

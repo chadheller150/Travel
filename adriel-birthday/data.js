@@ -301,70 +301,276 @@ var TRIP = {
   ],
 
   /* === OUTFIT INSPO BOARDS === */
+  inspoPeople: [
+    { key:'Chad', label:'Chad', icon:'bi-person' },
+    { key:'Haydee', label:'Haydee', icon:'bi-person' },
+    { key:'Jessica', label:'Jessica', icon:'bi-person' },
+    { key:'Lulu', label:'Lulu', icon:'bi-person' }
+  ],
+
   inspo: [
-    { day:'Tue 10/20', icon:'bi-airplane', mood:'Travel', title:'Flight Day — AUS to YYZ',
+    /* ===== CHAD ===== */
+    { who:'Chad', day:'Tue 10/20', icon:'bi-airplane', mood:'Travel', title:'Flight Day — AUS to YYZ',
       img:'outfit-boards/web/m-tue-flight.jpg',
       note:'Comfortable leaving Texas, layered for a 45&deg;F landing.',
       pieces:['Dark stretch travel trousers','Charcoal long-sleeve henley','Lightweight zip bomber','White leather sneakers','Merino beanie in the bag'] },
 
-    { day:'Tue 10/20', icon:'bi-building', mood:'Golden Hour', title:'CN Tower + First Dinner',
+    { who:'Chad', day:'Tue 10/20', icon:'bi-building', mood:'Golden Hour', title:'CN Tower + First Dinner',
       img:'outfit-boards/web/m-tue-cntower.jpg',
       note:'Cool-weather layering with first-night polish. Wind up top at the observation deck.',
       pieces:['Dark slim chinos','Forest or navy merino crewneck','Structured wool overcoat','Suede Chelsea boots','Silver watch + thin chain'] },
 
-    { day:'Tue 10/20', icon:'bi-moon-stars', mood:'Night Out', title:'Church-Wellesley Village',
+    { who:'Chad', day:'Tue 10/20', icon:'bi-moon-stars', mood:'Night Out', title:'Church-Wellesley Village',
       img:'outfit-boards/web/m-tue-village.jpg',
       note:'Crews &amp; Tangos, The Drink, Woody\'s. First-night statement.',
       pieces:['Fitted black jeans','Ribbed fitted top','Cropped leather bomber','Chunky sneakers or boots','Layered silver chains'] },
 
-    { day:'Wed 10/21', icon:'bi-palette2', mood:'Smart Casual', title:'Brunch + AGO',
+    { who:'Chad', day:'Wed 10/21', icon:'bi-palette2', mood:'Smart Casual', title:'Brunch + AGO',
       img:'outfit-boards/web/m-wed-brunch-ago.jpg',
       note:'Gallery-appropriate and easy to wear straight through to Union Station.',
       pieces:['Pleated trousers','Crewneck over a collared shirt','Trench or topcoat','Leather sneakers','Tortoiseshell sunglasses'] },
 
-    { day:'Wed 10/21', icon:'bi-train-front', mood:'Comfort', title:'VIA Rail — 5.5 Hours',
+    { who:'Chad', day:'Wed 10/21', icon:'bi-train-front', mood:'Comfort', title:'VIA Rail — 5.5 Hours',
       img:'outfit-boards/web/m-wed-train.jpg',
       note:'Sit-all-day comfortable, but you step off this train headed for the birthday dinner.',
       pieces:['Soft stretch wool trousers','Oatmeal cashmere crewneck','White tee underneath','Unstructured travel blazer','Suede loafers'] },
 
-    { day:'Wed 10/21', icon:'bi-cake2', mood:'Dress Up', title:'Adriel\'s Birthday Dinner',
+    { who:'Chad', day:'Wed 10/21', icon:'bi-cake2', mood:'Dress Up', title:'Adriel\'s Birthday Dinner',
       img:'outfit-boards/web/m-wed-birthday-dinner.jpg',
       note:'THE dinner. Agrikol, Le Violon, or Bouillon Bilk. Sharpest look of the trip.',
       pieces:['Charcoal tailored trousers','Merino turtleneck or silk shirt','Fitted blazer + overcoat','Polished Chelsea boots','Minimal silver jewelry'] },
 
-    { day:'Wed 10/21', icon:'bi-stars', mood:'Big Night', title:'Le Village — Birthday Night Out',
+    { who:'Chad', day:'Wed 10/21', icon:'bi-stars', mood:'Big Night', title:'Le Village — Birthday Night Out',
       img:'outfit-boards/web/m-wed-village-mtl.jpg',
       note:'Complexe Sky rooftop, Cabaret Mado, Club Unity. The loudest look you pack.',
       pieces:['Glossy black slim trousers','Sheer or ribbed fitted top','Cropped textured jacket','Chunky platform boots','Stacked chains + statement ring'] },
 
-    { day:'Thu 10/22', icon:'bi-camera2', mood:'On Camera', title:'Monography Photo Studio',
+    { who:'Chad', day:'Thu 10/22', icon:'bi-camera2', mood:'On Camera', title:'Monography Photo Studio',
       img:'outfit-boards/web/m-thu-photostudio.jpg',
       note:'The one that matters most — solid rich color, strong silhouette, nothing busy. This is going on film.',
       pieces:['Cream wide pleated trousers','Terracotta knit polo or mock-neck','Draped warm-brown overshirt','Leather loafers','Gold chain + signet ring'] },
 
-    { day:'Thu 10/22', icon:'bi-bank', mood:'Walking Day', title:'MMFA + Old Montreal + Little Italy',
+    { who:'Chad', day:'Thu 10/22', icon:'bi-bank', mood:'Walking Day', title:'MMFA + Old Montreal + Little Italy',
       img:'outfit-boards/web/m-thu-oldmontreal.jpg',
       note:'Cobblestones, Notre-Dame, Jean-Talon Market. Built for mileage.',
       pieces:['Slim dark denim','Rust quarter-zip sweater','Waxed shirt jacket','Suede desert boots','Beanie or flat cap'] },
 
-    { day:'Thu 10/22', icon:'bi-cup-straw', mood:'Evening', title:'Mile End + Plateau Bar Hop',
+    { who:'Chad', day:'Thu 10/22', icon:'bi-cup-straw', mood:'Evening', title:'Mile End + Plateau Bar Hop',
       img:'outfit-boards/web/m-thu-mileend.jpg',
       note:'Your alt plan while Adriel and Jessica are at Centre Bell. Creative-neighborhood energy.',
       pieces:['Straight-leg raw denim','Heavyweight striped long-sleeve','Tobacco corduroy trucker','Wool overshirt layer','Worn leather boots'] },
 
-    { day:'Fri 10/23', icon:'bi-tree', mood:'Outdoors', title:'Botanical Garden + Laurentians',
+    { who:'Chad', day:'Fri 10/23', icon:'bi-tree', mood:'Outdoors', title:'Botanical Garden + Laurentians',
       img:'outfit-boards/web/m-fri-laurentians.jpg',
       note:'Peak foliage, Mont-Tremblant gondola. Warm, weatherproof, photographs beautifully against fall color.',
       pieces:['Oatmeal cable-knit sweater','Slim dark jeans','Quilted or shearling jacket','Weatherproof boots','Beanie + wool scarf'] },
 
-    { day:'Fri 10/23', icon:'bi-fire', mood:'Relaxed', title:'Last Night Dinner Out',
+    { who:'Chad', day:'Fri 10/23', icon:'bi-fire', mood:'Relaxed', title:'Last Night Dinner Out',
       img:'outfit-boards/web/m-fri-dinner.jpg',
       note:'Post-Laurentians. Easy but still sharp — last real night in Montreal.',
       pieces:['Navy slim chinos','Cream ribbed knit','Deep green quilted bomber','Suede Chelsea boots','Simple silver bracelet'] },
 
-    { day:'Sat 10/24', icon:'bi-airplane-fill', mood:'Travel', title:'Oratory + Fly Home',
+    { who:'Chad', day:'Sat 10/24', icon:'bi-airplane-fill', mood:'Travel', title:'Oratory + Fly Home',
       img:'outfit-boards/web/m-sat-travel.jpg',
       note:'Saint Joseph\'s Oratory, last poutine, then YUL. Comfortable and airport-ready.',
-      pieces:['Heathered travel joggers','Oversized olive hoodie','Packable puffer vest','Slip-on sneakers','Headphones + crossbody pouch'] }
+      pieces:['Heathered travel joggers','Oversized olive hoodie','Packable puffer vest','Slip-on sneakers','Headphones + crossbody pouch'] },
+
+    /* ===== HAYDEE ===== */
+    { who:'Haydee', day:'Tue 10/20', icon:'bi-airplane', mood:'Travel', title:'Flight Day — AUS to YYZ',
+      img:'outfit-boards/web/h-tue-flight.jpg',
+      note:'Elegant and easy leaving Texas, layered for a 45&deg;F landing.',
+      pieces:['Ponte-knit wide-leg trousers','Merino wrap cardigan','Quilted travel vest','Leather slip-on flats','Silk scarf'] },
+
+    { who:'Haydee', day:'Tue 10/20', icon:'bi-building', mood:'Golden Hour', title:'CN Tower + First Dinner',
+      img:'outfit-boards/web/h-tue-cntower.jpg',
+      note:'Tailored and warm for the observation deck, elegant enough for dinner after.',
+      pieces:['Tailored plum wool trousers','Cashmere turtleneck','Long camel wool coat','Leather ankle boots','Statement amber pendant'] },
+
+    { who:'Haydee', day:'Tue 10/20', icon:'bi-moon-stars', mood:'Night Out', title:'Church-Wellesley Village',
+      img:'outfit-boards/web/h-tue-village.jpg',
+      note:'Festive but comfortable for cocktails and the drag shows.',
+      pieces:['Emerald trousers','Shimmering bronze silk blouse','Cropped velvet blazer','Block-heel shoes','Gold statement earrings'] },
+
+    { who:'Haydee', day:'Wed 10/21', icon:'bi-palette2', mood:'Smart Casual', title:'Brunch + AGO',
+      img:'outfit-boards/web/h-wed-brunch-ago.jpg',
+      note:'Gallery-appropriate and comfortable straight through to Union Station.',
+      pieces:['Tailored navy culottes','Fine-knit ivory sweater','Linen-blend blazer','Leather loafers','Pearl earrings'] },
+
+    { who:'Haydee', day:'Wed 10/21', icon:'bi-train-front', mood:'Comfort', title:'VIA Rail — 5.5 Hours',
+      img:'outfit-boards/web/h-wed-train.jpg',
+      note:'Sit-all-day comfortable, elegant enough to arrive ready for the birthday dinner.',
+      pieces:['Stretch wool-blend trousers','Camel cashmere wrap cardigan','Silk scarf accent','Suede flats','Leather crossbody'] },
+
+    { who:'Haydee', day:'Wed 10/21', icon:'bi-cake2', mood:'Dress Up', title:'Adriel\'s Birthday Dinner',
+      img:'outfit-boards/web/h-wed-birthday-dinner.jpg',
+      note:'THE dinner. Elegant and celebratory — the dress-up night.',
+      pieces:['Midnight-blue jersey dress','Beaded shawl','Pointed-toe low heels','Statement sapphire necklace','Wool wrap coat'] },
+
+    { who:'Haydee', day:'Wed 10/21', icon:'bi-stars', mood:'Big Night', title:'Le Village — Birthday Night Out',
+      img:'outfit-boards/web/h-wed-village-mtl.jpg',
+      note:'Festive and comfortable enough to dance at Complexe Sky or Cabaret Mado.',
+      pieces:['Burgundy silk-blend wide-leg trousers','Metallic camisole + kimono jacket','Block-heel sandals','Layered gold necklaces','Sequined clutch'] },
+
+    { who:'Haydee', day:'Thu 10/22', icon:'bi-camera2', mood:'On Camera', title:'Monography Photo Studio',
+      img:'outfit-boards/web/h-thu-photostudio.jpg',
+      note:'Elegant silhouette, solid rich color, nothing busy — this is going on film.',
+      pieces:['Camel wide-leg trousers','Deep teal rib-knit top','Draped rust cardigan','Sleek low heels','Delicate gold pendant'] },
+
+    { who:'Haydee', day:'Thu 10/22', icon:'bi-bank', mood:'Walking Day', title:'MMFA + Old Montreal + Little Italy',
+      img:'outfit-boards/web/h-thu-oldmontreal.jpg',
+      note:'Comfortable but polished for cobblestones and the market.',
+      pieces:['Straight-leg dark denim','Rust cowl-neck sweater','Quilted olive jacket','Leather walking shoes','Light scarf'] },
+
+    { who:'Haydee', day:'Thu 10/22', icon:'bi-cup-straw', mood:'Evening', title:'Mile End + Plateau Bar Hop',
+      img:'outfit-boards/web/h-thu-mileend.jpg',
+      note:'Your alt plan while Adriel and Jessica are at Centre Bell. Cozy and easy.',
+      pieces:['Wide-leg corduroy trousers','Chunky cream cable-knit','Quilted barn jacket','Ankle boots','Knit beret'] },
+
+    { who:'Haydee', day:'Fri 10/23', icon:'bi-tree', mood:'Outdoors', title:'Botanical Garden + Laurentians',
+      img:'outfit-boards/web/h-fri-laurentians.jpg',
+      note:'Warm and weatherproof for the gondola, still stylish against the foliage.',
+      pieces:['Cream cable-knit sweater','Fleece-lined ponte trousers','Quilted forest-green coat','Waterproof boots','Plaid scarf'] },
+
+    { who:'Haydee', day:'Fri 10/23', icon:'bi-fire', mood:'Relaxed', title:'Last Night Dinner Out',
+      img:'outfit-boards/web/h-fri-dinner.jpg',
+      note:'Post-Laurentians. Relaxed but polished for the last real night in Montreal.',
+      pieces:['Navy tailored trousers','Dove-grey merino turtleneck','Wine-red quilted jacket','Suede loafers','Delicate silver necklace'] },
+
+    { who:'Haydee', day:'Sat 10/24', icon:'bi-airplane-fill', mood:'Travel', title:'Oratory + Fly Home',
+      img:'outfit-boards/web/h-sat-travel.jpg',
+      note:'Comfortable and put-together for the Oratory and the flight home.',
+      pieces:['Ponte-knit joggers','Oversized cashmere-blend sweater','Packable puffer vest','Slip-on sneakers','Travel scarf'] },
+
+    /* ===== JESSICA ===== */
+    { who:'Jessica', day:'Tue 10/20', icon:'bi-airplane', mood:'Travel', title:'Flight Day — AUS to YYZ',
+      img:'outfit-boards/web/j-tue-flight.jpg',
+      note:'Sleek and comfortable leaving Texas, layered for a 45&deg;F landing.',
+      pieces:['Black tailored joggers','Fitted cream ribbed top','Oversized camel wool coat','White leather sneakers','Gold hoop earrings'] },
+
+    { who:'Jessica', day:'Tue 10/20', icon:'bi-building', mood:'Golden Hour', title:'CN Tower + First Dinner',
+      img:'outfit-boards/web/j-tue-cntower.jpg',
+      note:'Sharp and minimal for the observation deck, straight into dinner.',
+      pieces:['Black high-waisted trousers','Chocolate-brown turtleneck','Tailored camel overcoat','Pointed ankle boots','Delicate gold jewelry'] },
+
+    { who:'Jessica', day:'Tue 10/20', icon:'bi-moon-stars', mood:'Night Out', title:'Church-Wellesley Village',
+      img:'outfit-boards/web/j-tue-village.jpg',
+      note:'Bold night-out energy for cocktails and the drag shows.',
+      pieces:['Black faux-leather leggings','Metallic silver camisole','Cropped red statement jacket','Platform ankle boots','Layered gold jewelry'] },
+
+    { who:'Jessica', day:'Wed 10/21', icon:'bi-palette2', mood:'Smart Casual', title:'Brunch + AGO',
+      img:'outfit-boards/web/j-wed-brunch-ago.jpg',
+      note:'Gallery-appropriate and sleek straight through to Union Station.',
+      pieces:['Wide-leg cream trousers','Fitted black turtleneck','Camel blazer','White leather loafers','Layered gold necklaces'] },
+
+    { who:'Jessica', day:'Wed 10/21', icon:'bi-train-front', mood:'Comfort', title:'VIA Rail — 5.5 Hours',
+      img:'outfit-boards/web/j-wed-train.jpg',
+      note:'Comfortable all day, chic enough to step off into the birthday dinner.',
+      pieces:['Wide-leg charcoal trousers','Oversized cream cashmere sweater','Sleek trench coat','Pointed flats','Gold hoop earrings'] },
+
+    { who:'Jessica', day:'Wed 10/21', icon:'bi-cake2', mood:'Dress Up', title:'Adriel\'s Birthday Dinner',
+      img:'outfit-boards/web/j-wed-birthday-dinner.jpg',
+      note:'THE dinner. Elegant and glamorous — the biggest dress-up night.',
+      pieces:['Emerald satin slip dress','Tailored blazer draped over','Strappy heeled sandals','Diamond-style necklace','Metallic clutch'] },
+
+    { who:'Jessica', day:'Wed 10/21', icon:'bi-stars', mood:'Big Night', title:'Le Village — Birthday Night Out',
+      img:'outfit-boards/web/j-wed-village-mtl.jpg',
+      note:'Bold and dance-ready for Complexe Sky and Cabaret Mado.',
+      pieces:['Vinyl-look black leggings','Metallic gold halter top','Cropped fringed jacket','Platform boots','Layered gold chains'] },
+
+    { who:'Jessica', day:'Thu 10/22', icon:'bi-camera2', mood:'On Camera', title:'Monography Photo Studio',
+      img:'outfit-boards/web/j-thu-photostudio.jpg',
+      note:'Sleek silhouette, solid rich color, nothing busy — this is going on film.',
+      pieces:['Cream wide-leg trousers','Burnt-orange rib bodysuit','Draped camel cardigan','Pointed low heels','Delicate gold jewelry'] },
+
+    { who:'Jessica', day:'Thu 10/22', icon:'bi-bank', mood:'Walking Day', title:'MMFA + Old Montreal + Little Italy',
+      img:'outfit-boards/web/j-thu-oldmontreal.jpg',
+      note:'Chic but comfortable for cobblestones and the market — before heading to Centre Bell.',
+      pieces:['Straight-leg dark denim','Oversized rust sweater','Cropped suede jacket','White leather sneakers','Knit beanie'] },
+
+    { who:'Jessica', day:'Thu 10/22', icon:'bi-music-note-beamed', mood:'Concert', title:'Olivia Rodrigo @ Centre Bell',
+      img:'outfit-boards/web/j-thu-concert.jpg',
+      note:'You and Adriel! GUTS-era glam-rock energy, ready to dance all night.',
+      pieces:['Sparkly silver mini skirt','Lavender graphic tee or corset top','Metallic purple bomber','Platform combat boots','Layered chain necklaces'] },
+
+    { who:'Jessica', day:'Fri 10/23', icon:'bi-tree', mood:'Outdoors', title:'Botanical Garden + Laurentians',
+      img:'outfit-boards/web/j-fri-laurentians.jpg',
+      note:'Warm and weatherproof for the gondola, photogenic against the foliage.',
+      pieces:['Cream cable-knit sweater','Slim dark jeans','Burnt-orange quilted coat','Waterproof ankle boots','Knit beanie'] },
+
+    { who:'Jessica', day:'Fri 10/23', icon:'bi-fire', mood:'Relaxed', title:'Last Night Dinner Out',
+      img:'outfit-boards/web/j-fri-dinner.jpg',
+      note:'Post-Laurentians. Relaxed but chic for the last real night in Montreal.',
+      pieces:['Dark green tailored trousers','Cream ribbed knit top','Fitted leather moto jacket','Ankle boots','Delicate gold necklace'] },
+
+    { who:'Jessica', day:'Sat 10/24', icon:'bi-airplane-fill', mood:'Travel', title:'Oratory + Fly Home',
+      img:'outfit-boards/web/j-sat-travel.jpg',
+      note:'Comfortable and put-together for the Oratory and the flight home.',
+      pieces:['Heathered grey joggers','Oversized cream cropped hoodie','Packable puffer jacket','Slip-on sneakers','Sleek crossbody'] },
+
+    /* ===== LULU ===== */
+    { who:'Lulu', day:'Tue 10/20', icon:'bi-airplane', mood:'Travel', title:'Flight Day — AUS to YYZ',
+      img:'outfit-boards/web/l-tue-flight.jpg',
+      note:'Boho and comfortable leaving Texas, layered for a 45&deg;F landing.',
+      pieces:['Wide-leg linen-blend trousers','Oversized waffle-knit sweater','Suede fringe jacket','Suede ankle boots','Layered beaded necklaces'] },
+
+    { who:'Lulu', day:'Tue 10/20', icon:'bi-building', mood:'Golden Hour', title:'CN Tower + First Dinner',
+      img:'outfit-boards/web/l-tue-cntower.jpg',
+      note:'Warm and earthy for the observation deck, straight into dinner.',
+      pieces:['Rust corduroy wide-leg trousers','Cream cable-knit sweater','Long cognac suede coat','Ankle boots','Turquoise + gold layered jewelry'] },
+
+    { who:'Lulu', day:'Tue 10/20', icon:'bi-moon-stars', mood:'Night Out', title:'Church-Wellesley Village',
+      img:'outfit-boards/web/l-tue-village.jpg',
+      note:'Playful night-out energy for cocktails and the drag shows.',
+      pieces:['Copper sequined mini skirt','Bohemian bell-sleeve blouse','Suede fringe vest','Platform sandals','Turquoise boho jewelry'] },
+
+    { who:'Lulu', day:'Wed 10/21', icon:'bi-palette2', mood:'Smart Casual', title:'Brunch + AGO',
+      img:'outfit-boards/web/l-wed-brunch-ago.jpg',
+      note:'Relaxed and gallery-appropriate straight through to Union Station.',
+      pieces:['Wide-leg cream linen trousers','Rust turtleneck sweater','Fringe-trim cardigan','Suede ankle boots','Natural-stone jewelry'] },
+
+    { who:'Lulu', day:'Wed 10/21', icon:'bi-train-front', mood:'Comfort', title:'VIA Rail — 5.5 Hours',
+      img:'outfit-boards/web/l-wed-train.jpg',
+      note:'Comfortable all day, chic enough to step off into the birthday dinner.',
+      pieces:['Wide-leg oatmeal knit trousers','Oversized rust mohair-blend sweater','Suede duster coat','Suede flats','Boho jewelry layers'] },
+
+    { who:'Lulu', day:'Wed 10/21', icon:'bi-cake2', mood:'Dress Up', title:'Adriel\'s Birthday Dinner',
+      img:'outfit-boards/web/l-wed-birthday-dinner.jpg',
+      note:'THE dinner. Elegant and celebratory — the dress-up night.',
+      pieces:['Rust velvet maxi dress','Layered gold jewelry set','Strappy heeled sandals','Embroidered clutch','Fringed shawl'] },
+
+    { who:'Lulu', day:'Wed 10/21', icon:'bi-stars', mood:'Big Night', title:'Le Village — Birthday Night Out',
+      img:'outfit-boards/web/l-wed-village-mtl.jpg',
+      note:'Playful and dance-ready for Complexe Sky and Cabaret Mado.',
+      pieces:['Burgundy velvet wide-leg trousers','Metallic copper sequin top','Suede fringe jacket','Platform sandals','Beaded fringe bag'] },
+
+    { who:'Lulu', day:'Thu 10/22', icon:'bi-camera2', mood:'On Camera', title:'Monography Photo Studio',
+      img:'outfit-boards/web/l-thu-photostudio.jpg',
+      note:'Flowing silhouette, solid rich color, nothing busy — this is going on film.',
+      pieces:['Rust ribbed midi dress','Draped cream cardigan','Ankle boots','Natural-stone + gold jewelry','Round vintage sunglasses'] },
+
+    { who:'Lulu', day:'Thu 10/22', icon:'bi-bank', mood:'Walking Day', title:'MMFA + Old Montreal + Little Italy',
+      img:'outfit-boards/web/l-thu-oldmontreal.jpg',
+      note:'Relaxed and free-spirited for cobblestones and the market.',
+      pieces:['Relaxed straight-leg denim','Oversized cream cable-knit','Suede fringe vest','Suede ankle boots','Wide-brim felt hat'] },
+
+    { who:'Lulu', day:'Thu 10/22', icon:'bi-cup-straw', mood:'Evening', title:'Mile End + Plateau Bar Hop',
+      img:'outfit-boards/web/l-thu-mileend.jpg',
+      note:'Your alt plan while Adriel and Jessica are at Centre Bell. Cozy and creative.',
+      pieces:['Mustard wide-leg corduroy trousers','Oatmeal chunky cable-knit','Suede fringe jacket','Ankle boots','Knit beret'] },
+
+    { who:'Lulu', day:'Fri 10/23', icon:'bi-tree', mood:'Outdoors', title:'Botanical Garden + Laurentians',
+      img:'outfit-boards/web/l-fri-laurentians.jpg',
+      note:'Warm and weatherproof for the gondola, photogenic against the foliage.',
+      pieces:['Oatmeal cable-knit sweater','Olive corduroy trousers','Shearling-lined suede coat','Waterproof ankle boots','Plaid scarf'] },
+
+    { who:'Lulu', day:'Fri 10/23', icon:'bi-fire', mood:'Relaxed', title:'Last Night Dinner Out',
+      img:'outfit-boards/web/l-fri-dinner.jpg',
+      note:'Post-Laurentians. Relaxed but chic for the last real night in Montreal.',
+      pieces:['Deep olive flowy trousers','Rust ribbed knit top','Suede fringe jacket','Ankle boots','Layered boho jewelry'] },
+
+    { who:'Lulu', day:'Sat 10/24', icon:'bi-airplane-fill', mood:'Travel', title:'Oratory + Fly Home',
+      img:'outfit-boards/web/l-sat-travel.jpg',
+      note:'Comfortable and put-together for the Oratory and the flight home.',
+      pieces:['Heathered oatmeal joggers','Oversized cream cropped sweater','Packable suede-look jacket','Slip-on sneakers','Woven crossbody'] }
   ]
 };

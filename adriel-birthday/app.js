@@ -346,7 +346,6 @@ function renderInspoTab() {
       '<div class="inspo-img-wrap">' +
         '<img src="' + o.img + '" alt="' + o.title + '" loading="lazy">' +
         '<span class="inspo-mood">' + o.mood + '</span>' +
-        '<span class="inspo-who">' + who + '</span>' +
         '<span class="inspo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>' +
       '</div>' +
       '<div class="inspo-body">' +
@@ -360,7 +359,7 @@ function renderInspoTab() {
   grid += '</div>';
 
   s.innerHTML += groupUI + chips + grid +
-    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> Each occasion shows both options side by side, tagged with whose look it is — pick one each, or mix and match. Thursday evening splits: whoever\'s at Centre Bell gets the concert board, whoever isn\'t gets Mile End.</p>';
+    '<p class="inspo-footnote"><i class="bi bi-suitcase2"></i> Each occasion shows two options side by side — neither one is assigned to anybody, so take whichever you like or mix and match. Thursday evening splits by plan: one concert look, one Mile End look.</p>';
 
   setTimeout(function() { applyInspoFilters(); updateInspoChipCounts(); }, 0);
   return s;
@@ -436,7 +435,7 @@ function openInspo(i) {
   }
   document.getElementById('inspo-lb-img').src = o.img;
   document.getElementById('inspo-lb-cap').innerHTML =
-    '<strong>' + o.title + '</strong><span>' + (o.who || 'Chad') + ' &middot; ' + o.day + ' &middot; ' + o.mood + '</span>';
+    '<strong>' + o.title + '</strong><span>' + o.day + ' &middot; ' + o.mood + '</span>';
   ov.classList.add('open');
 }
 
